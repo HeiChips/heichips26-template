@@ -1,0 +1,117 @@
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_top_tb_tran.sch
+**.subckt inverter_top_tb_tran
+VDD VDD GND {VDD}
+vsine vin GND sin({Vcm} 10m 1k)
+C1 vout1 GND {Cload}
+C2 vout2 GND {Cload}
+C3 vout3 GND {Cload}
+C4 vout4 GND {Cload}
+x1 VDD vin vout4 GND vin vout3 vin vout2 vout1 vin inverter_top
+**** begin user architecture code
+
+
+.include ../../../netlist/pex/inverter_top_magic_pex_3.spice
+.param VDD=1.5
+.csparam VDD=VDD
+.param Vcm=VDD/2
+.param temp=27
+.param Cload=10p
+.param Rload=1k
+.options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15
+.control
+
+save all
+
+* Operating Point Analysis
+op
+remzerovec
+write inverter_top_tb_tran.raw
+set appendwrite
+
+* Transient Analysis
+tran 1u 5m
+write inverter_top_tb_tran.raw
+
+* Plotting
+plot vin vout1 vout2 vout3 vout4
+plot i(VDD)
+
+* Measurements
+meas tran vin_peak MAX v(vin)
+meas tran vout_peak MAX v(vout1)
+
+let Adm = vout_peak / vin_peak
+let Adm_dB = vdb(Adm)
+print Adm_dB
+
+meas tran vout_pp_max MAX v(vout1)
+meas tran vout_pp_min MIN v(vout1)
+let vout_pp = vout_pp_max - vout_pp_min
+print vout_pp
+
+* Write Data
+unset appendwrite
+set wr_vecnames
+set wr_singlescale
+wrdata ../../../scripts/plot_simulations/data/inverter_top_tb_tran.txt
++ v(vin) v(vout1) v(vout2) v(vout3) v(vout4)
+
+*quit
+.endc
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+.lib cornerDIO.lib dio_tt
+
+ .include /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_top_tb_tran.save
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  inverter_top.sym # of pins=10
+** sym_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter_top.sym
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter_top.sch
+.subckt inverter_top VDD vin4 vout4 VSS vin3 vout3 vin2 vout2 vout1 vin1
+*.ipin vin4
+*.iopin VDD
+*.iopin VSS
+*.iopin vout4
+*.ipin vin3
+*.ipin vin2
+*.ipin vin1
+*.iopin vout3
+*.iopin vout2
+*.iopin vout1
+x1 nwell1 psub VDD vin1 vout1 VSS inverter
+x2 nwell1 psub VDD vin2 vout2 VSS inverter
+x3 nwell2 psub VDD vin3 vout3 VSS inverter
+x4 nwell2 psub VDD vin4 vout4 VSS inverter
+.ends
+
+
+* expanding   symbol:  inverter.sym # of pins=6
+** sym_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sch
+.subckt inverter nwell psub VDD vin vout VSS
+*.ipin vin
+*.iopin VDD
+*.iopin VSS
+*.iopin vout
+*.iopin nwell
+*.iopin psub
+XMdummy1 VSS VSS VSS psub sg13_lv_nmos w=2.0u l=1.0u ng=2 m=1 mm_ok=1
+XMdummy2 VDD VDD VDD nwell sg13_lv_pmos w=12.0u l=1.0u ng=2 m=1 mm_ok=1
+XM1 vout vin VSS psub sg13_lv_nmos w=20.0u l=1.0u ng=20 m=1 mm_ok=1
+XM2 vout vin VDD nwell sg13_lv_pmos w=120.0u l=1.0u ng=20 m=1 mm_ok=1
+XR1 VDD nwell ntap1 R=2.842 w=32.68e-6 l=8.02e-6
+XR2 VSS psub ptap1 R=3.214 w=32.68e-6 l=3.38e-6
+.ends
+
+.GLOBAL GND
+.GLOBAL VDD
+.end

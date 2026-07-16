@@ -1,0 +1,91 @@
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_tran.sch
+**.subckt inverter_tb_tran
+VDD VDD GND {VDD}
+vsine vin GND sin({Vcm} 10m 1k)
+C1 vout GND {Cload}
+x1 net1 net2 VDD vin vout GND inverter
+**** begin user architecture code
+
+
+.param VDD=1.5
+.csparam VDD=VDD
+.param Vcm=VDD/2
+.param temp=27
+.param Cload=10p
+.param Rload=1k
+.options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15
+.control
+
+save all
+
+* Operating Point Analysis
+op
+remzerovec
+write inverter_tb_tran.raw
+set appendwrite
+
+* Transient Analysis
+tran 1u 5m
+write inverter_tb_tran.raw
+
+* Plotting
+plot vin vout
+plot i(VDD)
+
+* Measurements
+meas tran vin_peak MAX v(vin)
+meas tran vout_peak MAX v(vout)
+
+let Adm = vout_peak / vin_peak
+let Adm_dB = vdb(Adm)
+print Adm_dB
+
+meas tran vout_pp_max MAX v(vout)
+meas tran vout_pp_min MIN v(vout)
+let vout_pp = vout_pp_max - vout_pp_min
+print vout_pp
+
+* Write Data
+unset appendwrite
+set wr_vecnames
+set wr_singlescale
+wrdata ../../../scripts/plot_simulations/data/inverter_tb_tran.txt v(vin) v(vout)
+
+*quit
+.endc
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+.lib cornerDIO.lib dio_tt
+
+ .include /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_tran.save
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  inverter.sym # of pins=6
+** sym_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sch
+.subckt inverter nwell psub VDD vin vout VSS
+*.ipin vin
+*.iopin VDD
+*.iopin VSS
+*.iopin vout
+*.iopin nwell
+*.iopin psub
+XMdummy1 VSS VSS VSS psub sg13_lv_nmos w=2.0u l=1.0u ng=2 m=1 mm_ok=1
+XMdummy2 VDD VDD VDD nwell sg13_lv_pmos w=12.0u l=1.0u ng=2 m=1 mm_ok=1
+XM1 vout vin VSS psub sg13_lv_nmos w=20.0u l=1.0u ng=20 m=1 mm_ok=1
+XM2 vout vin VDD nwell sg13_lv_pmos w=120.0u l=1.0u ng=20 m=1 mm_ok=1
+XR1 VDD nwell ntap1 R=2.842 w=32.68e-6 l=8.02e-6
+XR2 VSS psub ptap1 R=3.214 w=32.68e-6 l=3.38e-6
+.ends
+
+.GLOBAL GND
+.GLOBAL VDD
+.end

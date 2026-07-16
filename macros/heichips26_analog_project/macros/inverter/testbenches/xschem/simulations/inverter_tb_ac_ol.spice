@@ -1,0 +1,110 @@
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_ac_ol.sch
+**.subckt inverter_tb_ac_ol
+VDD VDD GND {VDD}
+vin vin GND dc {Vcm} ac 1
+C1 vout GND {Cload}
+x1 net1 net2 VDD vin vout GND inverter
+**** begin user architecture code
+
+
+.param VDD=1.5
+.param Vcm=VDD/2
+.param temp=27
+.param Cload=10p
+.param Rload=1k
+.options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15
+.control
+
+save all
+
+set wr_vecnames
+set wr_singlescale
+
+* User Constants
+let f_min = 0.1
+let f_max = 10G
+let fdc = 1
+
+* Operating Point Analysis
+op
+remzerovec
+write inverter_tb_ac_ol.raw
+set appendwrite
+
+* AC Analysis
+ac dec 101 $&const.f_min $&const.f_max
+remzerovec
+write inverter_tb_ac_ol.raw
+
+* Plotting
+let Aol = v(vout)/v(vin)
+let Aol_dB = vdb(Aol)
+let Aol_arg = 180/PI*cphase(Aol)
+
+plot Aol_dB ylabel 'Magnitude'
+plot Aol_arg ylabel 'Phase'
+plot Aol_dB Aol_arg ylabel 'Magnitude, Phase'
+
+* Measurements
+* DC open-loop gain
+meas ac Adc_ol_dB find Aol_dB when frequency = fdc
+print Adc_ol_dB
+
+* 3dB cut-off frequency
+let Aol_fc = Adc_ol_dB - 3
+meas ac fc find frequency when Aol_dB = Aol_fc
+print fc
+
+* Unity Gain Bandwidth (Aol=1 or Aol_dB = 0dB)
+meas ac UGB when Aol_dB=0  fall=1
+print UGB
+
+* Phase Margin at Aol=1 or Aol_dB = 0dB
+meas ac arg_0dB find Aol_arg when Aol_dB=0
+let PM = 180-abs(arg_0dB)
+print PM
+
+* Write Data
+unset appendwrite
+set wr_vecnames
+set wr_singlescale
+wrdata ../../../scripts/plot_simulations/data/inverter_tb_ac_ol.txt v(Aol_dB) v(Aol_arg)
+
+*quit
+.endc
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+.lib cornerDIO.lib dio_tt
+
+ .include /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_ac_ol.save
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  inverter.sym # of pins=6
+** sym_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sch
+.subckt inverter nwell psub VDD vin vout VSS
+*.ipin vin
+*.iopin VDD
+*.iopin VSS
+*.iopin vout
+*.iopin nwell
+*.iopin psub
+XMdummy1 VSS VSS VSS psub sg13_lv_nmos w=2.0u l=1.0u ng=2 m=1 mm_ok=1
+XMdummy2 VDD VDD VDD nwell sg13_lv_pmos w=12.0u l=1.0u ng=2 m=1 mm_ok=1
+XM1 vout vin VSS psub sg13_lv_nmos w=20.0u l=1.0u ng=20 m=1 mm_ok=1
+XM2 vout vin VDD nwell sg13_lv_pmos w=120.0u l=1.0u ng=20 m=1 mm_ok=1
+XR1 VDD nwell ntap1 R=2.842 w=32.68e-6 l=8.02e-6
+XR2 VSS psub ptap1 R=3.214 w=32.68e-6 l=3.38e-6
+.ends
+
+.GLOBAL GND
+.GLOBAL VDD
+.end
