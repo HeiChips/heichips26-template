@@ -1,6 +1,9 @@
 __pycache__/
 sim_build/
 runs/
+backups/
+drc_run_*
+lvs_run_*
 *.vvp
 *.fst
 *.a
@@ -29,3 +32,5 @@ basys3.fasm
 basys3.frames
 basys3.bit
 basys3-yosys.log
+
+/macros/heichips26_digital_project/macros/counter/flow/final
