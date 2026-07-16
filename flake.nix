@@ -9,58 +9,73 @@
   };
 
   inputs = {
-    librelane.url = github:librelane/librelane/dev;
+    librelane.url = "github:librelane/librelane/dev";
   };
 
-  outputs = {
-    self,
-    librelane,
-    ...
-  }: let
-    nix-eda = librelane.inputs.nix-eda;
-    devshell = librelane.inputs.devshell;
-    nixpkgs = nix-eda.inputs.nixpkgs;
-    lib = nixpkgs.lib;
-  in {
-    # Outputs
-    legacyPackages = nix-eda.forAllSystems (
-      system:
+  outputs =
+    {
+      self,
+      librelane,
+      ...
+    }:
+    let
+      nix-eda = librelane.inputs.nix-eda;
+      devshell = librelane.inputs.devshell;
+      nixpkgs = nix-eda.inputs.nixpkgs;
+      lib = nixpkgs.lib;
+    in
+    {
+      # Outputs
+      legacyPackages = nix-eda.forAllSystems (
+        system:
         import nixpkgs {
           inherit system;
-          overlays = [nix-eda.overlays.default devshell.overlays.default librelane.overlays.default];
+          overlays = [
+            nix-eda.overlays.default
+            devshell.overlays.default
+            librelane.overlays.default
+          ];
         }
-    );
-    
-    packages = nix-eda.forAllSystems (system: {
-      inherit (self.legacyPackages.${system}.python3.pkgs);
-    });
-    
-    devShells = nix-eda.forAllSystems (system: let
-      pkgs = (self.legacyPackages.${system});
-    in {
-      default = lib.callPackageWith pkgs (pkgs.createLibreLaneShell {
-        extra-packages = with pkgs; [
-          # Simulation
-          iverilog
-          verilator
-          
-          # Waveform viewing
-          gtkwave
-          surfer
-          
-          # FPGA protoyping
-          #yosys # already in LibreLane
-          nextpnr
-          icestorm
-          trellis
-          openfpgaloader
-        ];
-        
-        extra-python-packages = with pkgs.python3.pkgs; (pkgs.lib.optionals pkgs.stdenv.isLinux [
-          # Verification
-          cocotb
-        ]);
-      }) {};
-    });
-  };
+      );
+
+      packages = nix-eda.forAllSystems (system: {
+        inherit (self.legacyPackages.${system}.python3.pkgs) ;
+      });
+
+      devShells = nix-eda.forAllSystems (
+        system:
+        let
+          pkgs = (self.legacyPackages.${system});
+        in
+        {
+          default = pkgs.librelane-shell.override ({
+            extra-packages = with pkgs; [
+              # Simulation
+              iverilog
+              verilator
+
+              # Waveform viewing
+              gtkwave
+
+              # FPGA protoyping
+              #yosys # already in LibreLane
+              nextpnr
+              icestorm
+              trellis
+              openfpgaloader
+              
+              # Analog
+              xschem
+              ngspice # recompiles for some reason
+              klayout
+              magic
+              netgen
+            ];
+
+            extra-python-packages =
+              ps: with ps; (pkgs.lib.optionals (lib.meta.availableOn pkgs.stdenv.hostPlatform cocotb) [ cocotb ]);
+          });
+        }
+      );
+    };
 }

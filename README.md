@@ -1,14 +1,14 @@
-# HeiChips 2025 Hackathon Template
+# HeiChips 2026 Hackathon Template
 
-This repository is the submission template for the HeiChips 2025 Hackathon.
+This repository is the submission template for the HeiChips 2026 Hackathon.
 
 Please implement your group project based on this template and notify us once you are done, so we can integrate your macro into the chip for tapeout. See [Submission](#Submission).
 
 Your project will be connected to a small eFPGA along with all other user projects. This allows you to configure the eFPGA to route the I/Os of your project to the chip I/Os, implement additional logic in the eFPGA, connect several user projects together (ask what other teams are working on!), and make use of the SRAM.
-For more information, see the HeiChips 2025 Tapeout repository: https://github.com/FPGA-Research/heichips25-tapeout
+For more information, see the HeiChips 2026 Tapeout repository: https://github.com/FPGA-Research/heichips26-tapeout
 
 > [!IMPORTANT]
-> You must rename the top-level of your design to make it unique. It must start with `heichips25_`, for example `heichips25_best_project_4ever`.
+> You must rename the top-level of your design to make it unique. It must start with `heichips26_`, for example `heichips26_best_project_4ever`.
 > Make sure to update the top-level name throughout the repository.
 
 In order to ensure smooth integration of your macro into the chip, we provide two different DEF templates which specify the geometry of your macro and the pin positions.
@@ -17,7 +17,7 @@ The smaller DEF template is used by default and is 500um x 200um in size, the la
 > [!TIP]
 > If you only need a tiny fraction of the small DEF template, please coordinate and merge with another team to make the best possible use of the area.
 
-All submitted designs will be included on the chip (given the space), however, one team will be selected for the **HeiChips 2025 Award** based on several factors. The exact criteria will be announced before the Hackathon.
+All submitted designs will be included on the chip (given the space), however, one team will be selected for the **HeiChips 2026 Award** based on several factors. The exact criteria will be announced before the Hackathon.
 
 ## Prerequisites
 
@@ -64,7 +64,7 @@ The waveforms are stored under `tb/sim_build/*.fst`.
 You can view the waveforms using, e.g., GTKWave:
 
 ```
-gtkwave tb/sim_build/heichips25_template.fst
+gtkwave tb/sim_build/heichips26_template.fst
 ```
 
 Make sure to update the testbench for your design.
@@ -158,7 +158,7 @@ make macro-klayout
 
 ## Submission
 
-In order to submit your design for integration into the HeiChips 2025 Tapeout, please open an issue at the following repository: https://github.com/FPGA-Research/heichips25-tapeout/issues
+In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/FPGA-Research/heichips26-tapeout/issues
 
 **The submission deadline is August 17, anywhere on earth.**
 
@@ -174,7 +174,7 @@ The issue should contain the following information:
 
 Checklist:
 
-- [ ] The project top-level has a unique name starting with `heichips25_`.
+- [ ] The project top-level has a unique name starting with `heichips26_`.
 - [ ] The design is verified and tested.
 - [ ] The macro is stored under `macro/`.
 - [ ] `TopMetal2` in the macro is empty (for integration).

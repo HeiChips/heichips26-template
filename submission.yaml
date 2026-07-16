@@ -1,0 +1,27 @@
+project-name: Cool Project
+top-cell: "heichips26_cool_project"
+repo-name: "heichips26-cool-project" # Pro tip: you can rename your repo
+team-members: |
+  Hans Peter
+  Karl Franz
+slot-size: small # small, large, tiny
+analog-pins: 0 # 0-3
+short-description: This is a super cool project!
+long-description: |
+  Is this thing on?
+  
+  This is a super cool project.
+  
+  * with
+  * bullet
+  * points
+  
+  **nice** *formatting* and [links](https://heichips.github.io/).
+
+# These paths are used to verify your
+# submission during the precheck.
+# Wildcards are allowed, but there
+# should only be a single match.
+gds-path: macro/gds/*.gds
+lef-path: macro/lef/*.lef
+

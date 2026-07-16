@@ -144,15 +144,8 @@ upload-basys3: basys3.bit
 basys3.json: $(BASYS3_SOURCES)
 	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DBASYS3 -p "synth_xilinx -flatten -abc9 ${SYNTH_OPTS} -arch xc7 -top basys3_top; write_json basys3.json" $^
 
-# The chip database only needs to be generated once
-# that is why we don't clean it with make clean
-nix-openxc7/xc7a35tcpg236.bin:
-	pypy3 ${NEXTPNR_XILINX_PYTHON_DIR}/bbaexport.py --device xc7a35tcpg236-1 --bba xc7a35tcpg236.bba
-	bbasm -l xc7a35tcpg236.bba nix-openxc7/xc7a35tcpg236.bin
-	rm -f xc7a35tcpg236.bba
-
-basys3.fasm: basys3.json nix-openxc7/xc7a35tcpg236.bin fpga/basys3/Basys-3-Master.xdc
-	nextpnr-xilinx --chipdb nix-openxc7/xc7a35tcpg236.bin --xdc fpga/basys3/Basys-3-Master.xdc --json basys3.json --fasm $@ ${PNR_ARGS} ${PNR_DEBUG}
+basys3.fasm: basys3.json fpga/basys3/Basys-3-Master.xdc
+	nextpnr-himbaechel --device xc7a35tcpg236-1 -o xdc=fpga/basys3/Basys-3-Master.xdc --json basys3.json -o fasm=$@ --router router2
 	
 basys3.frames: basys3.fasm
 	fasm2frames --part xc7a35tcpg236-1 --db-root ${PRJXRAY_DB_DIR}/artix7 $< > $@
