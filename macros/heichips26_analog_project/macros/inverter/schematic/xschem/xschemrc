@@ -4,6 +4,7 @@ if { ![info exists env(PDK_ROOT)] } {
   if {[file isdir /usr/share/pdk]} {set ::env(PDK_ROOT) /usr/share/pdk
   } elseif {[file isdir /usr/local/share/pdk]} {set ::env(PDK_ROOT) /usr/local/share/pdk
   } elseif {[file isdir $env(HOME)/share/pdk]} {set ::env(PDK_ROOT) $env(HOME)/share/pdk
+  } elseif {[file isdir $env(HOME)/.ciel]} {set ::env(PDK_ROOT) $env(HOME)/.ciel
   } elseif {[file isdir $env(HOME)/.volare]} {set ::env(PDK_ROOT) $env(HOME)/.volare
   } else {
     puts stderr {No open_pdks installation found, set PDK_ROOT env. var. and restart xschem}
@@ -12,7 +13,7 @@ if { ![info exists env(PDK_ROOT)] } {
 
 # Set default PDK
 if { ![info exists env(PDK)] } {
-  set ::env(PDK) ihp-sg13g2
+  set ::env(PDK) ihp-sg13cmos5l
 }
 
 # Source the PDK xschemrc file

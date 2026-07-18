@@ -1,9 +1,8 @@
-v {xschem version=3.4.8RC file_version=1.3}
+v {xschem version=3.4.7 file_version=1.2}
 G {}
 K {}
 V {}
 S {}
-F {}
 E {}
 B 4 200 -1480 2180 -1400 {fill = false}
 T {Inverter with Dummies and with LV Transistors} 610 -1700 0 0 1 1 {}
@@ -56,7 +55,7 @@ C {title-3.sym} 0 0 0 0 {name=l1 author="Simon Dorrer" rev=1.0 lock=true}
 C {devices/ipin.sym} 1100 -850 0 0 {name=p10 lab=vin}
 C {devices/iopin.sym} 1220 -1140 3 0 {name=p11 lab=VDD}
 C {devices/iopin.sym} 1220 -560 1 0 {name=p1 lab=VSS}
-C {sg13_lv_nmos.sym} 1200 -670 0 0 {name=Mdummy1
+C {sg13cmos5l_pr/sg13_lv_nmos.sym} 1200 -670 0 0 {name=Mdummy1
 l=1.0u
 w=2.0u
 ng=2
@@ -64,7 +63,7 @@ m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-C {sg13_lv_pmos.sym} 1200 -1030 0 0 {name=Mdummy2
+C {sg13cmos5l_pr/sg13_lv_pmos.sym} 1200 -1030 0 0 {name=Mdummy2
 l=1.0u
 w=12.0u
 ng=2
@@ -72,7 +71,7 @@ m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
-C {sg13_lv_nmos.sym} 1200 -790 0 0 {name=M1
+C {sg13cmos5l_pr/sg13_lv_nmos.sym} 1200 -790 0 0 {name=M1
 l=1.0u
 w=20.0u
 ng=20
@@ -80,7 +79,7 @@ m=1
 model=sg13_lv_nmos
 spiceprefix=X
 }
-C {sg13_lv_pmos.sym} 1200 -910 0 0 {name=M2
+C {sg13cmos5l_pr/sg13_lv_pmos.sym} 1200 -910 0 0 {name=M2
 l=1.0u
 w=120.0u
 ng=20
@@ -88,9 +87,9 @@ m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
-C {annotate_fet_params.sym} 1520 -740 0 0 {name=annot1 ref=M1}
-C {annotate_fet_params.sym} 1520 -1020 0 0 {name=annot2 ref=M2}
-C {ntap1_ring.sym} 1320 -1080 0 0 {name=R1
+C {sg13cmos5l_pr/annotate_fet_params.sym} 1520 -740 0 0 {name=annot1 ref=M1}
+C {sg13cmos5l_pr/annotate_fet_params.sym} 1520 -1020 0 0 {name=annot2 ref=M2}
+C {sg13cmos5l_pr/ntap1_ring.sym} 1320 -1080 0 0 {name=R1
 model=ntap1
 spiceprefix=X
 w=32.68e-6
@@ -99,7 +98,7 @@ rw=0.3e-6
 lvs_ignore=short
 }
 C {lab_pin.sym} 1320 -1140 1 0 {name=p3 sig_type=std_logic lab=VDD}
-C {ptap1_ring.sym} 1320 -620 2 1 {name=R2
+C {sg13cmos5l_pr/ptap1_ring.sym} 1320 -620 2 1 {name=R2
 model=ptap1
 spiceprefix=X
 w=32.68e-6

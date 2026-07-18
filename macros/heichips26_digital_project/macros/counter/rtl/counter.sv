@@ -12,7 +12,7 @@ module counter #(
   parameter logic [CTR_BW-1:0] CTR_MAX = 2**CTR_BW - 1
 )(
   input logic               clock_i,
-  input logic               reset_i,
+  input logic               reset_n_i,
   input logic               enable_i,
 
   output logic [CTR_BW-1:0] counter_value_o
@@ -20,7 +20,7 @@ module counter #(
 
   // Counter implementation
   always_ff @(posedge clock_i) begin
-    if (reset_i) begin
+    if (!reset_n_i) begin
       // Synchronous reset clears the counter value
       counter_value_o <= '0;
     end else if (enable_i) begin

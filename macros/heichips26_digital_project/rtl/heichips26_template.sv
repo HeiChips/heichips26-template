@@ -5,7 +5,11 @@
 
 `default_nettype none
 
-module heichips26_template (
+module heichips26_digital_project (
+`ifdef USE_POWER_PINS
+    inout  wire VPWR,
+    inout  wire VGND,
+`endif
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -17,22 +21,24 @@ module heichips26_template (
 );
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, ui_in[7:1], uio_in[7:0]};
-
-    logic [7:0] count;
-
-    always_ff @(posedge clk) begin
-        if (!rst_n) begin
-            count <= '0;
-        end else begin
-            if (ui_in[0]) begin
-                count <= count + 1;
-            end
-        end
-    end
+    wire _unused = &{ena, ui_in[7:1], uio_in[7:1]};
     
-    assign uo_out  = count;
-    assign uio_out = count;
+    logic [7:0] counter_value;
+    
+    counter counter_0 (
+    `ifdef USE_POWER_PINS
+        .VPWR  (VPWR),
+        .VGND  (VGND),
+    `endif
+        .clock_i    (clk),
+        .reset_n_i  (rst_n),
+        .enable_i   (ui_in[0]),
+
+        .counter_value_o  (counter_value)
+    );
+    
+    assign uo_out  = counter_value;
+    assign uio_out = counter_value;
     assign uio_oe  = '1;
 
 endmodule

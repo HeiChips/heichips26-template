@@ -5,11 +5,27 @@ This repository is the submission template for the HeiChips 2026 Hackathon.
 Please implement your group project based on this template and notify us once you are done, so we can integrate your macro into the chip for tapeout. See [Submission](#Submission).
 
 Your project will be connected to a small eFPGA along with all other user projects. This allows you to configure the eFPGA to route the I/Os of your project to the chip I/Os, implement additional logic in the eFPGA, connect several user projects together (ask what other teams are working on!), and make use of the SRAM.
-For more information, see the HeiChips 2026 Tapeout repository: https://github.com/FPGA-Research/heichips26-tapeout
+For more information, see the HeiChips 2026 Tapeout repository: https://github.com/HeiChips/heichips26-tapeout
 
-> [!IMPORTANT]
-> You must rename the top-level of your design to make it unique. It must start with `heichips26_`, for example `heichips26_best_project_4ever`.
-> Make sure to update the top-level name throughout the repository.
+## Prerequisites
+
+> [!NOTE]
+> The HeiChips VM has Nix already pre-installed.
+
+If you haven't installed Nix yet, please do so using LibreLane's documentation: [Nix-based Installation](https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html). 
+
+Now you simply need to execute `nix-shell` at the root directory of this repository to enable all of the required tools. This has to be done each time you open a new shell.
+
+The following tools are included:
+
+- LibreLane and its dependencies
+- cocotb with Icarus Verilog and Verilator, GTKWave and Surfer (WIP)
+- nextpnr (icestorm, trellis) and openFPGALoader
+- klayout, magic, netgen, ngspice
+
+These tools enable you to implement your macro for the chip, run simulation using cocotb, and emulate your design on an FPGA.
+
+## Slot Sizes
 
 In order to ensure smooth integration of your macro into the chip, we provide two different DEF templates which specify the geometry of your macro and the pin positions.
 The smaller DEF template is used by default and is 500um x 200um in size, the larger DEF template is 500um x 415um in size. If you would like to use the second template, please talk to us, as there are limited slots available for it.
@@ -19,121 +35,61 @@ The smaller DEF template is used by default and is 500um x 200um in size, the la
 
 All submitted designs will be included on the chip (given the space), however, one team will be selected for the **HeiChips 2026 Award** based on several factors. The exact criteria will be announced before the Hackathon.
 
-## Prerequisites
+## Analog-On-Top Submission
 
-> [!NOTE]
-> The HeiChips VM has Nix already pre-installed.
-
-If you haven't installed Nix yet, please do so using LibreLane's documentation: [Nix-based Installation](https://librelane.readthedocs.io/en/latest/getting_started/common/nix_installation/index.html). 
-
-Now you simply need to execute `nix-shell` at the root directory of this repository to enable all of the required tools. This has to be done each time you open a new shell.
-
-The following tools are included:
-
-- LibreLane and its dependencies
-- cocotb with Icarus Verilog and Verilator (WIP)
-- GTKWave and Surfer (WIP)
-- nextpnr (icestorm, trellis) and openFPGALoader
-
-These tools enable you to implement your macro for the chip, run simulation using cocotb, and emulate your design on an FPGA.
-
-## Simulation and Verification
-
-To verify your design implement a testbench with [cocotb](https://www.cocotb.org/) and, as the underlying simulator, Icarus Verilog or Verilator.
-
-To run the simulation testbench simply execute:
-
-```
-make sim
-```
+If you would like to do an analog-on-top submission (the top-level is manually drawn), please use `macros/heichips26_analog_project/` as the starting point.
 
 > [!IMPORTANT]
-> Before you start the gate-level simulation, you need to explicitly enable the PDK so that the testbench can find it.
-> Enable the latest version of the PDK using ciel: `ciel enable --pdk-family ihp-sg13g2 c4b8b4e5e7a05f375cca3815d51b3a37721fbf5c`
+> You must rename `heichips26_analog_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
+> Make sure to update the top-level name throughout the repository.
 
-Or for gate-level simulation:
+If you would like to use additional analog pins (up to 3 are possible), you must use the `small` slot size.
+Use one of the provided templates in `macros/heichips26_analog_project/floorplan` for the pins.
 
-```
-make sim-gl
-```
-
-By default Icarus Verilog is used as simulator. To use Verilator, simply set `export SIM=verilator` and run the testbench again.
-
-The waveforms are stored under `tb/sim_build/*.fst`.
-
-You can view the waveforms using, e.g., GTKWave:
-
-```
-gtkwave tb/sim_build/heichips26_template.fst
-```
-
-Make sure to update the testbench for your design.
-
-## Emulation on FPGA
-
-The following FPGA boards are supported by the Makefile:
-
-- [iCEBreaker](https://icebreaker-fpga.org/)
-- [ULX3S](https://radiona.org/ulx3s/)
-- [iCE40HX8K-EVB](https://www.olimex.com/Products/FPGA/iCE40/iCE40HX8K-EVB/)
-- [Tang Nano 9K](https://wiki.sipeed.com/hardware/en/tang/Tang-Nano-9K/Nano-9K.html)
-- [Basys 3](https://digilent.com/reference/programmable-logic/basys-3/start)
-- [Boolean](https://www.realdigital.org/hardware/boolean)
+In addition, you need `VDPWR`, `VGND` in your design. Optionally, you can also use `VAPWR`.
 
 > [!IMPORTANT]
-> You have to edit the top-level module under `fpga/<board_name>/<board_name>_top.sv` for your FPGA board so that it is compatible with your HeiChips design.
+> Power straps must go horizontally all the way from the top to the bottom of your layout. This is required for the integration.
 
-The make targets for iCE40HX8K are:
+### Open a Schematic
 
-```
-make synth-ice40hx8k
-make pnr-ice40hx8k
-make upload-ice40hx8k
-```
+1. First, enable a Nix shell using `nix-shell`.
+2. Export `PDK_ROOT` and `PDK`: `export PDK_ROOT=$(pwd)/IHP-Open-PDK && export PDK=ihp-sg13cmos5l`
+3. Change the path to the schematic or testbench folder of the macro, e.g.
+  - `cd macros/heichips26_analog_project/macros/inverter/schematic/xschem`
+  - `cd macros/heichips26_analog_project/schematic/xschem`
+4. Open xschem: `xschem <name of schematic>`, e.g. `xschem inverter.sch`
 
-The make targets for iCEBreaker are:
+### Run a Simulation
 
-```
-make synth-icebreaker
-make pnr-icebreaker
-make upload-icebreaker
-```
+1. First, enable a Nix shell using `nix-shell`.
+2. Export `PDK_ROOT` and `PDK`: `export PDK_ROOT=$(pwd)/IHP-Open-PDK && export PDK=ihp-sg13cmos5l`
+3. Change the path to the schematic or testbench folder of the macro, e.g.
+  - `cd macros/heichips26_analog_project/macros/inverter/testbenches/xschem`
+  - `cd macros/heichips26_analog_project/schematic/xschem`
+4. Open xschem: `xschem <name of testbench>`, e.g. `xschem inverter_tb_tran.sch`
+6. In the schematic Ctrl + left click: "Simulate"
+7. In the schematic Ctrl + left click: "Annotate OP" or "Load waves"
 
-The make targets for Nano 9K are:
+### Edit a Layout
 
-```
-make synth-nano9k
-make pnr-nano9k
-make upload-nano9k
-```
+1. First, enable a Nix shell using `nix-shell`.
+2. Export `PDK_ROOT` and `PDK`: `export PDK_ROOT=$(pwd)/IHP-Open-PDK && export PDK=ihp-sg13cmos5l`
+3. Start KLayout in edit mode: `make klayout`
 
-The make targets for ULX3S are:
+Now you can create or open a layout and edit it.
 
-```
-make synth-ulx3s
-make pnr-ulx3s
-make upload-ulx3s
-```
+## Digital-On-Top Submissiom
+
+If you would like to do a digital-on-top submission (the top-level is generated automatically), please use `macros/heichips26_digital_project/` as the starting point.
 
 > [!IMPORTANT]
-> Support for Basys 3 (Artix7) and Boolean (Spartan 7) is not yet upstreamed in nextpnr. Thus we make use of the excellent [openXC7](https://github.com/openxc7) project, which provides a fork of nextpnr called `nextpnr-xilinx`.
-> However, this also means that the setup is slightly different. Instead of invoking `nix-shell` at the root of this repository, you need to invoke `nix-shell` inside of `nix-opencx7/`.
+> You must rename `heichips26_digital_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
+> Make sure to update the top-level name throughout the repository.
 
-The make targets for Basys 3 are:
+The `heichips26_digital_project` example uses one sub-macro called `counter`. You can modify it and add additional sub-macros, or you can remove all sub-macros completely and only make a sea-of-gates implementation.
 
-```
-make synth-basys3
-make pnr-basys3
-make upload-basys3
-```
-
-The make targets for Boolean are:
-
-```
-make synth-boolean
-make pnr-boolean
-make upload-boolean
-```
+For more details on simulation and FPGA emulation, see `macros/heichips26_digital_project/README.md`.
 
 
 ## Physical Implementation using LibreLane
@@ -158,29 +114,21 @@ make macro-klayout
 
 ## Submission
 
-In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/FPGA-Research/heichips26-tapeout/issues
+In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/HeiChips/heichips26-tapeout/issues
 
-**The submission deadline is August 17, anywhere on earth.**
+**The submission deadline is to be announced.**
 
-The issue should contain the following information:
+The `submission.yaml` config must be filled out, and the precheck must be green.
 
-- The name of your group
-- The name of your project
-- The group members
-- The link to your repository
-
-> [!IMPORTANT]
-> Your template repository needs to contain the final macro in the `macro/` folder.
-
-Checklist:
+Here's an additional checklist:
 
 - [ ] The project top-level has a unique name starting with `heichips26_`.
 - [ ] The design is verified and tested.
 - [ ] The macro is stored under `macro/`.
-- [ ] `TopMetal2` in the macro is empty (for integration).
-- [ ] The macro is DRC clean (minimal DRC set without fill checks).
-- [ ] The macro uses the default power pins (VPWR, VGND).
-- [ ] The project is licensed under Apache 2.0.
+- [ ] `TopMetal1` in the macro is empty (for integration).
+- [ ] The macro is DRC clean.
+- [ ] The macro uses the default power pins (V(D)PWR, VGND, VAPWR optional).
+- [ ] The project is licensed with a compatible open source license, for example Apache 2.0.
 
 ## License
 

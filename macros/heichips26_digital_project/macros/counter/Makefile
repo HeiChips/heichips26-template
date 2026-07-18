@@ -33,7 +33,6 @@ XSCHEM_TB_DIR  	:= testbenches/xschem
 XSCHEM_SCH_DIR  := schematic/xschem
 SCRIPTS_DIR   	:= scripts
 SIM_PLOT_DIR  	:= scripts/plot_simulations
-RENDER_IMG_DIR 	:= render/img
 REPORT_DIR     	:= verification
 SRC_DIR 		:= rtl
 NET_NL_DIR    	:= netlist/nl
@@ -203,7 +202,8 @@ copy-reports: ## Copy yosys, antenna violations, hold & setup timing and manufac
 .PHONY: copy-reports
 
 copy-final: ## Copy final output gds, lef, lib, nl, pnl, spef, and vh folders from the last LibreLane run to final/
-	rm -rf $(FINAL_DIR)/gds $(FINAL_DIR)/lef $(FINAL_DIR)/lib $(FINAL_DIR)/nl $(FINAL_DIR)/pnl $(FINAL_DIR)/spef $(FINAL_DIR)/vh
+	mkdir -p $(FINAL_DIR)
+	rm -rf $(FINAL_DIR)/gds $(FINAL_DIR)/lef $(FINAL_DIR)/lib $(FINAL_DIR)/nl $(FINAL_DIR)/pnl $(FINAL_DIR)/spef $(FINAL_DIR)/vh $(FINAL_DIR)/render
 	cp -r $(FLOW_FINAL_DIR)/gds  $(FINAL_DIR)/gds
 	cp -r $(FLOW_FINAL_DIR)/lef  $(FINAL_DIR)/lef
 	cp -r $(FLOW_FINAL_DIR)/lib  $(FINAL_DIR)/lib
@@ -211,6 +211,7 @@ copy-final: ## Copy final output gds, lef, lib, nl, pnl, spef, and vh folders fr
 	cp -r $(FLOW_FINAL_DIR)/pnl  $(FINAL_DIR)/pnl
 	cp -r $(FLOW_FINAL_DIR)/spef $(FINAL_DIR)/spef
 	cp -r $(FLOW_FINAL_DIR)/vh   $(FINAL_DIR)/vh
+	cp -r $(FLOW_FINAL_DIR)/render   $(FINAL_DIR)/render
 .PHONY: copy-final
 
 copy-netlist: ## Copy final output spice, pnl and nl netlists from the last LibreLane run to netlist/
@@ -227,32 +228,16 @@ copy-netlist: ## Copy final output spice, pnl and nl netlists from the last Libr
 	cp -r $(FLOW_FINAL_DIR)/nl/${TOP}.nl.v $(NET_NL_DIR)/${TOP}.nl.v
 .PHONY: copy-netlist
 
-copy-render: ## Copy macro render from the last LibreLane run to render/img/
-	mkdir -p $(RENDER_IMG_DIR)/
-	cp -r $(FLOW_FINAL_DIR)/render/${TOP}.png $(RENDER_IMG_DIR)/${TOP}_librelane.png
-.PHONY: copy-render
-# ================================================================================================
-
-# Render Target
-render-gds: ## Render an image from the final GDS using lay2img.py
-	mkdir -p $(RENDER_IMG_DIR)/
-	python3 $(SCRIPTS_DIR)/lay2img.py $(FINAL_DIR)/gds/${TOP}.gds $(RENDER_IMG_DIR)/${TOP}.png --width 2048 --oversampling 4
-.PHONY: render-gds
-# ================================================================================================
-
-
 # Build Targets
 build-fpga: ## Build target for FPGA usage
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
 
-build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, copy netlists, copy render, and render final GDS)
+build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, copy netlists)
 	$(MAKE) librelane
 	$(MAKE) copy-reports
 	$(MAKE) copy-final
 	$(MAKE) copy-netlist
-	$(MAKE) copy-render
-	$(MAKE) render-gds
 #	$(MAKE) librelane-openroad
 .PHONY: build-top
 # ================================================================================================

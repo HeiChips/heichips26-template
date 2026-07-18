@@ -1,0 +1,60 @@
+name: CI
+
+# Events that trigger the workflow
+on:
+  # Runs on all pushes to branches
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+  # Runs on all PRs
+  pull_request:
+  # Manual Dispatch
+  workflow_dispatch:
+
+jobs:
+  chip:
+    runs-on: ubuntu-24.04
+    name: Build the Chip
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: True
+      - name: Check Repo Name
+        run: python3 -c "import sys;sys.exit(0) if 'heichips26' in '${{ github.event.repository.name }}' else sys.exit(-1)"
+      - name: Setup Nix
+        uses: ./.github/actions/setup_nix
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_cache_domain: ${{ vars.NIX_CACHE }}
+          nix_public_key: ${{ vars.NIX_PUBLIC_KEY }}
+      - name: Build with Nix
+        uses: ./.github/actions/build_nix
+        with:
+          nix_system: x86_64-linux
+      - name: Check Nix
+        run: |
+          sudo du -hs /nix/store/* | sort -h | tail -n 10
+          sudo tree /nix/store/*-librelane || true
+      - name: Clone the PDK
+        run: |
+          nix develop --command make clone-pdk
+      - name: Run the Precheck (upstream)
+        if: github.repository == 'HeiChips/heichips26-template'
+        run: |
+          nix develop --command make precheck-demo
+      - name: Run the Precheck
+        if: github.repository != 'HeiChips/heichips26-template'
+        run: |
+          nix develop --command make precheck
+      - name: Create Summary
+        if: success() || failure()
+        run: |
+          cat runs/*/*/summary.md >> $GITHUB_STEP_SUMMARY
+      - name: Upload Image
+        if: success() || failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: image
+          path: runs/*/*/*.png

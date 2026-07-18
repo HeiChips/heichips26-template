@@ -1,8 +1,8 @@
-** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_tran.sch
+** sch_path: /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_analog_project/macros/inverter/testbenches/xschem/inverter_tb_tran.sch
 **.subckt inverter_tb_tran
 VDD VDD GND {VDD}
 vsine vin GND sin({Vcm} 10m 1k)
-C1 vout GND {Cload}
+C1 vout GND {Cload} m=1
 x1 net1 net2 VDD vin vout GND inverter
 **** begin user architecture code
 
@@ -21,12 +21,12 @@ save all
 * Operating Point Analysis
 op
 remzerovec
-write inverter_tb_tran.raw
+write @schname\.raw
 set appendwrite
 
 * Transient Analysis
 tran 1u 5m
-write inverter_tb_tran.raw
+write @schname\.raw
 
 * Plotting
 plot vin vout
@@ -49,7 +49,7 @@ print vout_pp
 unset appendwrite
 set wr_vecnames
 set wr_singlescale
-wrdata ../../../scripts/plot_simulations/data/inverter_tb_tran.txt v(vin) v(vout)
+wrdata ../../../scripts/plot_simulations/data/@schname\.txt v(vin) v(vout)
 
 *quit
 .endc
@@ -63,14 +63,14 @@ wrdata ../../../scripts/plot_simulations/data/inverter_tb_tran.txt v(vin) v(vout
 .lib cornerCAP.lib cap_typ
 .lib cornerDIO.lib dio_tt
 
- .include /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/testbenches/xschem/inverter_tb_tran.save
+ .include /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_analog_project/macros/inverter/testbenches/xschem/inverter_tb_tran.save
 
 **** end user architecture code
 **.ends
 
 * expanding   symbol:  inverter.sym # of pins=6
-** sym_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sym
-** sch_path: /foss/designs/ihp-sg13g2-ams-chip-template/macros/inverter/schematic/xschem/inverter.sch
+** sym_path: /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sch
 .subckt inverter nwell psub VDD vin vout VSS
 *.ipin vin
 *.iopin VDD
