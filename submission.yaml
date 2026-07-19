@@ -1,16 +1,19 @@
+# This the configuration file for your submission.
+# Please edit the fields below to match your project.
+
 project-name: Cool Project
-top-cell: "heichips26_cool_project"
-repo-name: "heichips26-cool-project" # Pro tip: you can rename your repo
-team-members: |
-  Hans Peter
-  Karl Franz
+top-cell: "heichips26_digital_project" # Must be a unique name
+team-members:
+- Firstname Lastname
+- Firstname Lastname
+- Firstname Lastname
 slot-size: small # small, large, tiny
-analog-pins: 0 # 0-3
+analog-pins: 0 # 0-3, only for small projects
 short-description: This is a super cool project!
 long-description: |
   Is this thing on?
   
-  This is a super cool project.
+  This is a super cool project 👏
   
   * with
   * bullet
@@ -22,6 +25,6 @@ long-description: |
 # submission during the precheck.
 # Wildcards are allowed, but there
 # should only be a single match.
-gds-path: macro/gds/*.gds
-lef-path: macro/lef/*.lef
-
+gds-path: macros/heichips26_digital_project/final/gds/*.gds
+lef-path: macros/heichips26_digital_project/final/lef/*.lef
+header-path: macros/heichips26_digital_project/final/vh/*.vh

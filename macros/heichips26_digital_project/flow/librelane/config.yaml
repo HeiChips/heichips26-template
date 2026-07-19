@@ -1,0 +1,55 @@
+# LibreLane configuration file
+
+DESIGN_NAME: heichips26_digital_project
+VERILOG_FILES: dir::../../rtl/*.sv
+CLOCK_PORT: clk
+CLOCK_PERIOD: 10 # 10ns = 100MHz
+
+# Reduce wasted space
+TOP_MARGIN_MULT: 1
+BOTTOM_MARGIN_MULT: 1
+LEFT_MARGIN_MULT: 6
+RIGHT_MARGIN_MULT: 6
+
+# Absolute die size
+FP_SIZING: absolute
+
+# Small DEF template
+DIE_AREA: [0, 0, 500, 200]
+FP_DEF_TEMPLATE: dir::heichips26_template_small.def
+
+# Large DEF template
+#DIE_AREA: [0, 0, 500, 415]
+#FP_DEF_TEMPLATE: dir::heichips26_template_large.def
+
+# Don't use power rings or TopMetal1 layer
+PDN_MULTILAYER: false
+RT_MAX_LAYER: Metal4
+PDN_VERTICAL_LAYER: Metal4
+PDN_HORIZONTAL_LAYER: Metal3
+
+# Enable for better SystemVerilog support
+#USE_SLANG: true
+
+MACROS:
+  counter:
+    gds:
+      - dir::../../macros/counter/final/gds/counter.gds
+    lef:
+      - dir::../../macros/counter/final/lef/counter.lef
+    vh:
+      - dir::../../macros/counter/final/vh/counter.vh
+    lib:
+      nom_typ_1p20V_25C:
+        - dir::../../macros/counter/final/lib/nom_typ_1p20V_25C/counter__nom_typ_1p20V_25C.lib
+      nom_fast_1p32V_m40C:
+        - dir::../../macros/counter/final/lib/nom_fast_1p32V_m40C/counter__nom_fast_1p32V_m40C.lib
+      nom_slow_1p08V_125C:
+        - dir::../../macros/counter/final/lib/nom_slow_1p08V_125C/counter__nom_slow_1p08V_125C.lib
+    spef:
+      nom:
+        - dir::../../macros/counter/final/spef/nom/counter.nom.spef
+    instances:
+      counter_0:
+        location: [200, 50]
+        orientation: N

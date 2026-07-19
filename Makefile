@@ -1,197 +1,51 @@
-all: macro copy-macro
-
-PDK_ROOT ?= ~/.ciel
-PDK ?= ihp-sg13g2
-
-RUN_TAG = $(shell ls librelane/runs/ | tail -n 1)
-
-# Macro - LibreLane
-
-macro:
-	cd librelane; librelane config.yaml --pdk $(PDK)
-.PHONY: macro
-
-macro-openroad:
-	cd librelane; librelane config.yaml --pdk $(PDK) --last-run --flow OpenInOpenROAD
-.PHONY: macro-openroad
-
-macro-klayout:
-	cd librelane; librelane config.yaml --pdk $(PDK) --last-run --flow OpenInKLayout
-.PHONY: macro-klayout
-
-copy-macro:
-	mkdir -p macro/
-	rm -rf macro/*
-	cp -r librelane/runs/${RUN_TAG}/final/* macro/
-.PHONY: copy-macro
-
-# Simulation & Verification
-
-sim:
-	cd tb; python3 testbench.py
-.PHONY: sim
-
-sim-gl:
-	cd tb; GL=1 python3 testbench.py
-.PHONY: sim-gl
-
-# FPGA Emulation
-
-## iCE40HX8K
-
-ICE40HX8K_SOURCES = $(wildcard fpga/ice40hx8k/*.sv) $(wildcard src/*.sv)
-
-synth-ice40hx8k: ice40hx8k.json
-
-pnr-ice40hx8k: ice40hx8k.bit
-
-upload-ice40hx8k: ice40hx8k.bit
-	openFPGALoader --board=ice40_generic -f ice40hx8k.bit
-
-ice40hx8k.json: $(ICE40HX8K_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DICE40HX8K -p 'synth_ice40 -top ice40hx8k_top -json $@' $^
-
-ice40hx8k.asc: ice40hx8k.json fpga/ice40hx8k/ice40hx8k-evb.pcf
-	nextpnr-ice40 --hx8k --json $< \
-		--pcf fpga/ice40hx8k/ice40hx8k-evb.pcf \
-		--package ct256 \
-		--asc $@
-
-ice40hx8k.bit: ice40hx8k.asc
-	icepack $< $@
-
-## iCEBreaker
-
-ICEBREAKER_SOURCES = $(wildcard fpga/icebreaker/*.sv) $(wildcard src/*.sv)
-
-synth-icebreaker: icebreaker.json
-
-pnr-icebreaker: icebreaker.bit
-
-upload-icebreaker: icebreaker.bit
-	openFPGALoader --board=ice40_generic -f icebreaker.bit
-
-icebreaker.json: $(ICEBREAKER_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DICEBREAKER -p 'synth_ice40 -top icebreaker_top -json $@' $^
-
-icebreaker.asc: icebreaker.json fpga/icebreaker/icebreaker.pcf
-	nextpnr-ice40 --up5k --json $< \
-		--pcf fpga/icebreaker/icebreaker.pcf \
-		--package sg48 \
-		--asc $@
-
-icebreaker.bit: icebreaker.asc
-	icepack $< $@
-
-## ULX3S
-
-ULX3S_SOURCES = $(wildcard fpga/ulx3s/*.sv) $(wildcard src/*.sv)
-
-synth-ulx3s: ulx3s.json
-
-pnr-ulx3s: ulx3s.bit
-
-upload-ulx3s: ulx3s.bit
-	openFPGALoader --board=ulx3s -f ulx3s.bit
-
-ulx3s.json: $(ULX3S_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DULX3S -p 'synth_ecp5 -top ulx3s_top -json $@' $^
-
-ulx3s.config: ulx3s.json fpga/ulx3s/ulx3s_v20.lpf
-	nextpnr-ecp5 --85k --json $< \
-		--lpf fpga/ulx3s/ulx3s_v20.lpf \
-		--package CABGA381 \
-		--textcfg $@
-
-ulx3s.bit: ulx3s.config
-	ecppack $< $@ --compress
-
-
-## TANG NANO 9K
-
-NANO9K_SOURCES = $(wildcard fpga/nano9k/*.sv) $(wildcard src/*.sv)
-
-synth-nano9k: nano9k.json
-
-pnr-nano9k: nano9k.fs
-
-upload-nano9k: nano9k.fs
-	openFPGALoader --board=tangnano9k nano9k.fs
-
-nano9k.json: $(NANO9K_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DNANO9k -p 'synth_gowin -top nano9k_top -json $@' $^
-
-nano9k_pnr.json: nano9k.json fpga/nano9k/nano9k.cst
-	nextpnr-himbaechel --json $< --write $@ \
-		--device GW1NR-LV9QN88PC6/I5 \
-		--vopt family=GW1N-9C \
-		--vopt cst=fpga/nano9k/nano9k.cst
-
-nano9k.fs: nano9k_pnr.json
-	gowin_pack -d GW1N-9C -o $@ $<
-
-## Basys 3
-
-BASYS3_SOURCES = $(wildcard fpga/basys3/*.sv) $(wildcard src/*.sv)
-
-synth-basys3: basys3.json
-
-pnr-basys3: basys3.bit
-
-upload-basys3: basys3.bit
-	openFPGALoader --board=basys3 -f basys3.bit
-
-basys3.json: $(BASYS3_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DBASYS3 -p "synth_xilinx -flatten -abc9 ${SYNTH_OPTS} -arch xc7 -top basys3_top; write_json basys3.json" $^
-
-basys3.fasm: basys3.json fpga/basys3/Basys-3-Master.xdc
-	nextpnr-himbaechel --device xc7a35tcpg236-1 -o xdc=fpga/basys3/Basys-3-Master.xdc --json basys3.json -o fasm=$@ --router router2
-	
-basys3.frames: basys3.fasm
-	fasm2frames --part xc7a35tcpg236-1 --db-root ${PRJXRAY_DB_DIR}/artix7 $< > $@
-
-basys3.bit: basys3.frames
-	xc7frames2bit --part_file ${PRJXRAY_DB_DIR}/artix7/xc7a35tcpg236-1/part.yaml --part_name xc7a35tcpg236-1 --frm_file $< --output_file $@
-
-
-## RealDigital Boolean
-
-BOOLEAN_SOURCES = $(wildcard fpga/boolean/*.sv) $(wildcard src/*.sv)
-
-synth-boolean: boolean.json
-
-pnr-boolean: boolean.bit
-
-# We abuse the ArtyS7 here as it's similar
-upload-boolean: boolean.bit
-	openFPGALoader --board=arty_s7_50 boolean.bit
-
-boolean.json: $(BOOLEAN_SOURCES)
-	yosys -l $(basename $@)-yosys.log -DSYNTHESIS -DBOOLEAN -p "synth_xilinx -flatten -abc9 ${SYNTH_OPTS} -arch xc7 -top boolean_top; write_json boolean.json" $^
-
-# The chip database only needs to be generated once
-# that is why we don't clean it with make clean
-nix-openxc7/xc7s50csga324.bin:
-	pypy3 ${NEXTPNR_XILINX_PYTHON_DIR}/bbaexport.py --device xc7s50csga324-1 --bba xc7s50csga324.bba
-	bbasm -l xc7s50csga324.bba nix-openxc7/xc7s50csga324.bin
-	rm -f xc7s50csga324.bba
-
-boolean.fasm: boolean.json nix-openxc7/xc7s50csga324.bin fpga/boolean/boolean.xdc
-	nextpnr-xilinx --chipdb nix-openxc7/xc7s50csga324.bin --xdc fpga/boolean/boolean.xdc --json boolean.json --fasm $@ ${PNR_ARGS} ${PNR_DEBUG}
-	
-boolean.frames: boolean.fasm
-	fasm2frames --part xc7s50csga324-1 --db-root ${PRJXRAY_DB_DIR}/spartan7 $< > $@
-
-boolean.bit: boolean.frames
-	xc7frames2bit --part_file ${PRJXRAY_DB_DIR}/spartan7/xc7s50csga324-1/part.yaml --part_name xc7s50csga324-1 --frm_file $< --output_file $@
-
-
-# Common
-
-clean:
-	rm -f ice40hx8k.json ice40hx8k.asc ice40hx8k.bit ice40hx8k-yosys.log
-	rm -f icebreaker.json icebreaker.asc icebreaker.bit icebreaker-yosys.log
-	rm -f ulx3s.json ulx3s.config ulx3s.bit ulx3s-yosys.log
-	rm -f basys3.json basys3.bin basys3.fasm basys3.frames basys3.bit basys3-yosys.log
-	rm -f boolean.json boolean.bin boolean.fasm boolean.frames boolean.bit boolean-yosys.log
-	rm -f nano9k.json nano9k.bin nano9k.fasm nano9k.frames nano9k.fs nano9k-yosys.log nano9k_pnr.json
+MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
+PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
+PDK ?= ihp-sg13cmos5l
+
+PDK_REPO_IHP_OPEN_PDK ?= https://github.com/iic-jku/IHP-Open-PDK.git
+PDK_COMMIT_IHP_OPEN_PDK ?= a70a2b692075535d7133994c514fd0e09f17a920
+
+PDK_REPO_IHP_CMOS5L ?= https://github.com/iic-jku/ihp-sg13cmos5l.git
+PDK_COMMIT_IHP_CMOS5L ?= c18379d6d1b54d70bc40231a456b4c6662631d72
+
+help: ## Show this help message
+	@echo 'Usage: make [target]'
+	@echo ''
+	@echo 'Available targets:'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+.PHONY: help
+
+$(PDK_ROOT)/$(PDK):
+	mkdir -p $(PDK_ROOT)
+	git clone $(PDK_REPO_IHP_OPEN_PDK) --recurse-submodules --depth=1 --revision $(PDK_COMMIT_IHP_OPEN_PDK) $(PDK_ROOT)
+	git clone $(PDK_REPO_IHP_CMOS5L) --recurse-submodules --depth=1 --revision $(PDK_COMMIT_IHP_CMOS5L) $(PDK_ROOT)/$(PDK)
+	# Create missing symlinks
+	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/ihp/device_base_code.py $(PDK_ROOT)/$(PDK)/libs.tech/klayout/python/sg13cmos5l_pycell_lib/ihp/device_base_code.py
+	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/ihp/guard_ring_code.py $(PDK_ROOT)/$(PDK)/libs.tech/klayout/python/sg13cmos5l_pycell_lib/ihp/guard_ring_code.py
+	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym
+	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym
+
+	# Compile Verilog-A using OpenVAF-reloaded
+	wget https://fides.fe.uni-lj.si/openvaf/download/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz -P $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/
+	tar -xvzf $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz -C $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/
+	chmod +x $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-compile-va.sh
+	cd $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/; PATH=$(pwd):$(PATH) openvaf-compile-va.sh
+	rm $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz
+	rm $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-r
+	@echo "The PDK has been set up!"
+
+clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
+.PHONY: clone-pdk
+
+precheck: $(PDK_ROOT)/$(PDK) ## Run the precheck on the design specified in submission.yaml
+	PDK_ROOT=$(PDK_ROOT) PDK=$(PDK) python3 .github/precheck/heichips_precheck.py --config submission.yaml
+.PHONY: precheck
+
+precheck-demo: $(PDK_ROOT)/$(PDK) ## Run the demo precheck (don't use for submission)
+	PDK_ROOT=$(PDK_ROOT) PDK=$(PDK) python3 .github/precheck/heichips_precheck.py --config submission.yaml --demo
+.PHONY: precheck-demo
+
+klayout: $(PDK_ROOT)/$(PDK) ## Open KLayout (edit mode)
+	KLAYOUT_PATH=$(PDK_ROOT)/$(PDK)/libs.tech/klayout/ klayout -e -n sg13cmos5l
+.PHONY: klayout
