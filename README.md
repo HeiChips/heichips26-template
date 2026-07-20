@@ -94,27 +94,6 @@ The `heichips26_digital_project` example uses one sub-macro called `counter`. Yo
 
 For more details on simulation and FPGA emulation, see `macros/heichips26_digital_project/README.md`.
 
-
-## Physical Implementation using LibreLane
-
-To implement the macro of your project, run the following make target, which invokes LibreLane:
-
-```
-make macro
-```
-
-To view the macro in the OpenROAD GUI:
-
-```
-make macro-openroad
-```
-
-To view the layout of the macro with KLayout:
-
-```
-make macro-klayout
-```
-
 ## Submission
 
 In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/HeiChips/heichips26-tapeout/issues
