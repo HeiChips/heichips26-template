@@ -25,14 +25,8 @@ $(PDK_ROOT)/$(PDK):
 	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/ihp/guard_ring_code.py $(PDK_ROOT)/$(PDK)/libs.tech/klayout/python/sg13cmos5l_pycell_lib/ihp/guard_ring_code.py
 	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym
 	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym
-
 	# Compile Verilog-A using OpenVAF-reloaded
-	wget https://fides.fe.uni-lj.si/openvaf/download/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz -P $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/
-	tar -xvzf $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz -C $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/
-	chmod +x $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-compile-va.sh
-	cd $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/; PATH=$(pwd):$(PATH) openvaf-compile-va.sh
-	rm $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-reloaded-20260616-2-gc592eed6-linux_x64.tar.gz
-	rm $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-r
+	cd $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/; openvaf-compile-va.sh
 	@echo "The PDK has been set up!"
 
 clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository

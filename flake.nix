@@ -9,7 +9,11 @@
   };
 
   inputs = {
-    librelane.url = "github:librelane/librelane/dev";
+    nix-eda.url = "github:fossi-foundation/nix-eda/7.2.0";
+    librelane = {
+      url = "github:librelane/librelane/dev";
+      inputs.nix-eda.follows = "nix-eda";
+    };
   };
 
   outputs =
@@ -70,6 +74,7 @@
               klayout
               magic
               netgen
+              openvaf-r
             ];
 
             extra-python-packages =
