@@ -27,11 +27,14 @@ These tools enable you to implement your macro for the chip, run simulation usin
 
 ## Slot Sizes
 
-In order to ensure smooth integration of your macro into the chip, we provide two different DEF templates which specify the geometry of your macro and the pin positions.
-The smaller DEF template is used by default and is 500um x 200um in size, the larger DEF template is 500um x 415um in size. If you would like to use the second template, please talk to us, as there are limited slots available for it.
+In order to ensure smooth integration of your macro into the chip, we provide three different DEF templates which specify the geometry of your macro and the pin positions.
+
+- Tiny project template: 200um x 200um
+- Small project template: 500um x 200um
+- Large project template: 500um x 415um
 
 > [!TIP]
-> If you only need a tiny fraction of the small DEF template, please coordinate and merge with another team to make the best possible use of the area.
+> If you would like to use the large template, please talk to us, as there are limited slots available for it.
 
 All submitted designs will be included on the chip (given the space), however, one team will be selected for the **HeiChips 2026 Award** based on several factors. The exact criteria will be announced before the Hackathon.
 
