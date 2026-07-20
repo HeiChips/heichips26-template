@@ -26,7 +26,6 @@ $(PDK_ROOT)/$(PDK):
 	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym
 	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym
 	# Compile Verilog-A using OpenVAF-reloaded
-	chmod +x $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/openvaf-compile-va.sh
 	cd $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/; ./openvaf-compile-va.sh
 	@echo "The PDK has been set up!"
 
