@@ -14,6 +14,10 @@ RIGHT_MARGIN_MULT: 6
 # Absolute die size
 FP_SIZING: absolute
 
+# Tiny DEF template
+#DIE_AREA: [0, 0, 200, 200]
+#FP_DEF_TEMPLATE: dir::heichips26_template_tiny.def
+
 # Small DEF template
 DIE_AREA: [0, 0, 500, 200]
 FP_DEF_TEMPLATE: dir::heichips26_template_small.def
