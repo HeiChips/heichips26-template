@@ -127,7 +127,7 @@ Here's an additional checklist:
 - [ ] The macro is stored under `macro/`.
 - [ ] `TopMetal1` in the macro is empty (for integration).
 - [ ] The macro is DRC clean.
-- [ ] The macro uses the default power pins (V(D)PWR, VGND, VAPWR optional).
+- [ ] The macro uses the default power pins (VPWR, VGND, VAPWR optional).
 - [ ] The project is licensed with a compatible open source license, for example Apache 2.0.
 
 ## License
