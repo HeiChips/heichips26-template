@@ -7,40 +7,50 @@ Please implement your group project based on this template and notify us once yo
 Your project will be connected to a small eFPGA along with all other user projects. This allows you to configure the eFPGA to route the I/Os of your project to the chip I/Os, implement additional logic in the eFPGA, connect several user projects together (ask what other teams are working on!), and make use of the SRAM.
 For more information, see the HeiChips 2026 Tapeout repository: https://github.com/HeiChips/heichips26-tapeout
 
+Table Of Contents
+
+- [Prerequisites](#prerequisites)
+- [Template Structure](#template-structure)
+- [Slot Sizes](#slot-sizes)
+- [Analog-On-Top Design](#analog-on-top-design)
+- [Digital-On-Top Design](#digital-on-top-design)
+- [Submission](#submission)
+
 ## Prerequisites
+
+This template provides a Nix shell with all the tools required for analog design, digital design and verification.
+
+If you haven't installed Nix yet, please follow LibreLane's documentation: [Nix-based Installation](https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html).
 
 > [!NOTE]
 > The HeiChips VM has Nix already pre-installed.
 
-If you haven't installed Nix yet, please do so using LibreLane's documentation: [Nix-based Installation](https://librelane.readthedocs.io/en/latest/installation/nix_installation/index.html). 
+Now, simply execute `nix-shell` from the root directory of this repository to enable all of the required tools. This must be done every time you open a new shell.
 
-Now you simply need to execute `nix-shell` at the root directory of this repository to enable all of the required tools. This has to be done each time you open a new shell.
+The first time you enable the Nix shell, please run `make clone-pdk` to install the IHP Open PDK for ihp-sg13cmos5l in this repository.
 
-The following tools are included:
+## Template Structure
 
-- LibreLane and its dependencies
-- cocotb with Icarus Verilog and Verilator, GTKWave and Surfer (WIP)
-- nextpnr (icestorm, trellis) and openFPGALoader
-- klayout, magic, netgen, ngspice
+The template builds on top of a recursive `macros` structure: inside `macros/` you can find the two directories `heichips26_analog_project` and `heichips26_digital_project`. These are the two example top-level macros for submission.
 
-These tools enable you to implement your macro for the chip, run simulation using cocotb, and emulate your design on an FPGA.
+Macros can themselves have one ore more macros, recursively. As an example, `heichips26_analog_project` includes the analog `inverter` macro, and `heichips26_digital_project` includes the digital `counter` macro. It is not required to use sub-macros such as `invert` and `counter`. You can simply delete them and implement your design in the corresponding top-level macro only.
+
+For the submission, you need to decide whether you want to make an analog-on-top or digital-on-top design. Adjust `submission.yaml` accordingly.
 
 ## Slot Sizes
 
 In order to ensure smooth integration of your macro into the chip, we provide three different DEF templates which specify the geometry of your macro and the pin positions.
 
-- Tiny project template: 200um x 200um
-- Small project template: 500um x 200um
-- Large project template: 500um x 415um
+- Tiny project template: 200µm × 200µm
+- Small project template: 500µm × 200µm
+- Large project template: 500µm × 415µm
 
 > [!TIP]
 > If you would like to use the large template, please talk to us, as there are limited slots available for it.
 
-All submitted designs will be included on the chip (given the space), however, one team will be selected for the **HeiChips 2026 Award** based on several factors. The exact criteria will be announced before the Hackathon.
+## Analog-On-Top Design
 
-## Analog-On-Top Submission
-
-If you would like to do an analog-on-top submission (the top-level is manually drawn), please use `macros/heichips26_analog_project/` as the starting point.
+If you would like to do an analog-on-top design (the top-level is drawn manually), please use `macros/heichips26_analog_project/` as the starting point.
 
 > [!IMPORTANT]
 > You must rename `heichips26_analog_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
@@ -49,10 +59,12 @@ If you would like to do an analog-on-top submission (the top-level is manually d
 If you would like to use additional analog pins (up to 3 are possible), you must use the `small` slot size.
 Use one of the provided templates in `macros/heichips26_analog_project/floorplan` for the pins.
 
-In addition, you need `VDPWR`, `VGND` in your design. Optionally, you can also use `VAPWR`.
+In addition, you need vertical `VDPWR`, `VGND` straps in your design. Optionally, you can also use `VAPWR`.
 
 > [!IMPORTANT]
-> Power straps must go horizontally all the way from the top to the bottom of your layout. This is required for the integration.
+> Power straps must run vertically all the way from top to bottom of your layout. This is required for the integration.
+
+For more details, see `macros/heichips26_analog_project/README.md`.
 
 ### Open a Schematic
 
@@ -82,9 +94,9 @@ In addition, you need `VDPWR`, `VGND` in your design. Optionally, you can also u
 
 Now you can create or open a layout and edit it.
 
-## Digital-On-Top Submissiom
+## Digital-On-Top Design
 
-If you would like to do a digital-on-top submission (the top-level is generated automatically), please use `macros/heichips26_digital_project/` as the starting point.
+If you would like to do a digital-on-top design (the top-level is generated automatically), please use `macros/heichips26_digital_project/` as the starting point.
 
 > [!IMPORTANT]
 > You must rename `heichips26_digital_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
@@ -96,22 +108,26 @@ For more details on simulation and FPGA emulation, see `macros/heichips26_digita
 
 ## Submission
 
-In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/HeiChips/heichips26-tapeout/issues
-
-**The submission deadline is to be announced.**
-
-The `submission.yaml` config must be filled out, and the precheck must be green.
+The `submission.yaml` config must be filled out and the precheck must be successful. The precheck runs every time you push a commit to the repository.
+You can also run the precheck locally using: `make precheck`.
 
 Here's an additional checklist:
 
 - [ ] The project top-level has a unique name starting with `heichips26_`.
-- [ ] The design is verified and tested.
-- [ ] The macro is stored under `macro/`.
-- [ ] `TopMetal1` in the macro is empty (for integration).
+- [ ] One of the available slot sizes is used (tiny, small or large).
+- [ ] `TopMetal1` in the macro is empty. This is required for the integration.
+- [ ] The design has been verified in simulation.
 - [ ] The macro is DRC clean.
-- [ ] The macro uses the default power pins (VPWR, VGND, VAPWR optional).
-- [ ] The project is licensed with a compatible open source license, for example Apache 2.0.
+- [ ] The macro should be LVS clean.
+- [ ] The macro uses the default power pins: VPWR, VGND, VAPWR (optional)
+- [ ] The project is licensed under a compatible open-source license, for example Apache 2.0.
+
+In order to submit your design for integration into the HeiChips 2026 Tapeout, please open an issue at the following repository: https://github.com/HeiChips/heichips26-tapeout/issues
+
+**The submission deadline is to be announced.**
+
+All submitted designs will be included on the chip (given the space). However, one team will be selected for the **HeiChips 2026 Award** based on several factors. The exact criteria will be announced before the hackathon.
 
 ## License
 
-The code in this repository is licensed under Apache 2.0.
+The code in this repository is licensed under Apache 2.0 if not otherwise stated.
