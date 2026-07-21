@@ -130,4 +130,4 @@ All submitted designs will be included on the chip (given the space). However, o
 
 ## License
 
-The code in this repository is licensed under Apache 2.0 if not otherwise stated.
+The code in this repository is licensed under Apache 2.0 WITH SHL-2.1 if not otherwise stated.

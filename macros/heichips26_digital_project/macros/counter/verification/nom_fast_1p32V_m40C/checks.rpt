@@ -1,0 +1,95 @@
+
+===========================================================================
+report_checks -unconstrained
+===========================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+Startpoint: enable_i (input port clocked by clock_i)
+Endpoint: _75_ (rising edge-triggered flip-flop)
+Path Group: unconstrained
+Path Type: max
+
+Fanout         Cap        Slew       Delay        Time   Description
+---------------------------------------------------------------------------------------------
+                                  4.000000    4.000000 ^ input external delay
+     1    0.003291    0.013871    0.001888    4.001888 ^ enable_i (in)
+                                                         enable_i (net)
+                      0.013871    0.000000    4.001888 ^ input2/A (sg13cmos5l_buf_1)
+     4    0.026190    0.072673    0.080025    4.081913 ^ input2/X (sg13cmos5l_buf_1)
+                                                         net2 (net)
+                      0.072819    0.002650    4.084563 ^ _44_/A (sg13cmos5l_nand3_1)
+     1    0.004715    0.052552    0.062845    4.147409 v _44_/Y (sg13cmos5l_nand3_1)
+                                                         _12_ (net)
+                      0.052552    0.000189    4.147597 v _45_/A (sg13cmos5l_buf_4)
+     8    0.044931    0.033951    0.075745    4.223342 v _45_/X (sg13cmos5l_buf_4)
+                                                         _13_ (net)
+                      0.034313    0.002711    4.226053 v _66_/B (sg13cmos5l_nor3_2)
+     1    0.008036    0.072204    0.066538    4.292591 ^ _66_/Y (sg13cmos5l_nor3_2)
+                                                         _29_ (net)
+                      0.072205    0.000346    4.292937 ^ _67_/S (sg13cmos5l_mux2_1)
+     1    0.002445    0.021778    0.112406    4.405343 v _67_/X (sg13cmos5l_mux2_1)
+                                                         _07_ (net)
+                      0.021778    0.000093    4.405436 v _75_/D (sg13cmos5l_dfrbpq_1)
+                                              4.405436   data arrival time
+---------------------------------------------------------------------------------------------
+(Path is unconstrained)
+
+
+
+
+===========================================================================
+report_checks --slack_max -0.01
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+No paths found.
+
+
+===========================================================================
+ report_check_types -max_slew -max_cap -max_fanout -violators
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+
+
+===========================================================================
+report_parasitic_annotation -report_unannotated
+============================================================================
+Found 0 unannotated drivers.
+Found 0 partially unannotated drivers.
+
+===========================================================================
+max slew violation count 0
+max fanout violation count 0
+max cap violation count 0
+============================================================================
+
+===========================================================================
+check_setup -verbose -unconstrained_endpoints -multiple_clock -no_clock -no_input_delay -loops -generated_clocks
+===========================================================================
+Warning: There are 8 unclocked register/latch pins.
+  _68_/CLK
+  _69_/CLK
+  _70_/CLK
+  _71_/CLK
+  _72_/CLK
+  _73_/CLK
+  _74_/CLK
+  _75_/CLK
+Warning: There are 16 unconstrained endpoints.
+  count_o[0]
+  count_o[1]
+  count_o[2]
+  count_o[3]
+  count_o[4]
+  count_o[5]
+  count_o[6]
+  count_o[7]
+  _68_/D
+  _69_/D
+  _70_/D
+  _71_/D
+  _72_/D
+  _73_/D
+  _74_/D
+  _75_/D

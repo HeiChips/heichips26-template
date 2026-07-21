@@ -1,0 +1,78 @@
+** sch_path: /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/testbenches/xschem/counter_tb_tran.sch
+**.subckt counter_tb_tran
+VDD VDD GND 1.5
+vclk clock GND pulse(0 1.5 0 10p 10p {0.5/fclk} {1/fclk})
+vrst reset_n GND pulse(0 1.5 {1/fclk} 10p 10p {0.5/fclk*800} {1/fclk*600} 1)
+ven enable GND pulse(1.5 0 {4/fclk} 10p 10p {0.5/fclk*100} {1/fclk*100} 1)
+x1 VDD GND clock reset_n enable b0 b1 b2 b3 b4 b5 b6 b7 counter
+* tap: b[0..7] --> b0
+R1 bit0 b0 1k m=1
+* tap: b[0..7] --> b1
+R2 bit1 b1 1k m=1
+* tap: b[0..7] --> b2
+R3 bit2 b2 1k m=1
+* tap: b[0..7] --> b3
+R4 bit3 b3 1k m=1
+* tap: b[0..7] --> b4
+R5 bit4 b4 1k m=1
+* tap: b[0..7] --> b5
+R6 bit5 b5 1k m=1
+* tap: b[0..7] --> b6
+R7 bit6 b6 1k m=1
+* tap: b[0..7] --> b7
+R8 bit7 b7 1k m=1
+**** begin user architecture code
+
+
+*True Mixed Signal Simulation (.xspice)
+.include ../../../netlist/xspice/counter_top.xspice
+.param VDD=1.5
+.param temp=27
+.param fclk=50e6
+.csparam fclk=fclk
+.options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15
+.control
+
+set num_threads=8
+
+save all
+
+* User Constants
+let tstop = 10u
+let tstep = 1/fclk
+
+* Operating Point Analysis
+op
+remzerovec
+write @schname\.raw
+set appendwrite
+
+* Transient Analysis
+tran $&tstep $&tstop
+write @schname\.raw
+
+plot v(clock) v(enable) v(reset_n)
+plot v(b7) v(b6) v(b5) v(b4) v(b3) v(b2) v(b1) v(b0)
+
+* Writing Data
+unset appendwrite
+set wr_vecnames
+set wr_singlescale
+wrdata ../../../scripts/plot_simulations/data/@schname\.txt clock enable reset_n b0 b1 b2 b3 b4 b5 b6 b7
+
+*quit
+.endc
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+.lib cornerDIO.lib dio_tt
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.GLOBAL VDD
+.end

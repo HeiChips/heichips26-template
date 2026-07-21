@@ -1,0 +1,181 @@
+{
+    "STD_CELL_LIBRARY": "sg13cmos5l_stdcell",
+    "PAD_CELL_LIBRARY": "sg13cmos5l_io",
+    "VDD_PIN": "VPWR",
+    "GND_PIN": "VGND",
+    "TECH_LEFS": {
+        "nom_*": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef",
+        "min_*": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef",
+        "max_*": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef"
+    },
+    "PRIMARY_GDSII_STREAMOUT_TOOL": "klayout",
+    "DEFAULT_MAX_TRAN": null,
+    "DEFAULT_CORNER": "nom_typ_1p20V_25C",
+    "STA_CORNERS": [
+        "nom_fast_1p32V_m40C",
+        "nom_slow_1p08V_125C",
+        "nom_typ_1p20V_25C"
+    ],
+    "RT_MIN_LAYER": "Metal2",
+    "RT_MAX_LAYER": "Metal4",
+    "SCL_GROUND_PINS": [
+        "VSS"
+    ],
+    "SCL_POWER_PINS": [
+        "VDD"
+    ],
+    "TRISTATE_CELLS": [
+        "sg13cmos5l_ebufn_*",
+        "sg13cmos5l_einvn_*"
+    ],
+    "FILL_CELLS": [
+        "sg13cmos5l_fill_1",
+        "sg13cmos5l_fill_2"
+    ],
+    "DECAP_CELLS": [
+        "sg13cmos5l_decap_*"
+    ],
+    "CELL_LIBS": {
+        "nom_typ_1p20V_25C": [
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib",
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_typ_1p2V_3p3V_25C.lib"
+        ],
+        "nom_fast_1p32V_m40C": [
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_fast_1p32V_m40C.lib",
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_fast_1p32V_3p6V_m40C.lib"
+        ],
+        "nom_slow_1p08V_125C": [
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_slow_1p08V_125C.lib",
+            "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_slow_1p08V_3p0V_125C.lib"
+        ]
+    },
+    "CELL_LEFS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_stdcell.lef"
+    ],
+    "CELL_GDS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/gds/sg13cmos5l_stdcell.gds"
+    ],
+    "CELL_VERILOG_MODELS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_stdcell.v"
+    ],
+    "CELL_BB_VERILOG_MODELS": null,
+    "CELL_SPICE_MODELS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice"
+    ],
+    "CELL_CDLS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/cdl/sg13cmos5l_stdcell.cdl"
+    ],
+    "SYNTH_EXCLUDED_CELL_FILE": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/synth_exclude.cells",
+    "PNR_EXCLUDED_CELL_FILE": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/pnr_exclude.cells",
+    "OUTPUT_CAP_LOAD": 6,
+    "MAX_FANOUT_CONSTRAINT": 10,
+    "MAX_TRANSITION_CONSTRAINT": null,
+    "MAX_CAPACITANCE_CONSTRAINT": null,
+    "CLOCK_UNCERTAINTY_CONSTRAINT": 0.25,
+    "CLOCK_TRANSITION_CONSTRAINT": 0.15,
+    "TIME_DERATING_CONSTRAINT": 5,
+    "IO_DELAY_CONSTRAINT": 20,
+    "SYNTH_DRIVING_CELL": "sg13cmos5l_buf_4/X",
+    "SYNTH_CLK_DRIVING_CELL": null,
+    "SYNTH_TIEHI_CELL": "sg13cmos5l_tiehi/L_HI",
+    "SYNTH_TIELO_CELL": "sg13cmos5l_tielo/L_LO",
+    "SYNTH_BUFFER_CELL": "sg13cmos5l_buf_1/A/X",
+    "PLACE_SITE": "CoreSite",
+    "CELL_PAD_EXCLUDE": [
+        "sg13cmos5l_fill_*",
+        "sg13cmos5l_decap_*"
+    ],
+    "DIODE_CELL": "sg13cmos5l_antennanp",
+    "WELLTAP_CELL": null,
+    "ENDCAP_CELL": null,
+    "DESIGN_DIR": "/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane",
+    "PDK_ROOT": "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK",
+    "DESIGN_NAME": "counter",
+    "PDK": "ihp-sg13cmos5l",
+    "CLOCK_PERIOD": 20,
+    "CLOCK_PORT": "clock_i",
+    "CLOCK_NET": null,
+    "VDD_NETS": null,
+    "GND_NETS": null,
+    "DIE_AREA": [
+        0,
+        0,
+        80,
+        80
+    ],
+    "EXTRA_EXCLUDED_CELLS": null,
+    "MACROS": null,
+    "EXTRA_LEFS": null,
+    "EXTRA_VERILOG_MODELS": null,
+    "EXTRA_SPICE_MODELS": null,
+    "EXTRA_CDLS": null,
+    "EXTRA_LIBS": null,
+    "EXTRA_GDS": null,
+    "FALLBACK_SDC": "/nix/store/qa5pnbaj1sd11vflhm132q9qh8xbkhb5-python3-3.13.13-env/lib/python3.13/site-packages/librelane/scripts/base.sdc",
+    "PAD_LIBS": {},
+    "PAD_LEFS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lef/sg13cmos5l_io.lef"
+    ],
+    "PAD_GDS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/gds/sg13cmos5l_io.gds"
+    ],
+    "PAD_VERILOG_MODELS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/verilog/sg13cmos5l_io.v"
+    ],
+    "PAD_SPICE_MODELS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/spice/sg13cmos5l_io.spi"
+    ],
+    "PAD_CDLS": [
+        "/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/cdl/sg13cmos5l_io.cdl"
+    ],
+    "PAD_CORNER": [
+        "sg13cmos5l_Corner"
+    ],
+    "PAD_FILLERS": [
+        "sg13cmos5l_Filler10000",
+        "sg13cmos5l_Filler4000",
+        "sg13cmos5l_Filler2000",
+        "sg13cmos5l_Filler1000",
+        "sg13cmos5l_Filler400",
+        "sg13cmos5l_Filler200"
+    ],
+    "PAD_SITE_NAME": "sg13cmos5l_ioSite",
+    "PAD_CORNER_SITE_NAME": "sg13cmos5l_cornerSite",
+    "PAD_FAKE_SITES": null,
+    "PAD_BONDPAD_NAME": "bondpad_70x70",
+    "PAD_BONDPAD_WIDTH": 70,
+    "PAD_BONDPAD_HEIGHT": 70,
+    "PAD_BONDPAD_OFFSETS": {
+        "sg13cmos5l_IOPad*": [
+            5,
+            -70
+        ]
+    },
+    "PAD_PLACE_IO_TERMINALS": null,
+    "PAD_EDGE_SPACING": 140,
+    "PAD_ROTATION_HORIZONTAL": "R0",
+    "PAD_ROTATION_VERTICAL": "R0",
+    "PAD_ROTATION_CORNER": "R0",
+    "PNR_CORNERS": null,
+    "SET_RC_VERBOSE": false,
+    "LAYERS_RC": {},
+    "VIAS_R": null,
+    "SIGNAL_WIRE_RC_LAYERS": null,
+    "CLOCK_WIRE_RC_LAYERS": null,
+    "PDN_CONNECT_MACROS_TO_GRID": true,
+    "PDN_MACRO_CONNECTIONS": null,
+    "PDN_ENABLE_GLOBAL_CONNECTIONS": true,
+    "PNR_SDC_FILE": null,
+    "STA_EXTRA_CORNER_TCL_FILE": null,
+    "DEDUPLICATE_CORNERS": false,
+    "OPENROAD_THREADS": null,
+    "STA_MACRO_PRIORITIZE_NL": true,
+    "STA_MAX_VIOLATOR_COUNT": null,
+    "EXTRA_SPEFS": null,
+    "STA_THREADS": null,
+    "SIGNOFF_SDC_FILE": null,
+    "meta": {
+        "librelane_version": "3.1.0.dev2",
+        "step": "OpenROAD.STAPostPNR"
+    }
+}

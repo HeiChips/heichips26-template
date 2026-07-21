@@ -1,26 +1,26 @@
-+ analyze_power_grid -net VDD -voltage_file /foss/designs/ihp-sg13g2-ams-chip-template/macros/counter/flow/librelane/runs/RUN_2026-05-18_21-38-34/58-openroad-irdropreport/net-VDD.csv
-[INFO PSM-0040] All shapes on net VDD are connected.
++ analyze_power_grid -net VPWR -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/56-openroad-irdropreport/net-VPWR.csv
+[INFO PSM-0040] All shapes on net VPWR are connected.
 ########## IR report #################
-Net              : VDD
-Corner           : nom_typ_1p50V_25C
-Total power      : 8.58e-05 W
-Supply voltage   : 1.50e+00 V
-Worstcase voltage: 1.50e+00 V
-Average voltage  : 1.50e+00 V
-Average IR drop  : 1.81e-05 V
-Worstcase IR drop: 3.08e-04 V
-Percentage drop  : 0.02 %
+Net              : VPWR
+Corner           : nom_typ_1p20V_25C
+Total power      : 2.27e-06 W
+Supply voltage   : 1.20e+00 V
+Worstcase voltage: 1.20e+00 V
+Average voltage  : 1.20e+00 V
+Average IR drop  : 1.05e-06 V
+Worstcase IR drop: 4.16e-06 V
+Percentage drop  : 0.00 %
 ######################################
-+ analyze_power_grid -net VSS -voltage_file /foss/designs/ihp-sg13g2-ams-chip-template/macros/counter/flow/librelane/runs/RUN_2026-05-18_21-38-34/58-openroad-irdropreport/net-VSS.csv
-[INFO PSM-0040] All shapes on net VSS are connected.
++ analyze_power_grid -net VGND -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/56-openroad-irdropreport/net-VGND.csv
+[INFO PSM-0040] All shapes on net VGND are connected.
 ########## IR report #################
-Net              : VSS
-Corner           : nom_typ_1p50V_25C
-Total power      : 8.58e-05 W
+Net              : VGND
+Corner           : nom_typ_1p20V_25C
+Total power      : 2.27e-06 W
 Supply voltage   : 0.00e+00 V
-Worstcase voltage: 1.88e-04 V
-Average voltage  : 7.13e-06 V
-Average IR drop  : 7.13e-06 V
-Worstcase IR drop: 1.88e-04 V
-Percentage drop  : 0.01 %
+Worstcase voltage: 3.91e-06 V
+Average voltage  : 1.01e-06 V
+Average IR drop  : 1.01e-06 V
+Worstcase IR drop: 3.91e-06 V
+Percentage drop  : 0.00 %
 ######################################

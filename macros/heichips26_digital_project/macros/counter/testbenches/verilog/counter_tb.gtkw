@@ -1,0 +1,34 @@
+[*]
+[*] GTKWave Analyzer v3.3.127 (w)1999-2026 BSI
+[*] Tue Jul 21 09:48:45 2026
+[*]
+[dumpfile] "/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/testbenches/verilog/counter_tb.fst"
+[dumpfile_mtime] "Tue Jul 21 09:47:52 2026"
+[dumpfile_size] 914
+[savefile] "/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/testbenches/verilog/counter_tb.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-18.900000 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] counter_tb.
+[sst_width] 297
+[signals_width] 177
+[sst_expanded] 1
+[sst_vpaned_height] 195
+@28
+counter_tb.CLK_FREQ
+counter_tb.CLK_PERIOD_NS
+@420
+counter_tb.CTR_MAX
+counter_tb.CTR_WIDTH
+@200
+-
+@28
+counter_tb.clk
+counter_tb.rst_n
+@29
+counter_tb.enable
+@22
+counter_tb.count[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

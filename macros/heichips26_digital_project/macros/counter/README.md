@@ -1,38 +1,40 @@
-﻿# ihp-sg13g2 Counter
+﻿# ihp-sg13cmos5l Counter
 
 <p align="center">
-  <a href="render/img/counter_top_white.png">
-    <img src="render/img/counter_top_white.png" alt="Render of the ihp-sg13g2 counter layout (200um x 100um)" width=50%>
+  <a href="final/render/counter.png">
+    <img src="final/render/counter.png" alt="Render of the ihp-sg13cmos5l counter layout" width=50%>
   </a>
   <br>
-  <em>Render of the ihp-sg13g2 counter layout (200um x 100um).</em>
+  <em>Render of the ihp-sg13cmos5l counter layout.</em>
 </p>
 
 
 ## Directory Structure
 
+<details>
+<summary>Show Directory Structure</summary>
+
 ```text
 📁 counter/
 ├─ 📁 final/
 │  ├─ 📁 gds/
-│  │  └─ counter_top.gds
+│  │  └─ counter.gds
 │  ├─ 📁 lef/
-│  │  └─ counter_top.lef
+│  │  └─ counter.lef
 │  ├─ 📁 lib/
 │  │  ├─ 📁 nom_fast_1p32V_m40C/
-│  │  ├─ 📁 nom_fast_1p65V_m40C/
 │  │  ├─ 📁 nom_slow_1p08V_125C/
-│  │  ├─ 📁 nom_slow_1p35V_125C/
-│  │  ├─ 📁 nom_typ_1p20V_25C/
-│  │  └─ 📁 nom_typ_1p50V_25C/
+│  │  └─ 📁 nom_typ_1p20V_25C/
 │  ├─ 📁 nl/
-│  │  └─ counter_top.nl.v
+│  │  └─ counter.nl.v
 │  ├─ 📁 pnl/
-│  │  └─ counter_top.pnl.v
+│  │  └─ counter.pnl.v
+│  ├─ 📁 render/
+│  │  └─ counter.png
 │  ├─ 📁 spef/
 │  │  └─ 📁 nom/
 │  └─ 📁 vh/
-│     └─ counter_top.vh
+│     └─ counter.vh
 ├─ 📁 flow/
 │  ├─ 📁 final/               # .gitignore'd — important files are copied to counter/final/ (listed here to document LibreLane output folders)
 │  │  ├─ 📁 def/              # Design Exchange Format — cell placement & routing (text-based)
@@ -65,26 +67,18 @@
 │  └─ README.md
 ├─ 📁 netlist/
 │  ├─ 📁 nl/
-│  │  └─ counter_top.nl.v
+│  │  └─ counter.nl.v
 │  ├─ 📁 pnl/
-│  │  └─ counter_top.pnl.v
+│  │  └─ counter.pnl.v
 │  ├─ 📁 spice/
-│  │  └─ counter_top.spice
+│  │  └─ counter.spice
 │  └─ 📁 xspice/
-│     └─ counter_top.xspice
-├─ 📁 render/
-│  ├─ 📁 blender/
-│  └─ 📁 img/
-│     ├─ counter_top_black.png
-│     ├─ counter_top_librelane.png
-│     └─ counter_top_white.png
+│     └─ counter.xspice
 ├─ 📁 rtl/
-│  ├─ constants.sv
-│  ├─ counter.sv
-│  └─ counter_top.sv
+│  └─ counter.sv
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
-│     ├─ counter_top.sym
+│     ├─ counter.sym
 │     └─ xschemrc
 ├─ 📁 scripts/
 │  ├─ lay2img.py
@@ -92,29 +86,24 @@
 │  ├─ spi2xspice.py
 │  └─ 📁 plot_simulations/
 │     ├─ ngspice2python.py
-│     └─ plot_counter_top.py
+│     └─ plot_counter.py
 ├─ 📁 testbenches/
 │  ├─ 📁 cocotb/
-│  │  ├─ counter_top_tb.gtkw
-│  │  ├─ counter_top_tb.py
-│  │  └─ counter_top_tb.surf.ron
+│  │  ├─ counter_tb.gtkw
+│  │  └─ counter_tb.py
 │  ├─ 📁 verilog/
-│  │  ├─ counter_top_tb.gtkw
-│  │  ├─ counter_top_tb.surf.ron
-│  │  └─ counter_top_tb.sv
+│  │  ├─ counter_tb.gtkw
+│  │  └─ counter_tb.sv
 │  └─ 📁 xschem/
-│     ├─ counter_top_tb_tran.sch
+│     ├─ counter_tb_tran.sch
 │     └─ xschemrc
 ├─ 📁 verification/
 │  ├─ antenna_summary.rpt
 │  ├─ antenna_violations.rpt
 │  ├─ stapostpnr_summary.rpt
 │  ├─ stapostpnr_nom_fast_1p32V_m40C_power.rpt
-│  ├─ stapostpnr_nom_fast_1p65V_m40C_power.rpt
 │  ├─ stapostpnr_nom_slow_1p08V_125C_power.rpt
-│  ├─ stapostpnr_nom_slow_1p35V_125C_power.rpt
 │  ├─ stapostpnr_nom_typ_1p20V_25C_power.rpt
-│  ├─ stapostpnr_nom_typ_1p50V_25C_power.rpt
 │  ├─ irdrop.rpt
 │  ├─ drc.magic.rpt
 │  ├─ drc.klayout.json
@@ -128,6 +117,7 @@
 └─ README.md
 ```
 
+</details>
 
 ## Show Available Targets
 
@@ -144,18 +134,18 @@ make help
 To lint the Verilog/SystemVerilog source files with [Verilator](https://www.veripool.org/verilator/), run:
 
 ```sh
-make lint-verilog                # lint the full counter_top design
+make lint-verilog                # lint the full counter design
 make lint-verilog CELL=counter   # lint the standalone counter cell
-make lint-verilog-all            # lint counter and counter_top in sequence
+make lint-verilog-all            # lint counter and counter in sequence
 ```
 
-When `CELL=counter_top` (the default), all synthesis sources (`constants.sv`, `counter.sv`, `counter_top.sv`) are passed to Verilator.
+When `CELL=counter` (the default), all synthesis sources (`constants.sv`, `counter.sv`, `counter.sv`) are passed to Verilator.
 For a single cell, `constants.sv` is always included first so the shared `` `COUNTER_MAX_DEFAULT `` and `` `CLK_FREQ_DEFAULT `` macros are in scope.
 
 The `lint-verilog-all` target runs these lint checks in sequence:
 
 1. `make lint-verilog CELL=counter`
-2. `make lint-verilog` (default: `counter_top`)
+2. `make lint-verilog` (default: `counter`)
 
 This is also the lint step used by `make all`.
 
@@ -164,37 +154,37 @@ This is also the lint step used by `make all`.
 
 We use [cocotb](https://www.cocotb.org/), a Python-based testbench environment, and [Icarus Verilog](https://github.com/steveicarus/iverilog) for the verification of the macro.
 
-The simulation targets are unified and accept an optional `CELL` variable (default: `counter_top`).
+The simulation targets are unified and accept an optional `CELL` variable (default: `counter`).
 The waveform viewer can be changed with `WAVEFORM_VIEWER=<gtkwave|surfer>` (default: `gtkwave`).
 
 > [!NOTE]
-> In the current repository state, the provided Verilog, cocotb, and Xschem testbench/viewer files are for `counter_top`.
+> In the current repository state, the provided Verilog, cocotb, and Xschem testbench/viewer files are for `counter`.
 > Running simulation/view targets with another `CELL` requires corresponding testbench files (for example, `testbenches/verilog/<CELL>_tb.*`, `testbenches/cocotb/<CELL>_tb.py`, and `testbenches/xschem/<CELL>_tb_tran.sch`).
 
 ### RTL Verilog Simulation
 
 Compiles the RTL with Icarus Verilog and runs the simulation.
-When `CELL=counter_top` (the default), the full `MODULES_SIM` source list and the `.sv` testbench are selected automatically.
+When `CELL=counter` (the default), the full `MODULES_SIM` source list and the `.sv` testbench are selected automatically.
 For non-top cells, `constants.sv` is included first (so the shared `` `COUNTER_MAX_DEFAULT `` / `` `CLK_FREQ_DEFAULT `` macros are in scope) and the RTL source is auto-selected as `rtl/<CELL>.sv` when present, otherwise `rtl/<CELL>.v`.
-The waveform is written to `testbenches/verilog/` (e.g. `testbenches/verilog/counter_top_tb.vcd`):
+The waveform is written to `testbenches/verilog/` (e.g. `testbenches/verilog/counter_tb.vcd`):
 
 ```sh
-make sim-rtl-verilog              # run counter_top RTL simulation
+make sim-rtl-verilog              # run counter RTL simulation
 ```
 
 To view the waveform afterwards:
 
 ```sh
-make sim-view-verilog                                  # view counter_top waveform
+make sim-view-verilog                                  # view counter waveform
 make sim-view-verilog WAVEFORM_VIEWER=surfer           # use Surfer instead
 ```
 
-The simulation folder contains a pre-configured waveform layout file (`counter_top_tb.gtkw` for GTKWave, `counter_top_tb.surf.ron` for Surfer).
+The simulation folder contains a pre-configured waveform layout file (`counter_tb.gtkw` for GTKWave, `counter_tb.surf.ron` for Surfer).
 The view target loads it automatically together with the current `.vcd`, so signal formatting is preserved across runs.
 
 ### RTL / GL cocotb Simulation
 
-The cocotb testbench is located in `testbenches/cocotb/counter_top_tb.py` and exercises:
+The cocotb testbench is located in `testbenches/cocotb/counter_tb.py` and exercises:
 
 - reset clears the counter to 0
 - the counter holds its value while `enable_i` is low
@@ -202,27 +192,27 @@ The cocotb testbench is located in `testbenches/cocotb/counter_top_tb.py` and ex
 - the counter wraps from `CTR_MAX` back to 0
 
 ```sh
-make sim-rtl-cocotb               # run counter_top RTL cocotb simulation
+make sim-rtl-cocotb               # run counter RTL cocotb simulation
 ```
 
 To run the gate-level (GL) cocotb simulation (sources the post-synthesis netlist from `final/nl/`):
 
 ```sh
-make sim-gl-cocotb                # gate-level simulation of counter_top
+make sim-gl-cocotb                # gate-level simulation of counter
 ```
 
 > [!NOTE]
-> Gate-level simulation requires the latest implementation in `flow/final/` (and a `final/nl/counter_top.nl.v` copy via `make copy-final`).
+> Gate-level simulation requires the latest implementation in `flow/final/` (and a `final/nl/counter.nl.v` copy via `make copy-final`).
 
-A waveform file is generated under `testbenches/cocotb/sim_build/counter_top.fst`.
+A waveform file is generated under `testbenches/cocotb/sim_build/counter.fst`.
 To view it:
 
 ```sh
-make sim-view-cocotb                                  # view counter_top waveform
+make sim-view-cocotb                                  # view counter waveform
 make sim-view-cocotb WAVEFORM_VIEWER=surfer           # use Surfer instead
 ```
 
-The cocotb folder contains a pre-configured waveform layout file (`counter_top_tb.gtkw` for GTKWave, `counter_top_tb.surf.ron` for Surfer).
+The cocotb folder contains a pre-configured waveform layout file (`counter_tb.gtkw` for GTKWave, `counter_tb.surf.ron` for Surfer).
 The view target loads it automatically together with the current `.fst`, so signal formatting is preserved across runs.
 
 ### Gate-Level Xschem Simulation
@@ -230,7 +220,7 @@ The view target loads it automatically together with the current `.fst`, so sign
 Runs the mixed-signal gate-level transient simulation testbench in `testbenches/xschem/<CELL>_tb_tran.sch`:
 
 ```sh
-make sim-gl-xschem                # run counter_top gate-level Xschem simulation
+make sim-gl-xschem                # run counter gate-level Xschem simulation
 make sim-gl-xschem CELL=<cell>    # run gate-level Xschem simulation for another cell
 ```
 
@@ -246,7 +236,7 @@ make sim-gl-xschem CELL=<cell>    # run gate-level Xschem simulation for another
 After the gate-level Xschem simulation has completed, plot the results with:
 
 ```sh
-make sim-view-xschem              # plot counter_top simulation results
+make sim-view-xschem              # plot counter simulation results
 make sim-view-xschem CELL=<cell>  # plot results for another cell
 ```
 
@@ -265,10 +255,10 @@ make sim-all
 
 This executes the following targets in order:
 
-1. `sim-rtl-verilog` (default: `counter_top`)
-2. `sim-rtl-cocotb` (default: `counter_top`)
-3. `sim-gl-cocotb` (default: `counter_top`)
-4. `sim-gl-xschem` (default: `counter_top`)
+1. `sim-rtl-verilog` (default: `counter`)
+2. `sim-rtl-cocotb` (default: `counter`)
+3. `sim-gl-cocotb` (default: `counter`)
+4. `sim-gl-xschem` (default: `counter`)
 
 > [!NOTE]
 > The `sim-view-verilog` and `sim-view-cocotb` targets are intentionally **not** called by `sim-all`.

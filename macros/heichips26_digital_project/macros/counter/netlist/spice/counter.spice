@@ -1,0 +1,552 @@
+* NGSPICE file created from counter.ext - technology: ihp-sg13cmos5l
+
+* Black-box entry subcircuit for sg13cmos5l_decap_8 abstract view
+.subckt sg13cmos5l_decap_8 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_decap_4 abstract view
+.subckt sg13cmos5l_decap_4 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nor3_2 abstract view
+.subckt sg13cmos5l_nor3_2 Y A B C VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_xor2_1 abstract view
+.subckt sg13cmos5l_xor2_1 X A B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_fill_2 abstract view
+.subckt sg13cmos5l_fill_2 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_buf_1 abstract view
+.subckt sg13cmos5l_buf_1 X A VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_fill_1 abstract view
+.subckt sg13cmos5l_fill_1 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_inv_1 abstract view
+.subckt sg13cmos5l_inv_1 Y A VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nand4_1 abstract view
+.subckt sg13cmos5l_nand4_1 Y A B C D VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_tiehi abstract view
+.subckt sg13cmos5l_tiehi L_HI VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nor2b_1 abstract view
+.subckt sg13cmos5l_nor2b_1 Y A B_N VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nor2_1 abstract view
+.subckt sg13cmos5l_nor2_1 Y A B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_and2_1 abstract view
+.subckt sg13cmos5l_and2_1 X A B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_a21oi_1 abstract view
+.subckt sg13cmos5l_a21oi_1 Y A1 A2 B1 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_buf_4 abstract view
+.subckt sg13cmos5l_buf_4 X A VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_or3_1 abstract view
+.subckt sg13cmos5l_or3_1 X A B C VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nand3_1 abstract view
+.subckt sg13cmos5l_nand3_1 Y A B C VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_o21ai_1 abstract view
+.subckt sg13cmos5l_o21ai_1 Y A1 A2 B1 VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_nand2_1 abstract view
+.subckt sg13cmos5l_nand2_1 Y A B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_dfrbpq_1 abstract view
+.subckt sg13cmos5l_dfrbpq_1 Q CLK D RESET_B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_xnor2_1 abstract view
+.subckt sg13cmos5l_xnor2_1 Y A B VDD VSS
+.ends
+
+* Black-box entry subcircuit for sg13cmos5l_mux2_1 abstract view
+.subckt sg13cmos5l_mux2_1 X A0 A1 S VDD VSS
+.ends
+
+.subckt counter VGND VPWR clk_i count_o[0] count_o[1] count_o[2] count_o[3] count_o[4]
++ count_o[5] count_o[6] count_o[7] enable_i rst_ni
+XFILLER_7_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_67 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_144 VPWR VGND sg13cmos5l_decap_4
+XFILLER_5_140 VPWR VGND sg13cmos5l_decap_8
+X_66_ _67_/S _66_/A _66_/B _66_/C VPWR VGND sg13cmos5l_nor3_2
+XFILLER_0_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_77 VPWR VGND sg13cmos5l_decap_8
+X_49_ _50_/B _71_/Q _49_/B VPWR VGND sg13cmos5l_xor2_1
+XFILLER_18_20 VPWR VGND sg13cmos5l_fill_2
+XFILLER_6_56 VPWR VGND sg13cmos5l_decap_8
+Xoutput7 count_o[3] _71_/Q VPWR VGND sg13cmos5l_buf_1
+XFILLER_16_142 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_46 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_13_101 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_148 VPWR VGND sg13cmos5l_fill_2
+X_65_ _66_/A _74_/Q VPWR VGND sg13cmos5l_inv_1
+XFILLER_2_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_56 VPWR VGND sg13cmos5l_decap_8
+X_48_ _49_/B _48_/A _70_/Q _69_/Q _68_/Q VPWR VGND sg13cmos5l_nand4_1
+XFILLER_18_76 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_7 VPWR VGND sg13cmos5l_decap_4
+XFILLER_6_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_4 VPWR VGND sg13cmos5l_fill_1
+XFILLER_15_11 VPWR VGND sg13cmos5l_fill_1
+Xoutput10 count_o[6] _74_/Q VPWR VGND sg13cmos5l_buf_1
+Xoutput8 count_o[4] _72_/Q VPWR VGND sg13cmos5l_buf_1
+XFILLER_16_121 VPWR VGND sg13cmos5l_decap_8
+X_75__15 _75__15/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_3_25 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_116 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_67 VPWR VGND sg13cmos5l_fill_2
+X_64_ _64_/Y _75_/Q _63_/B VPWR VGND sg13cmos5l_nor2b_1
+XFILLER_2_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_35 VPWR VGND sg13cmos5l_decap_8
+X_47_ _70_/D _50_/A _47_/B VPWR VGND sg13cmos5l_nor2_1
+XFILLER_18_44 VPWR VGND sg13cmos5l_fill_1
+XFILLER_18_33 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_14 VPWR VGND sg13cmos5l_decap_8
+Xoutput11 count_o[7] _75_/Q VPWR VGND sg13cmos5l_buf_1
+Xoutput9 count_o[5] _73_/Q VPWR VGND sg13cmos5l_buf_1
+XFILLER_15_23 VPWR VGND sg13cmos5l_decap_4
+XFILLER_15_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_24 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_35 VPWR VGND sg13cmos5l_fill_1
+XFILLER_4_91 VPWR VGND sg13cmos5l_decap_8
+X_63_ _63_/X _75_/Q _63_/B VPWR VGND sg13cmos5l_and2_1
+XFILLER_3_4 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_14 VPWR VGND sg13cmos5l_decap_8
+X_46_ _47_/B _70_/Q _66_/B VPWR VGND sg13cmos5l_xor2_1
+XFILLER_18_89 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_148 VPWR VGND sg13cmos5l_fill_2
+XFILLER_5_133 VPWR VGND sg13cmos5l_decap_8
+X_62_ _74_/D _60_/Y _61_/X _50_/A VPWR VGND sg13cmos5l_a21oi_1
+XFILLER_2_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_4_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_28 VPWR VGND sg13cmos5l_decap_8
+X_45_ _66_/B _45_/A VPWR VGND sg13cmos5l_buf_4
+XFILLER_6_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_135 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_39 VPWR VGND sg13cmos5l_decap_8
+X_61_ _61_/X _74_/Q _66_/B _66_/C VPWR VGND sg13cmos5l_or3_1
+XFILLER_5_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_80 VPWR VGND sg13cmos5l_decap_8
+X_44_ _45_/A _48_/A _69_/Q _68_/Q VPWR VGND sg13cmos5l_nand3_1
+XFILLER_18_69 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_81 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_18 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_128 VPWR VGND sg13cmos5l_decap_4
+XFILLER_10_109 VPWR VGND sg13cmos5l_decap_8
+X_60_ _60_/Y _66_/B _66_/C _74_/Q VPWR VGND sg13cmos5l_o21ai_1
+XFILLER_2_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_2_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_28 VPWR VGND sg13cmos5l_decap_8
+X_43_ _69_/D _50_/A _43_/B VPWR VGND sg13cmos5l_nor2_1
+XFILLER_18_26 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_60 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_16 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_27 VPWR VGND sg13cmos5l_fill_2
+XFILLER_8_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_17 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_4_84 VPWR VGND sg13cmos5l_decap_8
+X_42_ _43_/B _69_/Q _42_/B VPWR VGND sg13cmos5l_xor2_1
+XFILLER_18_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_16 VPWR VGND sg13cmos5l_decap_4
+XFILLER_1_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_0 VPWR VGND sg13cmos5l_decap_4
+XFILLER_16_149 VPWR VGND sg13cmos5l_fill_1
+X_69__18 _69__18/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_11_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_108 VPWR VGND sg13cmos5l_fill_2
+XFILLER_8_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_130 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_71 VPWR VGND sg13cmos5l_fill_2
+XFILLER_5_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_94 VPWR VGND sg13cmos5l_decap_8
+X_41_ _42_/B _48_/A _68_/Q VPWR VGND sg13cmos5l_nand2_1
+XFILLER_1_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_95 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_128 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_63 VPWR VGND sg13cmos5l_decap_8
+X_71__14 _71__14/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_5_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_4_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_0 VPWR VGND sg13cmos5l_decap_8
+X_40_ _68_/D _50_/A _40_/B VPWR VGND sg13cmos5l_nor2_1
+XFILLER_1_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_74 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_107 VPWR VGND sg13cmos5l_fill_2
+XFILLER_7_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_4_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_63 VPWR VGND sg13cmos5l_decap_4
+XFILLER_1_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_53 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_130 VPWR VGND sg13cmos5l_decap_8
+X_74__13 _74__13/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_8_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_144 VPWR VGND sg13cmos5l_decap_4
+XFILLER_4_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_32 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_4 VPWR VGND sg13cmos5l_fill_1
+XFILLER_7_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_12_123 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_87 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_11 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_88 VPWR VGND sg13cmos5l_decap_8
+Xinput1 input1/X clk_i VPWR VGND sg13cmos5l_buf_1
+XFILLER_7_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_14 VPWR VGND sg13cmos5l_decap_8
+Xinput2 _48_/A enable_i VPWR VGND sg13cmos5l_buf_1
+XFILLER_10_67 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_130 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_144 VPWR VGND sg13cmos5l_decap_4
+XFILLER_7_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_67 VPWR VGND sg13cmos5l_fill_1
+Xinput3 _63_/B rst_ni VPWR VGND sg13cmos5l_buf_1
+XFILLER_10_46 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_123 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_4 VPWR VGND sg13cmos5l_fill_2
+XFILLER_8_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_148 VPWR VGND sg13cmos5l_fill_2
+XFILLER_4_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_13_24 VPWR VGND sg13cmos5l_decap_4
+XFILLER_5_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_25 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_144 VPWR VGND sg13cmos5l_fill_1
+XFILLER_18_9 VPWR VGND sg13cmos5l_decap_8
+X_59_ _66_/C _73_/Q _72_/Q _71_/Q _70_/Q VPWR VGND sg13cmos5l_nand4_1
+XFILLER_7_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_6 VPWR VGND sg13cmos5l_fill_1
+XFILLER_8_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_1_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_1_105 VPWR VGND sg13cmos5l_decap_8
+X_75_ _75_/Q input1/X _75_/D _75__15/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_18_123 VPWR VGND sg13cmos5l_decap_8
+X_58_ _73_/D _56_/Y _57_/X _50_/A VPWR VGND sg13cmos5l_a21oi_1
+XFILLER_15_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_148 VPWR VGND sg13cmos5l_fill_2
+XFILLER_7_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_70 VPWR VGND sg13cmos5l_fill_2
+XFILLER_11_81 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_26 VPWR VGND sg13cmos5l_decap_4
+XFILLER_7_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_14_81 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_39 VPWR VGND sg13cmos5l_decap_8
+X_74_ _74_/Q input1/X _74_/D _74__13/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_2_84 VPWR VGND sg13cmos5l_decap_8
+X_57_ _57_/X _73_/Q _66_/B _57_/C VPWR VGND sg13cmos5l_or3_1
+XFILLER_2_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_17 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_28 VPWR VGND sg13cmos5l_fill_1
+XFILLER_0_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_7 VPWR VGND sg13cmos5l_decap_8
+X_73_ _73_/Q input1/X _73_/D _73__17/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_10_18 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_103 VPWR VGND sg13cmos5l_fill_2
+X_56_ _56_/Y _66_/B _57_/C _73_/Q VPWR VGND sg13cmos5l_o21ai_1
+XFILLER_2_63 VPWR VGND sg13cmos5l_decap_8
+X_68__19 _68__19/L_HI VPWR VGND sg13cmos5l_tiehi
+X_39_ _40_/B _48_/A _68_/Q VPWR VGND sg13cmos5l_xnor2_1
+XFILLER_4_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_60 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_1_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_63 VPWR VGND sg13cmos5l_decap_8
+X_72_ _72_/Q input1/X _72_/D _72__12/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_18_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_42 VPWR VGND sg13cmos5l_decap_8
+X_55_ _57_/C _72_/Q _71_/Q _70_/Q VPWR VGND sg13cmos5l_nand3_1
+XFILLER_11_95 VPWR VGND sg13cmos5l_decap_8
+X_38_ _50_/A _63_/B VPWR VGND sg13cmos5l_inv_1
+XFILLER_7_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_11_132 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_51 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_95 VPWR VGND sg13cmos5l_decap_8
+X_71_ _71_/Q input1/X _71_/D _71__14/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_18_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_18_116 VPWR VGND sg13cmos5l_fill_2
+XFILLER_2_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_21 VPWR VGND sg13cmos5l_decap_8
+X_54_ _72_/D _52_/Y _53_/X _50_/A VPWR VGND sg13cmos5l_a21oi_1
+XFILLER_11_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_16_19 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_42 VPWR VGND sg13cmos5l_decap_8
+X_70__16 _70__16/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_5_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_74 VPWR VGND sg13cmos5l_decap_8
+X_70_ _70_/Q input1/X _70_/D _70__16/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_4_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_77 VPWR VGND sg13cmos5l_decap_8
+X_53_ _53_/X _72_/Q _66_/B _53_/C VPWR VGND sg13cmos5l_or3_1
+XFILLER_11_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_131 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_7_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_8_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_4_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_96 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_74 VPWR VGND sg13cmos5l_fill_1
+XFILLER_3_130 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_118 VPWR VGND sg13cmos5l_fill_1
+XFILLER_2_56 VPWR VGND sg13cmos5l_decap_8
+X_52_ _52_/Y _66_/B _53_/C _72_/Q VPWR VGND sg13cmos5l_o21ai_1
+XFILLER_11_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_102 VPWR VGND sg13cmos5l_decap_4
+XFILLER_11_146 VPWR VGND sg13cmos5l_decap_4
+XFILLER_8_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_53 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_42 VPWR VGND sg13cmos5l_fill_2
+XFILLER_12_7 VPWR VGND sg13cmos5l_fill_2
+XFILLER_0_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_4 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_65 VPWR VGND sg13cmos5l_decap_4
+XFILLER_17_130 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_35 VPWR VGND sg13cmos5l_decap_8
+X_51_ _53_/C _71_/Q _70_/Q VPWR VGND sg13cmos5l_nand2_1
+XFILLER_11_88 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_125 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_88 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_109 VPWR VGND sg13cmos5l_decap_8
+X_50_ _71_/D _50_/A _50_/B VPWR VGND sg13cmos5l_nor2_1
+XFILLER_2_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_145 VPWR VGND sg13cmos5l_decap_4
+X_73__17 _73__17/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_7_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_11 VPWR VGND sg13cmos5l_fill_1
+XFILLER_3_144 VPWR VGND sg13cmos5l_decap_4
+XFILLER_12_9 VPWR VGND sg13cmos5l_fill_1
+XFILLER_0_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_5_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_35 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_102 VPWR VGND sg13cmos5l_fill_2
+XFILLER_14_124 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_89 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_67 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_23 VPWR VGND sg13cmos5l_decap_4
+XFILLER_3_123 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_35 VPWR VGND sg13cmos5l_decap_4
+XFILLER_6_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_144 VPWR VGND sg13cmos5l_decap_4
+XFILLER_2_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_81 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_106 VPWR VGND sg13cmos5l_fill_2
+XFILLER_11_139 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_102 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_0_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_91 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_14 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_58 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_69 VPWR VGND sg13cmos5l_fill_1
+XFILLER_6_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_2_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_123 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_104 VPWR VGND sg13cmos5l_fill_1
+XFILLER_7_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_60 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_118 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_133 VPWR VGND sg13cmos5l_decap_8
+XFILLER_8_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_70 VPWR VGND sg13cmos5l_decap_8
+XFILLER_5_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_11_49 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_138 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_8_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_130 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_48 VPWR VGND sg13cmos5l_fill_1
+XFILLER_3_148 VPWR VGND sg13cmos5l_fill_2
+XFILLER_3_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_103 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_70 VPWR VGND sg13cmos5l_decap_4
+XFILLER_15_92 VPWR VGND sg13cmos5l_decap_4
+XFILLER_11_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_117 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_95 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_27 VPWR VGND sg13cmos5l_fill_2
+XFILLER_17_16 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_116 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_119 VPWR VGND sg13cmos5l_decap_8
+XFILLER_14_28 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_148 VPWR VGND sg13cmos5l_fill_2
+XFILLER_17_137 VPWR VGND sg13cmos5l_decap_8
+XFILLER_17_115 VPWR VGND sg13cmos5l_decap_4
+XFILLER_3_74 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_133 VPWR VGND sg13cmos5l_decap_8
+X_72__12 _72__12/L_HI VPWR VGND sg13cmos5l_tiehi
+XFILLER_5_0 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_0_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_84 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_7 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_112 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_53 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_126 VPWR VGND sg13cmos5l_decap_8
+XFILLER_10_144 VPWR VGND sg13cmos5l_decap_4
+X_69_ _69_/Q input1/X _69_/D _69__18/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_2_140 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_0_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_83 VPWR VGND sg13cmos5l_fill_2
+XFILLER_6_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_0 VPWR VGND sg13cmos5l_decap_4
+Xoutput4 count_o[0] _68_/Q VPWR VGND sg13cmos5l_buf_1
+XFILLER_3_32 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_105 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_149 VPWR VGND sg13cmos5l_fill_1
+XFILLER_10_123 VPWR VGND sg13cmos5l_decap_8
+X_68_ _68_/Q input1/X _68_/D _68__19/L_HI VPWR VGND sg13cmos5l_dfrbpq_1
+XFILLER_17_7 VPWR VGND sg13cmos5l_decap_4
+XFILLER_0_77 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_42 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_40 VPWR VGND sg13cmos5l_decap_4
+XFILLER_6_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_98 VPWR VGND sg13cmos5l_decap_8
+Xoutput5 count_o[1] _69_/Q VPWR VGND sg13cmos5l_buf_1
+XFILLER_15_63 VPWR VGND sg13cmos5l_decap_8
+XFILLER_15_85 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_88 VPWR VGND sg13cmos5l_decap_8
+XFILLER_3_11 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_147 VPWR VGND sg13cmos5l_fill_2
+XFILLER_13_110 VPWR VGND sg13cmos5l_fill_1
+XFILLER_13_121 VPWR VGND sg13cmos5l_decap_8
+XFILLER_13_132 VPWR VGND sg13cmos5l_fill_1
+XFILLER_10_102 VPWR VGND sg13cmos5l_decap_8
+XFILLER_12_31 VPWR VGND sg13cmos5l_decap_4
+XFILLER_3_109 VPWR VGND sg13cmos5l_decap_8
+X_67_ _75_/D _63_/X _64_/Y _67_/S VPWR VGND sg13cmos5l_mux2_1
+XFILLER_0_56 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_21 VPWR VGND sg13cmos5l_decap_8
+XFILLER_9_98 VPWR VGND sg13cmos5l_decap_8
+XFILLER_18_63 VPWR VGND sg13cmos5l_fill_2
+XFILLER_18_96 VPWR VGND sg13cmos5l_decap_8
+XFILLER_6_77 VPWR VGND sg13cmos5l_decap_8
+Xoutput6 count_o[2] _70_/Q VPWR VGND sg13cmos5l_buf_1
+.ends
+

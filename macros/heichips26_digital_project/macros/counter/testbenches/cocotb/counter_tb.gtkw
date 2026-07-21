@@ -1,0 +1,29 @@
+[*]
+[*] GTKWave Analyzer v3.3.127 (w)1999-2026 BSI
+[*] Tue Jul 21 10:06:01 2026
+[*]
+[dumpfile] "/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/testbenches/cocotb/sim_build/counter.fst"
+[dumpfile_mtime] "Tue Jul 21 10:05:24 2026"
+[dumpfile_size] 1100
+[savefile] "/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/testbenches/cocotb/counter_tb.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-29.400000 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 297
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@420
+counter.WIDTH
+@200
+-
+@28
+counter.clk_i
+counter.rst_ni
+@29
+counter.enable_i
+@22
+counter.count_o[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -4,9 +4,9 @@ module counter(
   inout VPWR,
   inout VGND,
 `endif
-  input clock_i,
-  input reset_n_i,
+  input clk_i,
+  input rst_ni,
   input enable_i,
-  output[7:0] counter_value_o
+  output[7:0] count_o
 );
 endmodule
