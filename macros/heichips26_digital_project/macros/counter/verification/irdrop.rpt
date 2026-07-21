@@ -1,4 +1,4 @@
-+ analyze_power_grid -net VPWR -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/56-openroad-irdropreport/net-VPWR.csv
++ analyze_power_grid -net VPWR -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/56-openroad-irdropreport/net-VPWR.csv
 [INFO PSM-0040] All shapes on net VPWR are connected.
 ########## IR report #################
 Net              : VPWR
@@ -11,7 +11,7 @@ Average IR drop  : 1.05e-06 V
 Worstcase IR drop: 4.16e-06 V
 Percentage drop  : 0.00 %
 ######################################
-+ analyze_power_grid -net VGND -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/56-openroad-irdropreport/net-VGND.csv
++ analyze_power_grid -net VGND -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/56-openroad-irdropreport/net-VGND.csv
 [INFO PSM-0040] All shapes on net VGND are connected.
 ########## IR report #################
 Net              : VGND

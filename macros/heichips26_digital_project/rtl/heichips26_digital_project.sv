@@ -23,22 +23,22 @@ module heichips26_digital_project (
     // List all unused inputs to prevent warnings
     wire _unused = &{ena, ui_in[7:1], uio_in[7:1]};
     
-    logic [7:0] counter_value;
+    logic [7:0] count;
     
     counter counter_0 (
     `ifdef USE_POWER_PINS
         .VPWR  (VPWR),
         .VGND  (VGND),
     `endif
-        .clock_i    (clk),
-        .reset_n_i  (rst_n),
-        .enable_i   (ui_in[0]),
+        .clk_i    (clk),
+        .rst_ni   (rst_n),
+        .enable_i (ui_in[0]),
 
-        .counter_value_o  (counter_value)
+        .count_o  (count)
     );
     
-    assign uo_out  = counter_value;
-    assign uio_out = counter_value;
+    assign uo_out  = count;
+    assign uio_out = count;
     assign uio_oe  = '1;
 
 endmodule

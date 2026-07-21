@@ -15,7 +15,7 @@ L 7 80 0 100 0 {}
 B 5 -2.5 -102.5 2.5 -97.5 {name=VDD dir=inout}
 B 5 -2.5 97.5 2.5 102.5 {name=VSS dir=inout}
 B 5 -102.5 -62.5 -97.5 -57.5 {name=clk_i dir=in}
-B 5 -102.5 57.5 -97.5 62.5 {name=rst_n_i dir=in}
+B 5 -102.5 57.5 -97.5 62.5 {name=rst_ni dir=in}
 B 5 -102.5 -2.5 -97.5 2.5 {name=enable_i dir=in}
 B 5 97.5 -2.5 102.5 2.5 {name=count_o[0..7] dir=out}
 P 4 5 -80 -80 80 -80 80 80 -80 80 -80 -80 {}

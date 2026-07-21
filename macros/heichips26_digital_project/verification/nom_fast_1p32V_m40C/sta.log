@@ -1,0 +1,267 @@
++ define_corners nom_fast_1p32V_m40C
+Reading timing models for corner nom_fast_1p32V_m40C…
+Reading cell library for the 'nom_fast_1p32V_m40C' corner at '/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_fast_1p32V_m40C.lib'…
+Reading cell library for the 'nom_fast_1p32V_m40C' corner at '/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_fast_1p32V_3p6V_m40C.lib'…
+Reading cell library for the 'nom_fast_1p32V_m40C' corner at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/final/lib/nom_fast_1p32V_m40C/counter__nom_fast_1p32V_m40C.lib'…
+Reading top-level netlist at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/52-openroad-fillinsertion/heichips26_digital_project.nl.v'…
+Linking design 'heichips26_digital_project' from netlist…
+Reading design constraints file at '/nix/store/qa5pnbaj1sd11vflhm132q9qh8xbkhb5-python3-3.13.13-env/lib/python3.13/site-packages/librelane/scripts/base.sdc'…
+[INFO] Using clock clk…
+[INFO] Setting output delay to: 2
+[INFO] Setting input delay to: 2
+[INFO] Setting load to: 0.006
+[INFO] Setting clock uncertainty to: 0.25
+[INFO] Setting clock transition to: 0.15
+[INFO] Setting timing derate to: 5%
+Reading top-level design parasitics for the 'nom_fast_1p32V_m40C' corner at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/54-openroad-rcx/nom/heichips26_digital_project.nom.spef'…
+%OL_CREATE_REPORT min.rpt
+
+===========================================================================
+report_checks -path_delay min (Hold)
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+No paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT max.rpt
+
+===========================================================================
+report_checks -path_delay max (Setup)
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+No paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT checks.rpt
+
+===========================================================================
+report_checks -unconstrained
+===========================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+Startpoint: clk (clock source 'clk')
+Endpoint: counter_0/clk_i (internal pin)
+Path Group: unconstrained
+Path Type: max
+
+Fanout         Cap        Slew       Delay        Time   Description
+---------------------------------------------------------------------------------------------
+     3    0.044535    0.032811    0.023234    5.023234 v clk (in)
+                                                         clk (net)
+                      0.034851    0.000000    5.023234 v counter_0/clk_i (counter)
+                                              5.023234   data arrival time
+---------------------------------------------------------------------------------------------
+(Path is unconstrained)
+
+
+
+
+===========================================================================
+report_checks --slack_max -0.01
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+No paths found.
+
+
+===========================================================================
+ report_check_types -max_slew -max_cap -max_fanout -violators
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+
+
+===========================================================================
+report_parasitic_annotation -report_unannotated
+============================================================================
+Found 16 unannotated drivers.
+ ena
+ ui_in[1]
+ ui_in[2]
+ ui_in[3]
+ ui_in[4]
+ ui_in[5]
+ ui_in[6]
+ ui_in[7]
+ uio_in[0]
+ uio_in[1]
+ uio_in[2]
+ uio_in[3]
+ uio_in[4]
+ uio_in[5]
+ uio_in[6]
+ uio_in[7]
+Found 0 partially unannotated drivers.
+
+===========================================================================
+max slew violation count 0
+%OL_METRIC_I design__max_slew_violation__count__corner:nom_fast_1p32V_m40C 0
+max fanout violation count 0
+%OL_METRIC_I design__max_fanout_violation__count__corner:nom_fast_1p32V_m40C 0
+max cap violation count 0
+%OL_METRIC_I design__max_cap_violation__count__corner:nom_fast_1p32V_m40C 0
+============================================================================
+
+===========================================================================
+check_setup -verbose -unconstrained_endpoints -multiple_clock -no_clock -no_input_delay -loops -generated_clocks
+===========================================================================
+Warning: There are 16 unconstrained endpoints.
+  uio_out[0]
+  uio_out[1]
+  uio_out[2]
+  uio_out[3]
+  uio_out[4]
+  uio_out[5]
+  uio_out[6]
+  uio_out[7]
+  uo_out[0]
+  uo_out[1]
+  uo_out[2]
+  uo_out[3]
+  uo_out[4]
+  uo_out[5]
+  uo_out[6]
+  uo_out[7]
+%OL_END_REPORT
+%OL_CREATE_REPORT power.rpt
+
+===========================================================================
+ report_power
+============================================================================
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+Group                    Internal    Switching      Leakage        Total
+                            Power        Power        Power        Power (Watts)
+------------------------------------------------------------------------
+Sequential           0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+Combinational        1.836762e-06 1.984759e-06 7.135592e-09 3.828656e-06  16.8%
+Clock                3.085847e-11 0.000000e+00 1.900701e-05 1.900704e-05  83.2%
+Macro                0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+Pad                  0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+------------------------------------------------------------------------
+Total                1.836793e-06 1.984759e-06 1.901416e-05 2.283571e-05 100.0%
+                             8.0%         8.7%        83.3%
+%OL_METRIC_F power__internal__total 1.8367926486462238e-6
+%OL_METRIC_F power__switching__total 1.9847586827381747e-6
+%OL_METRIC_F power__leakage__total 1.9014156350749545e-5
+%OL_METRIC_F power__total 2.2835707568447106e-5
+
+%OL_END_REPORT
+%OL_CREATE_REPORT skew.min.rpt
+
+===========================================================================
+Clock Skew (Hold)
+============================================================================
+%OL_METRIC_F clock__skew__worst_hold__corner:nom_fast_1p32V_m40C 0.0
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+Clock clk
+No launch/capture paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT skew.max.rpt
+
+===========================================================================
+Clock Skew (Setup)
+============================================================================
+%OL_METRIC_F clock__skew__worst_setup__corner:nom_fast_1p32V_m40C 0.0
+======================= nom_fast_1p32V_m40C Corner ===================================
+
+Clock clk
+No launch/capture paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT ws.min.rpt
+
+===========================================================================
+Worst Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__ws__corner:nom_fast_1p32V_m40C 1.0000000433293989e+39
+nom_fast_1p32V_m40C: 1.0000000433293989e+39
+%OL_END_REPORT
+%OL_CREATE_REPORT ws.max.rpt
+
+===========================================================================
+Worst Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__ws__corner:nom_fast_1p32V_m40C 1.0000000433293989e+39
+nom_fast_1p32V_m40C: 1.0000000433293989e+39
+%OL_END_REPORT
+%OL_CREATE_REPORT tns.min.rpt
+
+===========================================================================
+Total Negative Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__tns__corner:nom_fast_1p32V_m40C 0.0
+nom_fast_1p32V_m40C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT tns.max.rpt
+
+===========================================================================
+Total Negative Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__tns__corner:nom_fast_1p32V_m40C 0.0
+nom_fast_1p32V_m40C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT wns.min.rpt
+
+===========================================================================
+Worst Negative Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__wns__corner:nom_fast_1p32V_m40C 0
+nom_fast_1p32V_m40C: 0
+%OL_END_REPORT
+%OL_CREATE_REPORT wns.max.rpt
+
+===========================================================================
+Worst Negative Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__wns__corner:nom_fast_1p32V_m40C 0.0
+nom_fast_1p32V_m40C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT violator_list.rpt
+
+===========================================================================
+Violator List
+============================================================================
+%OL_METRIC_I timing__hold_vio__count__corner:nom_fast_1p32V_m40C 0
+%OL_METRIC_F timing__hold_r2r__ws__corner:nom_fast_1p32V_m40C inf
+%OL_METRIC_I timing__hold_r2r_vio__count__corner:nom_fast_1p32V_m40C 0
+%OL_METRIC_I timing__setup_vio__count__corner:nom_fast_1p32V_m40C 0
+%OL_METRIC_F timing__setup_r2r__ws__corner:nom_fast_1p32V_m40C inf
+%OL_METRIC_I timing__setup_r2r_vio__count__corner:nom_fast_1p32V_m40C 0
+%OL_END_REPORT
+%OL_CREATE_REPORT unpropagated.rpt
+%OL_END_REPORT
+%OL_CREATE_REPORT clock.rpt
+Clock: clk
+Sources: clk 
+Generated: no
+Virtual: yes
+Propagated: no
+Period: 10.000000
+
+===========================================================================
+report_clock_properties
+============================================================================
+Clock                   Period          Waveform
+----------------------------------------------------
+clk                  10.000000    0.000000  5.000000
+
+===========================================================================
+report_clock_latency
+============================================================================
+Clock clk
+
+
+===========================================================================
+report_clock_min_period
+============================================================================
+clk period_min = 0.00 fmax = inf
+%OL_END_REPORT
+Writing SDF files for all corners…
+Removing Clock latencies before writing libs…
+Writing timing models for all corners…
+Writing timing models for the nom_fast_1p32V_m40C corner to /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/55-openroad-stapostpnr/nom_fast_1p32V_m40C/heichips26_digital_project__nom_fast_1p32V_m40C.lib…

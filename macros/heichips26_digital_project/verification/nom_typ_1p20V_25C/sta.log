@@ -1,0 +1,267 @@
++ define_corners nom_typ_1p20V_25C
+Reading timing models for corner nom_typ_1p20V_25C…
+Reading cell library for the 'nom_typ_1p20V_25C' corner at '/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib'…
+Reading cell library for the 'nom_typ_1p20V_25C' corner at '/home/leo/Repositories/heichips26/heichips26-template/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_typ_1p2V_3p3V_25C.lib'…
+Reading cell library for the 'nom_typ_1p20V_25C' corner at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/final/lib/nom_typ_1p20V_25C/counter__nom_typ_1p20V_25C.lib'…
+Reading top-level netlist at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/52-openroad-fillinsertion/heichips26_digital_project.nl.v'…
+Linking design 'heichips26_digital_project' from netlist…
+Reading design constraints file at '/nix/store/qa5pnbaj1sd11vflhm132q9qh8xbkhb5-python3-3.13.13-env/lib/python3.13/site-packages/librelane/scripts/base.sdc'…
+[INFO] Using clock clk…
+[INFO] Setting output delay to: 2
+[INFO] Setting input delay to: 2
+[INFO] Setting load to: 0.006
+[INFO] Setting clock uncertainty to: 0.25
+[INFO] Setting clock transition to: 0.15
+[INFO] Setting timing derate to: 5%
+Reading top-level design parasitics for the 'nom_typ_1p20V_25C' corner at '/home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/54-openroad-rcx/nom/heichips26_digital_project.nom.spef'…
+%OL_CREATE_REPORT min.rpt
+
+===========================================================================
+report_checks -path_delay min (Hold)
+============================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+No paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT max.rpt
+
+===========================================================================
+report_checks -path_delay max (Setup)
+============================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+No paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT checks.rpt
+
+===========================================================================
+report_checks -unconstrained
+===========================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+Startpoint: clk (clock source 'clk')
+Endpoint: counter_0/clk_i (internal pin)
+Path Group: unconstrained
+Path Type: max
+
+Fanout         Cap        Slew       Delay        Time   Description
+---------------------------------------------------------------------------------------------
+     3    0.044514    0.048320    0.033434    5.033434 v clk (in)
+                                                         clk (net)
+                      0.049696    0.000000    5.033434 v counter_0/clk_i (counter)
+                                              5.033434   data arrival time
+---------------------------------------------------------------------------------------------
+(Path is unconstrained)
+
+
+
+
+===========================================================================
+report_checks --slack_max -0.01
+============================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+No paths found.
+
+
+===========================================================================
+ report_check_types -max_slew -max_cap -max_fanout -violators
+============================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+
+
+===========================================================================
+report_parasitic_annotation -report_unannotated
+============================================================================
+Found 16 unannotated drivers.
+ ena
+ ui_in[1]
+ ui_in[2]
+ ui_in[3]
+ ui_in[4]
+ ui_in[5]
+ ui_in[6]
+ ui_in[7]
+ uio_in[0]
+ uio_in[1]
+ uio_in[2]
+ uio_in[3]
+ uio_in[4]
+ uio_in[5]
+ uio_in[6]
+ uio_in[7]
+Found 0 partially unannotated drivers.
+
+===========================================================================
+max slew violation count 0
+%OL_METRIC_I design__max_slew_violation__count__corner:nom_typ_1p20V_25C 0
+max fanout violation count 0
+%OL_METRIC_I design__max_fanout_violation__count__corner:nom_typ_1p20V_25C 0
+max cap violation count 0
+%OL_METRIC_I design__max_cap_violation__count__corner:nom_typ_1p20V_25C 0
+============================================================================
+
+===========================================================================
+check_setup -verbose -unconstrained_endpoints -multiple_clock -no_clock -no_input_delay -loops -generated_clocks
+===========================================================================
+Warning: There are 16 unconstrained endpoints.
+  uio_out[0]
+  uio_out[1]
+  uio_out[2]
+  uio_out[3]
+  uio_out[4]
+  uio_out[5]
+  uio_out[6]
+  uio_out[7]
+  uo_out[0]
+  uo_out[1]
+  uo_out[2]
+  uo_out[3]
+  uo_out[4]
+  uo_out[5]
+  uo_out[6]
+  uo_out[7]
+%OL_END_REPORT
+%OL_CREATE_REPORT power.rpt
+
+===========================================================================
+ report_power
+============================================================================
+======================= nom_typ_1p20V_25C Corner ===================================
+
+Group                    Internal    Switching      Leakage        Total
+                            Power        Power        Power        Power (Watts)
+------------------------------------------------------------------------
+Sequential           0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+Combinational        1.508544e-06 1.625580e-06 3.332778e-09 3.137457e-06  38.0%
+Clock                -1.694331e-11 0.000000e+00 5.119652e-06 5.119635e-06  62.0%
+Macro                0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+Pad                  0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00   0.0%
+------------------------------------------------------------------------
+Total                1.508527e-06 1.625580e-06 5.122991e-06 8.257099e-06 100.0%
+                            18.3%        19.7%        62.0%
+%OL_METRIC_F power__internal__total 1.5085269069459173e-6
+%OL_METRIC_F power__switching__total 1.6255803529929835e-6
+%OL_METRIC_F power__leakage__total 5.122990842210129e-6
+%OL_METRIC_F power__total 8.257098670583218e-6
+
+%OL_END_REPORT
+%OL_CREATE_REPORT skew.min.rpt
+
+===========================================================================
+Clock Skew (Hold)
+============================================================================
+%OL_METRIC_F clock__skew__worst_hold__corner:nom_typ_1p20V_25C 0.0
+======================= nom_typ_1p20V_25C Corner ===================================
+
+Clock clk
+No launch/capture paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT skew.max.rpt
+
+===========================================================================
+Clock Skew (Setup)
+============================================================================
+%OL_METRIC_F clock__skew__worst_setup__corner:nom_typ_1p20V_25C 0.0
+======================= nom_typ_1p20V_25C Corner ===================================
+
+Clock clk
+No launch/capture paths found.
+
+%OL_END_REPORT
+%OL_CREATE_REPORT ws.min.rpt
+
+===========================================================================
+Worst Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__ws__corner:nom_typ_1p20V_25C 1.0000000433293989e+39
+nom_typ_1p20V_25C: 1.0000000433293989e+39
+%OL_END_REPORT
+%OL_CREATE_REPORT ws.max.rpt
+
+===========================================================================
+Worst Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__ws__corner:nom_typ_1p20V_25C 1.0000000433293989e+39
+nom_typ_1p20V_25C: 1.0000000433293989e+39
+%OL_END_REPORT
+%OL_CREATE_REPORT tns.min.rpt
+
+===========================================================================
+Total Negative Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__tns__corner:nom_typ_1p20V_25C 0.0
+nom_typ_1p20V_25C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT tns.max.rpt
+
+===========================================================================
+Total Negative Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__tns__corner:nom_typ_1p20V_25C 0.0
+nom_typ_1p20V_25C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT wns.min.rpt
+
+===========================================================================
+Worst Negative Slack (Hold)
+============================================================================
+%OL_METRIC_F timing__hold__wns__corner:nom_typ_1p20V_25C 0
+nom_typ_1p20V_25C: 0
+%OL_END_REPORT
+%OL_CREATE_REPORT wns.max.rpt
+
+===========================================================================
+Worst Negative Slack (Setup)
+============================================================================
+%OL_METRIC_F timing__setup__wns__corner:nom_typ_1p20V_25C 0.0
+nom_typ_1p20V_25C: 0.0
+%OL_END_REPORT
+%OL_CREATE_REPORT violator_list.rpt
+
+===========================================================================
+Violator List
+============================================================================
+%OL_METRIC_I timing__hold_vio__count__corner:nom_typ_1p20V_25C 0
+%OL_METRIC_F timing__hold_r2r__ws__corner:nom_typ_1p20V_25C inf
+%OL_METRIC_I timing__hold_r2r_vio__count__corner:nom_typ_1p20V_25C 0
+%OL_METRIC_I timing__setup_vio__count__corner:nom_typ_1p20V_25C 0
+%OL_METRIC_F timing__setup_r2r__ws__corner:nom_typ_1p20V_25C inf
+%OL_METRIC_I timing__setup_r2r_vio__count__corner:nom_typ_1p20V_25C 0
+%OL_END_REPORT
+%OL_CREATE_REPORT unpropagated.rpt
+%OL_END_REPORT
+%OL_CREATE_REPORT clock.rpt
+Clock: clk
+Sources: clk 
+Generated: no
+Virtual: yes
+Propagated: no
+Period: 10.000000
+
+===========================================================================
+report_clock_properties
+============================================================================
+Clock                   Period          Waveform
+----------------------------------------------------
+clk                  10.000000    0.000000  5.000000
+
+===========================================================================
+report_clock_latency
+============================================================================
+Clock clk
+
+
+===========================================================================
+report_clock_min_period
+============================================================================
+clk period_min = 0.00 fmax = inf
+%OL_END_REPORT
+Writing SDF files for all corners…
+Removing Clock latencies before writing libs…
+Writing timing models for all corners…
+Writing timing models for the nom_typ_1p20V_25C corner to /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/55-openroad-stapostpnr/nom_typ_1p20V_25C/heichips26_digital_project__nom_typ_1p20V_25C.lib…

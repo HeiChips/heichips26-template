@@ -1,0 +1,17 @@
+88. Printing statistics.
+
+=== heichips26_digital_project ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        8 wires
+       43 wire bits
+        8 public wires
+       43 public wire bits
+        8 ports
+       43 port bits
+        1 cells
+        1   counter
+
+   Area for cell type \counter is unknown!
+

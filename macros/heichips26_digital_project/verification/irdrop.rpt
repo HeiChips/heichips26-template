@@ -1,0 +1,26 @@
++ analyze_power_grid -net VPWR -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/56-openroad-irdropreport/net-VPWR.csv
+[INFO PSM-0040] All shapes on net VPWR are connected.
+########## IR report #################
+Net              : VPWR
+Corner           : nom_typ_1p20V_25C
+Total power      : 8.26e-06 W
+Supply voltage   : 1.20e+00 V
+Worstcase voltage: 1.20e+00 V
+Average voltage  : 1.20e+00 V
+Average IR drop  : 9.69e-07 V
+Worstcase IR drop: 5.18e-06 V
+Percentage drop  : 0.00 %
+######################################
++ analyze_power_grid -net VGND -voltage_file /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/flow/librelane/runs/RUN_2026-07-21_16-16-13/56-openroad-irdropreport/net-VGND.csv
+[INFO PSM-0040] All shapes on net VGND are connected.
+########## IR report #################
+Net              : VGND
+Corner           : nom_typ_1p20V_25C
+Total power      : 8.26e-06 W
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 4.29e-06 V
+Average voltage  : 9.56e-07 V
+Average IR drop  : 9.56e-07 V
+Worstcase IR drop: 4.29e-06 V
+Percentage drop  : 0.00 %
+######################################

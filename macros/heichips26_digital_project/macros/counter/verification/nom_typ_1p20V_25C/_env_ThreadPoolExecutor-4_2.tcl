@@ -66,8 +66,8 @@ set ::env(PDN_CONNECT_MACROS_TO_GRID) 1
 set ::env(PDN_ENABLE_GLOBAL_CONNECTIONS) 1
 set ::env(DEDUPLICATE_CORNERS) 0
 set ::env(STA_MACRO_PRIORITIZE_NL) 1
-set ::env(CURRENT_NL) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/52-openroad-fillinsertion/counter.nl.v
-set ::env(CURRENT_SPEF) "\"nom_*\" /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/54-openroad-rcx/nom/counter.nom.spef"
-set ::env(CURRENT_ODB) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/53-odb-cellfrequencytables/counter.odb
-set ::env(SAVE_SDC) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_12-10-52/55-openroad-stapostpnr/counter.sdc
+set ::env(CURRENT_NL) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/52-openroad-fillinsertion/counter.nl.v
+set ::env(CURRENT_SPEF) "\"nom_*\" /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/54-openroad-rcx/nom/counter.nom.spef"
+set ::env(CURRENT_ODB) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/53-odb-cellfrequencytables/counter.odb
+set ::env(SAVE_SDC) /home/leo/Repositories/heichips26/heichips26-template/macros/heichips26_digital_project/macros/counter/flow/librelane/runs/RUN_2026-07-21_16-14-29/55-openroad-stapostpnr/counter.sdc
 set ::env(OPENLANE_SDC_IDEAL_CLOCKS) 0

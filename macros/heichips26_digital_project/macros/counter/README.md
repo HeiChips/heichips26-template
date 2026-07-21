@@ -1,4 +1,4 @@
-﻿# ihp-sg13cmos5l Counter
+﻿# Counter (ihp-sg13cmos5l)
 
 <p align="center">
   <a href="final/render/counter.png">
@@ -329,28 +329,6 @@ make copy-netlist
 ```
 
 This only works if the required final views exist in `flow/final/spice/`, `flow/final/pnl/`, and `flow/final/nl/`.
-
-
-## Copy the Final Render
-
-To copy the latest LibreLane render from `flow/final/render/` into `render/img/`, run:
-
-```sh
-make copy-render
-```
-
-This only works if the final render exists in `flow/final/render/`.
-
-
-## Render Top Layout
-
-Renders the final GDS from `final/gds/` with `scripts/lay2img.py` and saves it in the `render/img/` folder:
-
-```sh
-make render-gds
-```
-
-This only works if the latest run completed without errors.
 
 
 ## Build FPGA
