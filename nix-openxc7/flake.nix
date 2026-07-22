@@ -1,0 +1,134 @@
+{
+  description = "Open RTL synthesis framework and tools";
+  nixConfig.bash-prompt = "[nix(openXC7)] ";
+
+  # Nixpkgs / NixOS version to use.
+  inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
+  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
+  outputs = { self, nixpkgs, flake-utils, flake-compat, ... }:
+    let
+
+      # to work with older version of flakes
+      lastModifiedDate =
+        self.lastModifiedDate or self.lastModified or "19700101";
+
+      # Generate a user-friendly version number.
+      version = builtins.substring 0 8 lastModifiedDate;
+
+      # System types to support.
+      supportedSystems =
+        [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+
+      # Helper function to generate an attrset '{ x86_64-linux = f "x86_64-linux"; ... }'.
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+      # Nixpkgs instantiated for supported system types.
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+    in {
+      # Provide some binary packages for selected system types.
+      packages = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+          inherit (pkgs) lib callPackage stdenv fetchgit fetchFromGitHub;
+        in rec {
+          nextpnr-xilinx = nixpkgs.nextpnr-xilinx;
+
+          prjxray = callPackage ./nix/prjxray.nix { };
+
+          fasm = with pkgs;
+            with python312Packages;
+            callPackage ./nix/fasm {
+              # NOTE(jleightcap): calling this package here is clucky.
+              # contorted structure here to make the `nix/fasm` directory be
+              # drop-in to upstream python-modules in nixpkgs.
+              inherit buildPythonPackage pythonOlder textx cython fetchpatch jre_headless antlr4_9;
+            };
+
+          nextpnr-xilinx-chipdb = {
+            artix7 = callPackage ./nix/nextpnr-xilinx-chipdb.nix  {
+              backend = "artix7";
+              nixpkgs = pkgs;
+              inherit nextpnr-xilinx;
+              inherit prjxray;
+            };
+            #kintex7 = callPackage ./nix/nextpnr-xilinx-chipdb.nix {
+            #  backend = "kintex7";
+            #  nixpkgs = pkgs;
+            #  inherit nextpnr-xilinx;
+            #  inherit prjxray;
+            #};
+            #spartan7 = callPackage ./nix/nextpnr-xilinx-chipdb.nix  {
+            #  backend = "spartan7";
+            #  nixpkgs = pkgs;
+            #  inherit nextpnr-xilinx;
+            #  inherit prjxray;
+            #} ;
+            #zynq7 = callPackage ./nix/nextpnr-xilinx-chipdb.nix {
+            #  backend = "zynq7";
+            #  nixpkgs = pkgs;
+            #  inherit nextpnr-xilinx;
+            #  inherit prjxray;
+            #};
+          };
+
+          fpga-assembler = (builtins.getFlake "github:lromor/fpga-assembler/6ff89a2d53edc9d74a402c28096450473b67de13").packages.${system}.default;
+
+          sv-elab = callPackage ./nix/sv-elab.nix { };
+        });
+
+      # contains a mutually consistent set of packages for a full toolchain using nextpnr-xilinx.
+      devShell = forAllSystems (system:
+        nixpkgsFor.${system}.mkShell {
+          buildInputs = (with self.packages.${system}; [
+            fasm
+            fpga-assembler
+            prjxray
+            sv-elab
+          ]) ++ (with nixpkgsFor.${system}; [
+            nextpnr-xilinx
+            yosys
+            ghdl
+            yosys-ghdl
+            openfpgaloader
+            pypy310
+            python312Packages.pyyaml
+            python312Packages.textx
+            python312Packages.simplejson
+            python312Packages.intervaltree
+          ]);
+
+          shellHook =
+            let mypkgs  = self.packages.${system};
+                nixpkgs = nixpkgsFor.${system};
+                pyPkgPath = "/lib/python3.12/site-packages/:";
+            in nixpkgs.lib.concatStrings [
+              "export YOSYS_PLUGIN_PATH=" mypkgs.sv-elab.outPath "\n"
+              "export NEXTPNR_XILINX_DIR=" nixpkgs.nextpnr-xilinx.outPath "\n"
+              "export NEXTPNR_XILINX_PYTHON_DIR=" nixpkgs.nextpnr-xilinx.outPath "/share/nextpnr/python/\n"
+              "export PRJXRAY_DB_DIR=" nixpkgs.nextpnr-xilinx.outPath "/share/nextpnr/external/prjxray-db\n"
+              "export PRJXRAY_PYTHON_DIR=" mypkgs.prjxray.outPath "/usr/share/python3/\n"
+              "export LC_ALL=C\n"
+              ''export PYTHONPATH=''$PYTHONPATH:''$PRJXRAY_PYTHON_DIR:'' 
+                mypkgs.fasm.outPath pyPkgPath
+                nixpkgs.python312Packages.textx.outPath pyPkgPath
+                nixpkgs.python312Packages.arpeggio.outPath pyPkgPath
+                nixpkgs.python312Packages.pyyaml.outPath pyPkgPath
+                nixpkgs.python312Packages.simplejson.outPath pyPkgPath
+                nixpkgs.python312Packages.intervaltree.outPath pyPkgPath
+                nixpkgs.python312Packages.sortedcontainers.outPath pyPkgPath
+
+                # Needed by fasm to import antlr correctly
+                nixpkgs.python312Packages.cython.outPath pyPkgPath
+                nixpkgs.python312Packages.distutils.outPath pyPkgPath
+                nixpkgs.python312Packages.jaraco-envs.outPath pyPkgPath
+                nixpkgs.python312Packages.jaraco-functools.outPath pyPkgPath
+                nixpkgs.python312Packages.more-itertools.outPath pyPkgPath
+                nixpkgs.python312Packages.packaging.outPath pyPkgPath
+                "\n"
+              "export PYPY3=" nixpkgs.pypy310.outPath "/bin/pypy3.10"
+            ];
+        }
+      );
+    };
+}
