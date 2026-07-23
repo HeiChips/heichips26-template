@@ -211,9 +211,13 @@ copy-netlist: ## Copy final output spice, pnl and nl netlists from the last Libr
 .PHONY: copy-netlist
 
 # Build Targets
-build-fpga: ## Build target for FPGA usage
+build-fpga: ## Build FPGA bitstream (usage: make build-fpga [BOARD=ulx3s])
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
+
+flash-fpga: ## Flash FPGA bitstream (usage: make flash-fpga [BOARD=ulx3s])
+	@$(MAKE) -C fpga flash_bitstream
+.PHONY: flash-fpga
 
 build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, copy netlists)
 	$(MAKE) librelane
