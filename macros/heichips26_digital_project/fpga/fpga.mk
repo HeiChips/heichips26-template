@@ -55,7 +55,6 @@ clean: ## Remove generated files
 	rm -f test_pre *.vcd $(TOP).json* $(TOP).v $(PNR_OUT) $(BITSTREAM)
 	rm -f $(TOP)_generic.json*
 	rm -f $(TOP)_yosys.svg $(TOP)_yosys.dot $(TOP)_generic_yosys.svg $(TOP)_generic_yosys.dot
-	rm -rf $(TOP) $(TOP)_basic $(TOP)_cover
 	rm -f $(EXTRA_CLEAN)
 .PHONY: clean
 # ================================================================================================
