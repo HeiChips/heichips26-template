@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 The HeiChips contributors
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 # Board: RealDigital Boolean (Xilinx Spartan-7 xc7s50csga324-1). Native

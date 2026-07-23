@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: © 2026 The HeiChips contributors
+// SPDX-FileCopyrightText: © 2026 The HeiChips Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Partial chip-IO breakout; see fpga/icebreaker for the full reference.

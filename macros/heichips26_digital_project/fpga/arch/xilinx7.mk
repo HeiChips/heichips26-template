@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 The HeiChips contributors
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 # Xilinx 7-series: Yosys (synth_xilinx) -> nextpnr-xilinx -> fasm2frames -> xc7frames2bit.

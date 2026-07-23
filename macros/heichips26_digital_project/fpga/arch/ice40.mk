@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 The HeiChips contributors
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 # Lattice iCE40: Yosys (synth_ice40) -> nextpnr-ice40 -> icepack.
