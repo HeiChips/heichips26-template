@@ -62,8 +62,45 @@
 │  │  ├─ pin_order.cfg
 │  │  └─ signoff.sdc
 ├─ 📁 fpga/
+│  ├─ 📁 arch/
+│  │  ├─ ecp5.mk
+│  │  ├─ gowin.mk
+│  │  ├─ ice40.mk
+│  │  └─ xilinx7.mk
+│  ├─ 📁 basys3/
+│  │  ├─ Basys-3-Master.xdc
+│  │  ├─ basys3_top.sv
+│  │  └─ Makefile
+│  ├─ 📁 boards/
+│  │  ├─ basys3.mk
+│  │  ├─ boolean.mk
+│  │  ├─ icebreaker.mk
+│  │  ├─ nano9k.mk
+│  │  ├─ pico-ice.mk
+│  │  └─ ulx3s.mk
+│  ├─ 📁 boolean/
+│  │  ├─ boolean.xdc
+│  │  ├─ boolean_top.sv
+│  │  └─ Makefile
+│  ├─ 📁 icebreaker/
+│  │  ├─ icebreaker.pcf
+│  │  ├─ icebreaker_top.sv
+│  │  └─ Makefile
+│  ├─ 📁 nano9k/
+│  │  ├─ Makefile
+│  │  ├─ nano9k.cst
+│  │  └─ nano9k_top.sv
+│  ├─ 📁 pico-ice/
+│  │  ├─ Makefile
+│  │  ├─ pico-ice.pcf
+│  │  └─ pico_ice_top.sv
+│  ├─ 📁 ulx3s/
+│  │  ├─ Makefile
+│  │  ├─ ulx3s_top.sv
+│  │  └─ ulx3s_v20.lpf
+│  ├─ dut.mk
+│  ├─ fpga.mk
 │  ├─ Makefile
-│  ├─ pico-ice.pcf
 │  └─ README.md
 ├─ 📁 netlist/
 │  ├─ 📁 nl/
