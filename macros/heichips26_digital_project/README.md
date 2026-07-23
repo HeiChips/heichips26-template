@@ -333,27 +333,38 @@ This only works if the required final views exist in `flow/final/spice/`, `flow/
 
 ## Build FPGA
 
-The FPGA flow targets a [pico-ice](https://pico-ice.tinyvision.ai/) board (iCE40 UP5K, sg48 package) and uses the open-source iCE40 toolchain: Yosys → nextpnr → icepack.
+There are two default FPGA emulation flows, sharing the same recipe logic from `fpga/fpga.mk`:
 
-To run the full flow (lint → synthesis → place-and-route → bitstream), run:
+- **Top-level (whole chip)** — `fpga/`, targets a [ULX3S](https://radiona.org/ulx3s/) board (ECP5, Yosys → nextpnr-ecp5 → ecppack), flashed with `openFPGALoader`.
+- **Macro-level (`counter` standalone)** — `macros/counter/fpga/`, also targets a ULX3S by default, wired directly to `counter`'s native ports (no chip-level wrapper).
+
+Both flows can also target other boards, each with its own thin Makefile reusing `fpga/fpga.mk` — see `fpga/README.md` for the full board matrix (iCEBreaker, Tang Nano 9K, pico-ice, and, via the separate `nix-openxc7` Xilinx toolchain vendored at the repo root, Basys 3/Boolean).
+
+To run the full top-level flow (lint → synthesis → place-and-route → bitstream), run:
 
 ```sh
 make build-fpga
 ```
 
-This invokes `make -C fpga all`. Individual steps can also be run from `fpga/`:
+This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (or `macros/counter/fpga/` for the macro-level flow, or e.g. `fpga/icebreaker/` for another board):
 
 ```sh
-make -C fpga synthesis       # Yosys iCE40 synthesis
+make -C fpga synthesis       # Yosys ECP5 synthesis
 make -C fpga pr              # nextpnr place-and-route
-make -C fpga gen_bitstream   # icepack → .bin
-make -C fpga flash_bitstream # flash via dfu-util
+make -C fpga gen_bitstream   # ecppack → .bit
+make -C fpga flash_bitstream # flash via openFPGALoader
+```
+
+The counter macro can be built and flashed the same way from `macros/counter/`:
+
+```sh
+make -C macros/counter build-fpga
 ```
 
 > [!NOTE]
-> Flashing uses `dfu-util`, not `iceprog`. Both flash iCE40 bitstreams, but they target different interfaces:
-> - **`iceprog`** speaks directly over SPI via an FTDI USB bridge (iCEstick, iCEBreaker, …).
-> - **`dfu-util`** uses the USB DFU standard — the pico-ice's RP2040 co-processor acts as the DFU bootloader and forwards the bitstream to the iCE40 flash. `iceprog` does not work on this board.
+> Flashing differs per board/toolchain — each Makefile sets `FLASH_CMD` accordingly. The default ULX3S flow and most other boards use `openFPGALoader`; pico-ice uses `dfu-util` instead, since its RP2040 co-processor acts as a USB DFU bootloader that `openFPGALoader`/`iceprog` don't speak to directly.
+
+See `fpga/README.md` for the full shared-flow reference (variables, targets, adding a new board or macro).
 
 
 ## Build Top
