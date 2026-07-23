@@ -55,5 +55,5 @@ MACROS:
         - dir::../../macros/counter/final/spef/nom/counter.nom.spef
     instances:
       counter_0:
-        location: [200, 50]
+        location: [100, 50]
         orientation: N
