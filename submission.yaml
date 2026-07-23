@@ -8,8 +8,12 @@ team-members:
 - Firstname Lastname
 - Firstname Lastname
 slot-size: small # small, large, tiny
-analog-pins: 0 # 0-3, only for small projects
+analog-pins: 0 # 0-3, only for small or tiny projects
 short-description: This is a super cool project!
+# Please add the documentation about your project here.
+# Why did you choose to create it? How does it work? How can it be tested, etc.?
+# If your project requires additional external hardware, e.g. a USB port,
+# please mention this so we can consider it when designing the HeiChips PCB.
 long-description: |
   Is this thing on?
   
