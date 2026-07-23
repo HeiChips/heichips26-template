@@ -98,6 +98,10 @@ Now you can create or open a layout and edit it.
 
 If you would like to do a digital-on-top design (the top-level is generated automatically), please use `macros/heichips26_digital_project/` as the starting point.
 
+1. First, enable a Nix shell using `nix-shell`.
+2. Export `PDK_ROOT` and `PDK`: `export PDK_ROOT=$(pwd)/IHP-Open-PDK && export PDK=ihp-sg13cmos5l`
+3. Change the path to one of the digital macro folders and follow the README there.
+
 > [!IMPORTANT]
 > You must rename `heichips26_digital_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
 > Make sure to update the top-level name throughout the repository.
