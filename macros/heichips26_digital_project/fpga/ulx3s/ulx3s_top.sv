@@ -1,90 +1,59 @@
-// SPDX-FileCopyrightText: © 2025 XXX Authors
+// SPDX-FileCopyrightText: © 2026 The HeiChips contributors
 // SPDX-License-Identifier: Apache-2.0
 
 `default_nettype none
 
+// Generic chip-IO breakout; see fpga/icebreaker for the reference.
+//   btn[1]   -> ui_in[0]      (FIRE1/F1 button, hold to enable counter)
+//   gp[7:1]  -> ui_in[7:1]    (J1 header inputs, pulled up)
+//   gn[7:0]  -> uio[7:0]      (J1 header, bidirectional)
+//   led[7:0] -> uo_out[7:0]   (onboard LEDs)
+// clk = raw 25 MHz, rst_n = btn[0] (active low).
 module ulx3s_top (
-    input clk_25mhz,
+    input logic clk_25mhz,
 
-    input  [6:0] btn,
-    output [7:0] led,
+    input  logic [6:0] btn,
+    output logic [7:0] led,
 
-    output logic [27:0] gn,
-    output logic [27:0] gp
+    input wire [7:0] gp,  // J1 header -> ui_in
+    inout wire [7:0] gn   // J1 header -> uio (bidirectional)
 );
-    logic reset_n;
-    assign reset_n = btn[0];
 
-    logic video_clk;
-
-    pll40m pll40m_i
-    (
-        .clkin      (clk_25mhz), // 25 MHz, 0 deg
-        .clkout0    (video_clk), // 40 MHz, 0 deg
-        .locked     ()
-    );
-    
-    logic [24-1:0] counter;
-    
-    always_ff @(posedge video_clk, negedge reset_n) begin
-        if (!reset_n) begin
-            counter <= '0;
-        end else begin
-            counter <= counter + 1;
-        end
-    end
-    
-    assign led[0] = counter[24-1];
-    assign led[1] = !counter[24-1];
-    
-    logic clk;
-    logic rst_n;
-    logic ena;
+    logic       clk;
+    logic       rst_n;
+    logic       ena;
     logic [7:0] ui_in;
     logic [7:0] uio_in;
     logic [7:0] uo_out;
     logic [7:0] uio_out;
     logic [7:0] uio_oe;
-    
-    heichips25_template heichips25_template (
-        .ui_in,
-        .uo_out,
-        .uio_in,
-        .uio_out,
-        .uio_oe,
-        .ena,
-        .clk,
-        .rst_n
+
+    heichips26_digital_project heichips26_digital_project (
+        .ui_in,    // Dedicated inputs
+        .uo_out,   // Dedicated outputs
+        .uio_in,   // IOs: Input path
+        .uio_out,  // IOs: Output path
+        .uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
+        .ena,      // enable - goes high when design is selected
+        .clk,      // clock
+        .rst_n     // not reset
     );
-    
-    // Assignments
-    
-    assign ena = 1'b1;
-    assign clk = video_clk;
-    assign rst_n = reset_n;
-    
-    assign ui_in = 8'b0;
-    assign uio_in = 8'b0;
-    
-    // Pinout for Tiny VGA
-    
-    wire [1:0] R;
-    wire [1:0] G;
-    wire [1:0] B;
-    wire hsync, vsync;
 
-    assign R[1] = uo_out[0];
-    assign G[1] = uo_out[1];
-    assign B[1] = uo_out[2];
-    assign vsync = uo_out[3];
-    assign R[0] = uo_out[4];
-    assign G[0] = uo_out[5];
-    assign B[0] = uo_out[6];
-    assign hsync = uo_out[7];
+    // Clock and reset
+    assign clk   = clk_25mhz;
+    assign ena   = 1'b1;
+    assign rst_n = btn[0];  // BTN_PWRn, active low
 
-    assign gn[21] = vsync; assign gp[21] = hsync;
-    assign gn[22] = B[1]; assign gp[22] = B[0];
-    assign gn[23] = G[1]; assign gp[23] = G[0];
-    assign gn[24] = R[1]; assign gp[24] = R[0];
+    // Inputs: FIRE1/F1 button -> ui_in[0] (counter enable), J1 gp[7:1] -> ui_in[7:1]
+    assign ui_in = {gp[7:1], btn[1]};
+
+    // Outputs: uo_out -> onboard LEDs
+    assign led = uo_out;
+
+    // Bidirectional: uio <-> J1 gn[7:0] (drive when uio_oe, else high-Z and read)
+    for (genvar i = 0; i < 8; i++) begin : gen_uio
+        assign gn[i] = uio_oe[i] ? uio_out[i] : 1'bz;
+    end
+    assign uio_in = gn;
 
 endmodule
