@@ -1,0 +1,19 @@
+# 12 MHz clock
+set_frequency  clk_i    12
+set_io         clk_i    35
+
+# S1 button, active low
+set_io -nowarn rst_ni  10
+
+# PMOD 1A pin 1
+set_io -nowarn enable_i    4
+
+# PMOD 2 (generic GPIO output)
+set_io count_o[0] 27
+set_io count_o[1] 25
+set_io count_o[2] 21
+set_io count_o[3] 19
+set_io count_o[4] 26
+set_io count_o[5] 23
+set_io count_o[6] 20
+set_io count_o[7] 18

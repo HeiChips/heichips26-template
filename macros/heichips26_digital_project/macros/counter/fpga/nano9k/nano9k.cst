@@ -1,0 +1,21 @@
+// CLK, 27 MHz
+IO_LOC "clk_i" 52;
+IO_PORT "clk_i" PULL_MODE=UP;
+
+// Reset, S1 button, active low
+IO_LOC "rst_ni" 4;
+IO_PORT "rst_ni" PULL_MODE=UP;
+
+// S2 button
+IO_LOC "enable_i" 3;
+IO_PORT "enable_i" PULL_MODE=UP;
+
+// PMOD 1 (generic GPIO output)
+IO_LOC "count_o[0]" 39;
+IO_LOC "count_o[1]" 36;
+IO_LOC "count_o[2]" 37;
+IO_LOC "count_o[3]" 38;
+IO_LOC "count_o[4]" 49;
+IO_LOC "count_o[5]" 48;
+IO_LOC "count_o[6]" 76;
+IO_LOC "count_o[7]" 77;
