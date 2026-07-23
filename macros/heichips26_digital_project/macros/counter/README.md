@@ -62,8 +62,25 @@
 │  │  ├─ pin_order.cfg
 │  │  └─ signoff.sdc
 ├─ 📁 fpga/
+│  ├─ 📁 basys3/
+│  │  ├─ basys3.xdc
+│  │  └─ Makefile
+│  ├─ 📁 boolean/
+│  │  ├─ boolean.xdc
+│  │  └─ Makefile
+│  ├─ 📁 icebreaker/
+│  │  ├─ icebreaker.pcf
+│  │  └─ Makefile
+│  ├─ 📁 nano9k/
+│  │  ├─ Makefile
+│  │  └─ nano9k.cst
+│  ├─ 📁 pico-ice/
+│  │  └─ Makefile
+│  ├─ 📁 ulx3s/
+│  │  ├─ Makefile
+│  │  └─ ulx3s.lpf
+│  ├─ dut.mk
 │  ├─ Makefile
-│  ├─ pico-ice.pcf
 │  └─ README.md
 ├─ 📁 netlist/
 │  ├─ 📁 nl/
