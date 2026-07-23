@@ -12,26 +12,16 @@ lvs_run_*
 *.bin
 *.hex
 
-ice40hx8k.json
-ice40hx8k.asc
-ice40hx8k.bit
-ice40hx8k-yosys.log
-
-icebreaker.json
-icebreaker.asc
-icebreaker.bit
-icebreaker-yosys.log
-
-ulx3s.json
-ulx3s.config
-ulx3s.bit
-ulx3s-yosys.log
-
-basys3.json
-basys3.fasm
-basys3.frames
-basys3.bit
-basys3-yosys.log
+**/fpga/*/*.json
+**/fpga/*/*.v
+**/fpga/*/*.asc
+**/fpga/*/*.config
+**/fpga/*/*.frames
+**/fpga/*/*.fasm
+**/fpga/*/*.fs
+**/fpga/*/*.bit
+**/fpga/*/*.svg
+**/fpga/*/*.dot
 
 IHP-Open-PDK/
 **/flow/final/
