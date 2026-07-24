@@ -12,16 +12,16 @@ lvs_run_*
 *.bin
 *.hex
 
-**/fpga/*/*.json
-**/fpga/*/*.v
-**/fpga/*/*.asc
-**/fpga/*/*.config
-**/fpga/*/*.frames
-**/fpga/*/*.fasm
-**/fpga/*/*.fs
-**/fpga/*/*.bit
-**/fpga/*/*.svg
-**/fpga/*/*.dot
+**/fpga/**/*.json
+**/fpga/**/*.v
+**/fpga/**/*.asc
+**/fpga/**/*.config
+**/fpga/**/*.frames
+**/fpga/**/*.fasm
+**/fpga/**/*.fs
+**/fpga/**/*.bit
+**/fpga/**/*.svg
+**/fpga/**/*.dot
 
 IHP-Open-PDK/
 **/flow/final/
