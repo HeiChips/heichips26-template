@@ -21,7 +21,6 @@ PNR_DEPS ?= $(CHIPDB)
 PNR_OUT  ?= $(TOP).frames
 PNR_CMD  ?= nextpnr-xilinx --chipdb $(CHIPDB) --xdc $(PCF_FILE) --json $(TOP).json --fasm $(TOP).fasm; \
 	fasm2frames --part $(PART) --db-root $${PRJXRAY_DB_DIR}/$(XRAY_FAMILY) $(TOP).fasm > $(PNR_OUT)
-PNR_GUI_CMD ?= echo "pr-gui: nextpnr-xilinx has no GUI mode" && false
 
 BITSTREAM ?= $(TOP).bit
 PACK_CMD  ?= xc7frames2bit --part_file $${PRJXRAY_DB_DIR}/$(XRAY_FAMILY)/$(PART)/part.yaml --part_name $(PART) --frm_file $(PNR_OUT) --output_file $(BITSTREAM)

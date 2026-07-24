@@ -12,7 +12,6 @@ ICE40_DEVICE ?= --up5k --package sg48
 PNR_ARGS    ?= $(ICE40_DEVICE) --pcf-allow-unconstrained
 PNR_OUT     ?= $(TOP).asc
 PNR_CMD     ?= nextpnr-ice40 $(PNR_ARGS) --json $(TOP).json --pcf $(PCF_FILE) --asc $(PNR_OUT)
-PNR_GUI_CMD ?= nextpnr-ice40 $(PNR_ARGS) --json $(TOP).json --asc $(PNR_OUT) --gui
 
 BITSTREAM ?= $(TOP).bin
 PACK_CMD  ?= icepack $(PNR_OUT) $(BITSTREAM)

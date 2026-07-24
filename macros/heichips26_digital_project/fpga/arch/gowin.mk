@@ -11,7 +11,6 @@ GOWIN_FAMILY ?= GW1N-9C
 
 PNR_OUT     ?= $(TOP)_pnr.json
 PNR_CMD     ?= nextpnr-himbaechel --json $(TOP).json --write $(PNR_OUT) --device $(GOWIN_DEVICE) --vopt family=$(GOWIN_FAMILY) --vopt cst=$(PCF_FILE)
-PNR_GUI_CMD ?= $(PNR_CMD) --gui
 
 BITSTREAM ?= $(TOP).fs
 PACK_CMD  ?= gowin_pack -d $(GOWIN_FAMILY) -o $(BITSTREAM) $(PNR_OUT)
