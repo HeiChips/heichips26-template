@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
-# Board: Basys 3 (Xilinx Artix-7 xc7a35tcpg236-1). Hardware
-# flash-verified — see ../../README.md and ../../arch/xilinx7.mk.
+# Board: Basys 3 (Xilinx Artix-7 xc7a35tcpg236-1).
+# See ../../README.md and ../../arch/xilinx7.mk.
 
 TOP := basys3_top
 
