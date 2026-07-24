@@ -3,6 +3,8 @@
 
 # RTL of the macro under test, shared by all boards.
 
+TOP_FPGA_DIR := ../../../../fpga
+
 SRC_DIR := ../../rtl
 
 DUT_SRCS := \
