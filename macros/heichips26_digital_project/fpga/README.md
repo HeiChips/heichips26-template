@@ -97,7 +97,7 @@ include ../../../../fpga/fpga.mk
 | `TARGET`, `SYNTH_OPTS` | mandatory | Yosys synth pass and its options |
 | `SYNTH_CMD` | optional | Complete synthesis command, replacing `TARGET`/`SYNTH_OPTS`, for a synth pass that doesn't fit the `$(TARGET) $(SYNTH_OPTS) -top $(TOP)` shape (e.g. `synth_xilinx`) |
 | `PNR_CMD`, `PNR_OUT` | mandatory | Place-and-route command and its output file |
-| `PNR_ARGS`, `PNR_GUI_CMD`, `PNR_DEPS` | optional | PnR flags, GUI variant, and extra prerequisites (e.g. a generated chipdb) |
+| `PNR_ARGS`, `PNR_DEPS` | optional | PnR flags, and extra prerequisites (e.g. a generated chipdb) |
 | `PACK_CMD`, `BITSTREAM` | mandatory | Bitstream packing command and output file |
 | `EXTRA_CLEAN` | optional | Extra generated files for `clean` to remove |
 
@@ -210,12 +210,6 @@ Run place-and-route with nextpnr:
 
 ```sh
 make pr
-```
-
-Run place-and-route in GUI mode:
-
-```sh
-make pr-gui
 ```
 
 
