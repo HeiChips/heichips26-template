@@ -13,12 +13,12 @@ in a `<board>_top.sv` that maps board pins to the TinyTapeout-style
 
 | Board       | Directory       | Toolchain                              | Status                     |
 |-------------|-----------------|-----------------------------------------|----------------------------|
-| iCEBreaker  | `fpga/icebreaker/` | Yosys → nextpnr-ice40 → icepack      | Build verified, flash untested |
-| ULX3S       | `fpga/ulx3s/`   | Yosys → nextpnr-ecp5 → ecppack          | Tested, hardware flash-verified, default |
-| Tang Nano 9K| `fpga/nano9k/`  | Yosys → nextpnr-himbaechel → gowin_pack | Build verified, flash untested |
-| Basys 3     | `fpga/basys3/`  | Yosys → nextpnr-xilinx → prjxray (`nix-openxc7`) | Tested, hardware flash-verified |
-| Boolean     | `fpga/boolean/` | Yosys → nextpnr-xilinx → prjxray (`nix-openxc7`) | Build verified, flash untested |
-| pico-ice    | `fpga/pico-ice/` | Yosys → nextpnr-ice40 → icepack         | Build verified, flash untested |
+| iCEBreaker  | `fpga/design/icebreaker/` | Yosys → nextpnr-ice40 → icepack      | Build verified, flash untested |
+| ULX3S       | `fpga/design/ulx3s/`   | Yosys → nextpnr-ecp5 → ecppack          | Tested, hardware flash-verified, default |
+| Tang Nano 9K| `fpga/design/nano9k/`  | Yosys → nextpnr-himbaechel → gowin_pack | Build verified, flash untested |
+| Basys 3     | `fpga/design/basys3/`  | Yosys → nextpnr-xilinx → prjxray (`nix-openxc7`) | Tested, hardware flash-verified |
+| Boolean     | `fpga/design/boolean/` | Yosys → nextpnr-xilinx → prjxray (`nix-openxc7`) | Build verified, flash untested |
+| pico-ice    | `fpga/design/pico-ice/` | Yosys → nextpnr-ice40 → icepack         | Build verified, flash untested |
 
 All boards need `verilator` and `yosys`; the iCE40/ECP5/Gowin boards additionally need
 `nextpnr-ice40`/`nextpnr-ecp5`/`nextpnr-himbaechel`, `icepack`/`ecppack`/
@@ -31,7 +31,7 @@ which come from a **separate** nix shell vendored at the repo root
 nix develop ../../../nix-openxc7
 ```
 
-Once inside, they build like any other board (`make -C basys3 all`, etc.).
+Once inside, they build like any other board (`make -C design/basys3 all`, etc.).
 
 ## Shared flow: `fpga.mk`
 
@@ -108,10 +108,11 @@ override anything.
 
 - Create `boards/<board>.mk`, setting `ARCH` and the device, package, and
   flash variables above.
-- Create the board directory: its `Makefile` (`include ../dut.mk`, `TOP`,
-  `MODULES_SYNTH`, and `PCF_FILE`, then the two remaining `include`s), the
-  pin constraint file it names, and a `<board>_top.sv` wrapper mapping
-  board pins to the TinyTapeout-style interface.
+- Create the board directory under `design/`: its `Makefile`
+  (`include ../../dut.mk`, `TOP`, `MODULES_SYNTH`, and `PCF_FILE`, then the
+  two remaining `include`s), the pin constraint file it names, and a
+  `<board>_top.sv` wrapper mapping board pins to the TinyTapeout-style
+  interface.
 - If the board's FPGA family is new, also create `arch/<arch>.mk` with that
   family's synthesis, place-and-route, and packing toolchain.
 
@@ -120,12 +121,12 @@ override anything.
 ## Picking a board
 
 `fpga/Makefile` is a thin dispatcher — it forwards every target to
-`fpga/$(BOARD)/Makefile`, defaulting to `BOARD := ulx3s`:
+`fpga/design/$(BOARD)/Makefile`, defaulting to `BOARD := ulx3s`:
 
 ```make
 BOARD ?= ulx3s
 %:
-	$(MAKE) -C $(BOARD) $@
+	$(MAKE) -C design/$(BOARD) $@
 ```
 
 So from `fpga/` you can either run the default board directly...
@@ -139,13 +140,13 @@ both are equivalent:
 
 ```sh
 make BOARD=icebreaker all
-make -C icebreaker all
+make -C design/icebreaker all
 ```
 
 `heichips26_digital_project` instantiates the `counter` macro directly, so
 each board's `MODULES_SYNTH` pulls in
-`../../macros/counter/rtl/counter.sv` alongside
-`../../rtl/heichips26_digital_project.sv` — FPGA synthesis needs the full RTL
+`../../../macros/counter/rtl/counter.sv` alongside
+`../../../rtl/heichips26_digital_project.sv` — FPGA synthesis needs the full RTL
 hierarchy, unlike the ASIC LibreLane flow, which blackboxes `counter` as a
 separately hardened macro.
 

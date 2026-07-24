@@ -24,10 +24,11 @@ make BOARD=icebreaker all
 | Boolean     | `boolean/`    | Build verified, flash untested (needs `nix-openxc7`) |
 
 Each board's constraint file maps `counter`'s native ports onto pins
-already used by its top-level flow (`../../../../fpga/<board>/`) — same
-physical pins, different net names. `pico-ice/` is the exception: its
-`PCF_FILE` points straight at `../../../../fpga/pico-ice/pico-ice.pcf`
-(shared, not copied), since that file already used these names.
+already used by its top-level flow (`../../../../fpga/design/<board>/`) —
+same physical pins, different net names. `pico-ice/` is the exception: its
+`PCF_FILE` points straight at
+`../../../../fpga/design/pico-ice/pico-ice.pcf` (shared, not copied),
+since that file already used these names.
 
 > [!NOTE]
 > On Basys 3 and Boolean, `rst_ni`/`enable_i` are `sw[0]`/`sw[1]`

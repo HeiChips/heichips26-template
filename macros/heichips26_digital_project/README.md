@@ -383,7 +383,7 @@ To run the full top-level flow (lint → synthesis → place-and-route → bitst
 make build-fpga
 ```
 
-This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (or `macros/counter/fpga/` for the macro-level flow, or e.g. `fpga/icebreaker/` for another board):
+This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (or `macros/counter/fpga/` for the macro-level flow, or e.g. `fpga/design/icebreaker/` for another board):
 
 ```sh
 make -C fpga synthesis       # Yosys ECP5 synthesis
