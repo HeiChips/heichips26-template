@@ -89,10 +89,6 @@ pr: $(PNR_OUT) ## Run place-and-route
 $(PNR_OUT): $(TOP).json $(PCF_FILE) $(PNR_DEPS)
 	$(PNR_CMD)
 
-pr-gui: $(TOP).json ## Run place-and-route in GUI mode
-	$(PNR_GUI_CMD)
-.PHONY: pr-gui
-
 gen_bitstream: $(BITSTREAM) ## Generate FPGA bitstream
 .PHONY: gen_bitstream
 
