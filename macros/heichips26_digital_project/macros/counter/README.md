@@ -364,7 +364,7 @@ make build-fpga
 This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (or e.g. `fpga/icebreaker/` for another board):
 
 ```sh
-make -C fpga synthesis       # Yosys ECP5 synthesis
+make -C fpga synthesis
 make -C fpga pr              # nextpnr place-and-route
 make -C fpga gen_bitstream   # ecppack → .bit
 make -C fpga flash_bitstream # flash via openFPGALoader
