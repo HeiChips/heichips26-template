@@ -11,5 +11,5 @@ MODULES_SYNTH := $(DUT_SRCS)
 
 PCF_FILE := icebreaker.pcf
 
-include ../../../../fpga/boards/icebreaker.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/icebreaker.mk
+include $(TOP_FPGA_DIR)/fpga.mk

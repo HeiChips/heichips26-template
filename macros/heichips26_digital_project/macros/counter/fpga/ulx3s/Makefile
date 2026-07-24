@@ -11,5 +11,5 @@ MODULES_SYNTH := $(DUT_SRCS)
 
 PCF_FILE := ulx3s.lpf
 
-include ../../../../fpga/boards/ulx3s.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/ulx3s.mk
+include $(TOP_FPGA_DIR)/fpga.mk

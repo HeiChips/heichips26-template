@@ -14,5 +14,5 @@ MODULES_SYNTH := $(DUT_SRCS)
 
 PCF_FILE := boolean.xdc
 
-include ../../../../fpga/boards/boolean.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/boolean.mk
+include $(TOP_FPGA_DIR)/fpga.mk

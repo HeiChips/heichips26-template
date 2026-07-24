@@ -11,5 +11,5 @@ MODULES_SYNTH := $(DUT_SRCS)
 
 PCF_FILE := nano9k.cst
 
-include ../../../../fpga/boards/nano9k.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/nano9k.mk
+include $(TOP_FPGA_DIR)/fpga.mk

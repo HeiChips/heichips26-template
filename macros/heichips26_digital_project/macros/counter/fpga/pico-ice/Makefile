@@ -11,7 +11,7 @@ TOP := counter
 include ../dut.mk
 MODULES_SYNTH := $(DUT_SRCS)
 
-PCF_FILE := ../../../../fpga/pico-ice/pico-ice.pcf
+PCF_FILE := $(TOP_FPGA_DIR)/design/pico-ice/pico-ice.pcf
 
-include ../../../../fpga/boards/pico-ice.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/pico-ice.mk
+include $(TOP_FPGA_DIR)/fpga.mk

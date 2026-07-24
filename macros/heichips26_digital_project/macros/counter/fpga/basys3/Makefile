@@ -13,5 +13,5 @@ MODULES_SYNTH := $(DUT_SRCS)
 
 PCF_FILE := basys3.xdc
 
-include ../../../../fpga/boards/basys3.mk
-include ../../../../fpga/fpga.mk
+include $(TOP_FPGA_DIR)/boards/basys3.mk
+include $(TOP_FPGA_DIR)/fpga.mk
