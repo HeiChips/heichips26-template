@@ -12,10 +12,10 @@
 # https://digilent.com/reference/pmod/start
 
 # Signals used by the default firmware
-set_io -nowarn clock_i          35
+set_io -nowarn clk_i          35
 
 # ice push_button. active low!
-set_io -nowarn reset_n_i        10
+set_io -nowarn rst_ni        10
 set_io -nowarn enable_i         15
 # set_io -nowarn FREE           37
 # set_io -nowarn FREE           14
@@ -37,11 +37,11 @@ set_io -nowarn enable_i         15
 # set_io gpio_in[7] 42
 
 # gpio outputs on bottom left pmod
-set_io counter_value_o[0] 45
-set_io counter_value_o[1] 47
-set_io counter_value_o[2] 2
-set_io counter_value_o[3] 4
-set_io counter_value_o[4] 44
-set_io counter_value_o[5] 46
-set_io counter_value_o[6] 48
-set_io counter_value_o[7] 3
+set_io count_o[0] 45
+set_io count_o[1] 47
+set_io count_o[2] 2
+set_io count_o[3] 4
+set_io count_o[4] 44
+set_io count_o[5] 46
+set_io count_o[6] 48
+set_io count_o[7] 3

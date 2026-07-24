@@ -62,8 +62,25 @@
 │  │  ├─ pin_order.cfg
 │  │  └─ signoff.sdc
 ├─ 📁 fpga/
+│  ├─ 📁 basys3/
+│  │  ├─ basys3.xdc
+│  │  └─ Makefile
+│  ├─ 📁 boolean/
+│  │  ├─ boolean.xdc
+│  │  └─ Makefile
+│  ├─ 📁 icebreaker/
+│  │  ├─ icebreaker.pcf
+│  │  └─ Makefile
+│  ├─ 📁 nano9k/
+│  │  ├─ Makefile
+│  │  └─ nano9k.cst
+│  ├─ 📁 pico-ice/
+│  │  └─ Makefile
+│  ├─ 📁 ulx3s/
+│  │  ├─ Makefile
+│  │  └─ ulx3s.lpf
+│  ├─ dut.mk
 │  ├─ Makefile
-│  ├─ pico-ice.pcf
 │  └─ README.md
 ├─ 📁 netlist/
 │  ├─ 📁 nl/
@@ -139,8 +156,7 @@ make lint-verilog CELL=counter   # lint the standalone counter cell
 make lint-verilog-all            # lint counter and counter in sequence
 ```
 
-When `CELL=counter` (the default), all synthesis sources (`constants.sv`, `counter.sv`, `counter.sv`) are passed to Verilator.
-For a single cell, `constants.sv` is always included first so the shared `` `COUNTER_MAX_DEFAULT `` and `` `CLK_FREQ_DEFAULT `` macros are in scope.
+When `CELL=counter` (the default), all synthesis sources are passed to Verilator.
 
 The `lint-verilog-all` target runs these lint checks in sequence:
 
@@ -165,7 +181,6 @@ The waveform viewer can be changed with `WAVEFORM_VIEWER=<gtkwave|surfer>` (defa
 
 Compiles the RTL with Icarus Verilog and runs the simulation.
 When `CELL=counter` (the default), the full `MODULES_SIM` source list and the `.sv` testbench are selected automatically.
-For non-top cells, `constants.sv` is included first (so the shared `` `COUNTER_MAX_DEFAULT `` / `` `CLK_FREQ_DEFAULT `` macros are in scope) and the RTL source is auto-selected as `rtl/<CELL>.sv` when present, otherwise `rtl/<CELL>.v`.
 The waveform is written to `testbenches/verilog/` (e.g. `testbenches/verilog/counter_tb.vcd`):
 
 ```sh
@@ -333,7 +348,10 @@ This only works if the required final views exist in `flow/final/spice/`, `flow/
 
 ## Build FPGA
 
-The FPGA flow targets a [pico-ice](https://pico-ice.tinyvision.ai/) board (iCE40 UP5K, sg48 package) and uses the open-source iCE40 toolchain: Yosys → nextpnr → icepack.
+The FPGA flow emulates `counter` standalone (native `clk_i`/`rst_ni`/`enable_i`/`count_o` ports, no chip-level wrapper) and targets a [ULX3S](https://radiona.org/ulx3s/) board by default (ECP5, Yosys → nextpnr-ecp5 → ecppack), flashed with `openFPGALoader`.
+ It shares its recipe logic (`fpga.mk`) with the top-level chip flow in `../../fpga/`.
+`fpga/` is a thin dispatcher — it forwards every target to `<board>/Makefile`, defaulting to `BOARD := ulx3s`.
+ Other supported boards are iCEBreaker, Tang Nano 9K, pico-ice, and, via the separate `nix-openxc7` Xilinx toolchain vendored at the repo root, Basys 3/Boolean — see `fpga/README.md` for the full board matrix.
 
 To run the full flow (lint → synthesis → place-and-route → bitstream), run:
 
@@ -341,19 +359,20 @@ To run the full flow (lint → synthesis → place-and-route → bitstream), run
 make build-fpga
 ```
 
-This invokes `make -C fpga all`. Individual steps can also be run from `fpga/`:
+This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (or e.g. `fpga/icebreaker/` for another board):
 
 ```sh
-make -C fpga synthesis       # Yosys iCE40 synthesis
+make -C fpga synthesis
 make -C fpga pr              # nextpnr place-and-route
-make -C fpga gen_bitstream   # icepack → .bin
-make -C fpga flash_bitstream # flash via dfu-util
+make -C fpga gen_bitstream   # ecppack → .bit
+make -C fpga flash_bitstream # flash via openFPGALoader
 ```
 
 > [!NOTE]
-> Flashing uses `dfu-util`, not `iceprog`. Both flash iCE40 bitstreams, but they target different interfaces:
-> - **`iceprog`** speaks directly over SPI via an FTDI USB bridge (iCEstick, iCEBreaker, …).
-> - **`dfu-util`** uses the USB DFU standard — the pico-ice's RP2040 co-processor acts as the DFU bootloader and forwards the bitstream to the iCE40 flash. `iceprog` does not work on this board.
+> Flashing differs per board/toolchain — each Makefile sets `FLASH_CMD` accordingly.
+The default ULX3S flow and most other boards use `openFPGALoader`; pico-ice uses `dfu-util` instead, since its RP2040 co-processor acts as a USB DFU bootloader that `openFPGALoader`/`iceprog` don't speak to directly.
+
+See `../../fpga/README.md` for the full shared-flow reference (variables, targets, adding a new board).
 
 
 ## Build Top
