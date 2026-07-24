@@ -9,4 +9,4 @@ BOARD ?= ulx3s
 .DEFAULT_GOAL := help
 
 %:
-	$(MAKE) -C $(BOARD) $@
+	$(MAKE) -C design/$(BOARD) $@
