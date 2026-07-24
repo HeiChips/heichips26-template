@@ -177,8 +177,7 @@ make lint-verilog CELL=heichips26_digital_project   # lint the standalone heichi
 make lint-verilog-all            # lint heichips26_digital_project and heichips26_digital_project in sequence
 ```
 
-When `CELL=heichips26_digital_project` (the default), all synthesis sources (`constants.sv`, `heichips26_digital_project.sv`, `heichips26_digital_project.sv`) are passed to Verilator.
-For a single cell, `constants.sv` is always included first so the shared `` `COUNTER_MAX_DEFAULT `` and `` `CLK_FREQ_DEFAULT `` macros are in scope.
+When `CELL=heichips26_digital_project` (the default), all synthesis sources are passed to Verilator.
 
 The `lint-verilog-all` target runs these lint checks in sequence:
 
@@ -203,7 +202,6 @@ The waveform viewer can be changed with `WAVEFORM_VIEWER=<gtkwave|surfer>` (defa
 
 Compiles the RTL with Icarus Verilog and runs the simulation.
 When `CELL=heichips26_digital_project` (the default), the full `MODULES_SIM` source list and the `.sv` testbench are selected automatically.
-For non-top cells, `constants.sv` is included first (so the shared `` `COUNTER_MAX_DEFAULT `` / `` `CLK_FREQ_DEFAULT `` macros are in scope) and the RTL source is auto-selected as `rtl/<CELL>.sv` when present, otherwise `rtl/<CELL>.v`.
 The waveform is written to `testbenches/verilog/` (e.g. `testbenches/verilog/heichips26_digital_project_tb.vcd`):
 
 ```sh

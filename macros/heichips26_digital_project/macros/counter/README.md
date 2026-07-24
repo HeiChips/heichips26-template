@@ -156,8 +156,7 @@ make lint-verilog CELL=counter   # lint the standalone counter cell
 make lint-verilog-all            # lint counter and counter in sequence
 ```
 
-When `CELL=counter` (the default), all synthesis sources (`constants.sv`, `counter.sv`, `counter.sv`) are passed to Verilator.
-For a single cell, `constants.sv` is always included first so the shared `` `COUNTER_MAX_DEFAULT `` and `` `CLK_FREQ_DEFAULT `` macros are in scope.
+When `CELL=counter` (the default), all synthesis sources are passed to Verilator.
 
 The `lint-verilog-all` target runs these lint checks in sequence:
 
@@ -182,7 +181,6 @@ The waveform viewer can be changed with `WAVEFORM_VIEWER=<gtkwave|surfer>` (defa
 
 Compiles the RTL with Icarus Verilog and runs the simulation.
 When `CELL=counter` (the default), the full `MODULES_SIM` source list and the `.sv` testbench are selected automatically.
-For non-top cells, `constants.sv` is included first (so the shared `` `COUNTER_MAX_DEFAULT `` / `` `CLK_FREQ_DEFAULT `` macros are in scope) and the RTL source is auto-selected as `rtl/<CELL>.sv` when present, otherwise `rtl/<CELL>.v`.
 The waveform is written to `testbenches/verilog/` (e.g. `testbenches/verilog/counter_tb.vcd`):
 
 ```sh
