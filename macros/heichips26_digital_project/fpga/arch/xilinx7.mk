@@ -24,6 +24,7 @@ PNR_CMD  ?= nextpnr-xilinx --chipdb $(CHIPDB) --xdc $(PCF_FILE) --json $(TOP).js
 
 BITSTREAM ?= $(TOP).bit
 PACK_CMD  ?= xc7frames2bit --part_file $${PRJXRAY_DB_DIR}/$(XRAY_FAMILY)/$(PART)/part.yaml --part_name $(PART) --frm_file $(PNR_OUT) --output_file $(BITSTREAM)
-FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(OPENFPGALOADER_FLAGS) $(BITSTREAM)
+LOAD_CMD  ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(OPENFPGALOADER_FLAGS) $(BITSTREAM)
+FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(OPENFPGALOADER_FLAGS) --write-flash $(BITSTREAM)
 
 EXTRA_CLEAN ?= $(TOP).fasm

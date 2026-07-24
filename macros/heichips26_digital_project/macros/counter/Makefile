@@ -214,6 +214,14 @@ build-fpga: ## Build target for FPGA usage
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
 
+load-fpga: ## Load FPGA bitstream into SRAM
+	@$(MAKE) -C fpga load_bitstream
+.PHONY: load-fpga
+
+flash-fpga: ## Write FPGA bitstream to flash
+	@$(MAKE) -C fpga flash_bitstream
+.PHONY: flash-fpga
+
 build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, copy netlists)
 	$(MAKE) librelane
 	$(MAKE) copy-reports

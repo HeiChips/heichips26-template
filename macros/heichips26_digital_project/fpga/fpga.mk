@@ -95,7 +95,11 @@ gen_bitstream: $(BITSTREAM) ## Generate FPGA bitstream
 $(BITSTREAM): $(PNR_OUT)
 	$(PACK_CMD)
 
-flash_bitstream: $(BITSTREAM) ## Flash FPGA bitstream
+load_bitstream: $(BITSTREAM) ## Load FPGA bitstream into SRAM (lost on power cycle)
+	$(LOAD_CMD)
+.PHONY: load_bitstream
+
+flash_bitstream: $(BITSTREAM) ## Write FPGA bitstream to flash (persistent)
 	$(FLASH_CMD)
 .PHONY: flash_bitstream
 # ================================================================================================

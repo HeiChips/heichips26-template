@@ -365,11 +365,12 @@ This invokes `make -C fpga all`. Individual steps can also be run from `fpga/` (
 make -C fpga synthesis
 make -C fpga pr              # nextpnr place-and-route
 make -C fpga gen_bitstream   # ecppack → .bit
-make -C fpga flash_bitstream # flash via openFPGALoader
+make -C fpga load_bitstream  # load into SRAM via openFPGALoader
+make -C fpga flash_bitstream # optional: write to flash instead, to survive a power cycle
 ```
 
 > [!NOTE]
-> Flashing differs per board/toolchain — each Makefile sets `FLASH_CMD` accordingly.
+> Loading and flashing differ per board/toolchain — each Makefile sets `LOAD_CMD`/`FLASH_CMD` accordingly.
 The default ULX3S flow and most other boards use `openFPGALoader`; pico-ice uses `dfu-util` instead, since its RP2040 co-processor acts as a USB DFU bootloader that `openFPGALoader`/`iceprog` don't speak to directly.
 
 See `../../fpga/README.md` for the full shared-flow reference (variables, targets, adding a new board).
