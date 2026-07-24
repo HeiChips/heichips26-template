@@ -6,4 +6,5 @@ ICE40_DEVICE := --up5k --package sg48
 
 # openFPGALoader has no dedicated iCEBreaker board profile.
 # Must be `=`, not `:=`, since BITSTREAM is only defined later, by fpga.mk.
-FLASH_CMD = iceprog -S $(BITSTREAM)
+LOAD_CMD  = iceprog -S $(BITSTREAM)
+FLASH_CMD = iceprog $(BITSTREAM)

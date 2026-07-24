@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 # Lattice iCE40: Yosys (synth_ice40) -> nextpnr-ice40 -> icepack.
-# FLASH_CMD is per-board: iCE40 boards differ in programmer (iceprog, dfu-util).
+# LOAD_CMD/FLASH_CMD are per-board: iCE40 boards differ in programmer (iceprog, dfu-util).
 
 TARGET     ?= synth_ice40
 SYNTH_OPTS ?= -dsp -spram

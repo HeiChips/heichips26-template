@@ -86,9 +86,10 @@ include ../../../../fpga/fpga.mk
 | `ARCH` | mandatory | Selects the `arch/<arch>.mk` fragment |
 | `ICE40_DEVICE`, `ECP5_DEVICE`, `GOWIN_DEVICE`/`GOWIN_FAMILY`, `PART` | mandatory | Device and package, whichever the board's arch uses |
 | `CHIPDB`, `XRAY_FAMILY` | mandatory | `xilinx7` only |
-| `OPENFPGALOADER_BOARD` | mandatory | openFPGALoader board profile, unless `FLASH_CMD` is set instead |
+| `OPENFPGALOADER_BOARD` | mandatory | openFPGALoader board profile, unless `LOAD_CMD`/`FLASH_CMD` are set instead |
 | `OPENFPGALOADER_FLAGS` | optional | Extra openFPGALoader flags |
-| `FLASH_CMD` | optional | Complete flash command, replacing the openFPGALoader default, for boards it has no profile for |
+| `LOAD_CMD` | optional | Complete SRAM load command, replacing the openFPGALoader default, for boards it has no profile for |
+| `FLASH_CMD` | optional | Complete flash write command, replacing the openFPGALoader default, for boards it has no profile for |
 
 ### Set by `arch/<arch>.mk`
 
@@ -222,20 +223,20 @@ Generate a bitstream:
 make gen_bitstream
 ```
 
-Flash the generated bitstream:
+Load or flash the generated bitstream:
 
 ```sh
-make flash_bitstream
+make load_bitstream    # into SRAM, lost on power cycle
+make flash_bitstream   # into the board's flash, survives a power cycle (useful for e.g. demo showcases)
 ```
 
 > [!NOTE]
-> `flash_bitstream` is intentionally not part of `make all`.
-> Use `make flash_bitstream` explicitly when you want to program the FPGA.
-> Each board's Makefile sets `FLASH_CMD` to whatever that board needs:
-> `openFPGALoader` for most boards, `iceprog -S` for the iCEBreaker
-> (SRAM load — `openFPGALoader` has no dedicated iCEBreaker board
-> profile), and `dfu-util` for the pico-ice, which has no
-> `openFPGALoader` profile either.
+> Neither target is part of `make all`, by design.
+> Use them explicitly when you want to program the FPGA.
+> Each board's Makefile sets `LOAD_CMD`/`FLASH_CMD` to whatever that board
+> needs: `openFPGALoader` for most boards, `iceprog` for the iCEBreaker
+> (`openFPGALoader` has no dedicated iCEBreaker board profile), and
+> `dfu-util` for the pico-ice, which has no `openFPGALoader` profile either.
 
 
 ## Convert to Verilog
@@ -268,4 +269,4 @@ build.
 
 > [!NOTE]
 > `make all` intentionally stops after bitstream generation and does not
-> call `flash_bitstream`.
+> call `load_bitstream` or `flash_bitstream`.

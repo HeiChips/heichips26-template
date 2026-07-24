@@ -215,7 +215,11 @@ build-fpga: ## Build FPGA bitstream (usage: make build-fpga [BOARD=ulx3s])
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
 
-flash-fpga: ## Flash FPGA bitstream (usage: make flash-fpga [BOARD=ulx3s])
+load-fpga: ## Load FPGA bitstream into SRAM (usage: make load-fpga [BOARD=ulx3s])
+	@$(MAKE) -C fpga load_bitstream
+.PHONY: load-fpga
+
+flash-fpga: ## Write FPGA bitstream to flash (usage: make flash-fpga [BOARD=ulx3s])
 	@$(MAKE) -C fpga flash_bitstream
 .PHONY: flash-fpga
 

@@ -14,4 +14,5 @@ PNR_CMD     ?= nextpnr-himbaechel --json $(TOP).json --write $(PNR_OUT) --device
 
 BITSTREAM ?= $(TOP).fs
 PACK_CMD  ?= gowin_pack -d $(GOWIN_FAMILY) -o $(BITSTREAM) $(PNR_OUT)
-FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(BITSTREAM)
+LOAD_CMD  ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(BITSTREAM)
+FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) --write-flash $(BITSTREAM)

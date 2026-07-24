@@ -14,4 +14,5 @@ PNR_CMD     ?= nextpnr-ecp5 $(PNR_ARGS) --json $(TOP).json --lpf $(PCF_FILE) --t
 
 BITSTREAM ?= $(TOP).bit
 PACK_CMD  ?= ecppack $(PNR_OUT) $(BITSTREAM) --compress
-FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(BITSTREAM)
+LOAD_CMD  ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) $(BITSTREAM)
+FLASH_CMD ?= openFPGALoader --board=$(OPENFPGALOADER_BOARD) --write-flash $(BITSTREAM)

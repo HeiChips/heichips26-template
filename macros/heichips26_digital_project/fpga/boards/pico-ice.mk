@@ -4,5 +4,7 @@
 ARCH         := ice40
 ICE40_DEVICE := --up5k --package sg48
 
+# DFU alt 0 is the SPI flash, alt 1 the FPGA's volatile configuration memory.
 # Must be `=`, not `:=`, since BITSTREAM is only defined later, by fpga.mk.
-FLASH_CMD = dfu-util --alt 0 --download $(BITSTREAM)
+LOAD_CMD  = dfu-util --alt 1 --download $(BITSTREAM)
+FLASH_CMD = dfu-util --alt 0 --download $(BITSTREAM) --reset
