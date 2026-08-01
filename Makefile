@@ -4,7 +4,7 @@ PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
 PDK ?= ihp-sg13cmos5l
 
 PDK_REPO_IHP_OPEN_PDK ?= https://github.com/iic-jku/IHP-Open-PDK.git
-PDK_COMMIT_IHP_OPEN_PDK ?= 41c0223649dc5a6ff4ecdb5159d976abf327de09
+PDK_COMMIT_IHP_OPEN_PDK ?= db70c13aa5dfe1dec1d286581fd1b9a2807ca331
 
 PDK_REPO_IHP_CMOS5L ?= https://github.com/iic-jku/ihp-sg13cmos5l.git
 PDK_COMMIT_IHP_CMOS5L ?= 92f153e80058215eca806942a4534256b5f02354
