@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 # Author: Simon Dorrer
 # Description: AC and DC plots for the inverter macro based on ngspice exports.
@@ -8,6 +8,7 @@
 # ============================================
 
 # Imports
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import ngspice2python as ng
@@ -16,8 +17,9 @@ from pathlib import Path
 
 # Plotting Configuration
 # ============================================
-# Enable interactive mode so plots do not block execution
-plt.ion()
+# Interactive mode stays off: the plt.show() at the end of main() then blocks in the GUI
+# event loop, which is what draws the windows in the first place. With plt.ion() the call
+# returns immediately and nothing pumps that loop afterwards, so no window ever appears.
 plt.close("all")
 
 # Matplotlib Settings
@@ -136,7 +138,7 @@ def main():
     axs[1].plot([f_cu], [phase_cu], **point_kw)
     axs[1].plot([f_T], [phase_T], **point_kw)
 
-    # Phase info box (lower-left corner — empty for an inverting stage
+    # Phase info box (lower-left corner, empty for an inverting stage
     # whose phase starts near 180 deg and falls with frequency)
     phase_text = '\n'.join((
         rf'$\angle A_\mathrm{{ol}}(f_\mathrm{{cu}}) = {phase_cu:.1f}^\circ$',
@@ -147,7 +149,6 @@ def main():
                 zorder=6)
 
     plt.tight_layout()
-    plt.show()
 
     # ------------------------------------------------------------------
     # 3. Export AC figures and CSV
@@ -199,7 +200,6 @@ def main():
     h2, l2 = ax2.get_legend_handles_labels()
     ax1.legend(h1 + h2, l1 + l2, loc='center left')
     plt.tight_layout()
-    plt.show()
 
     # ------------------------------------------------------------------
     # 6. Export DC figures and CSV
@@ -209,12 +209,17 @@ def main():
     np.savetxt(str(figures_dir / "inverter_tb_dc_vout.csv"),
                np.column_stack((vin, vout, gain)), comments="",
                header="vin,vout,dvout_dvin", delimiter=",")
+
+    # ------------------------------------------------------------------
+    # 7. Open the plot windows (blocks until they are closed)
+    # ------------------------------------------------------------------
+    # Only open the interactive window when requested (sim-view-xschem sets
+    # SHOW_PLOTS=1); batch/headless runs just save the figures and exit.
+    if os.environ.get("SHOW_PLOTS"):
+        plt.show()
     # =========================================================================
 
 # Main Execution
 if __name__ == '__main__':
     main()
-
-    # Keep plots open
-    input("\nPress Enter to close plots and exit...")
 # =========================================================================

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 # Author: Simon Dorrer
+# Description: Transient plots for the inverter top macro based on ngspice exports.
 # Created: 06.05.2026
 # Last Modified: 06.05.2026
-# Description: Transient plots for the inverter top macro based on ngspice exports.
 # ============================================
 
 # Imports
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import ngspice2python as ng
@@ -16,8 +17,9 @@ from pathlib import Path
 
 # Plotting Configuration
 # ============================================
-# Enable interactive mode so plots do not block execution
-plt.ion()
+# Interactive mode stays off: the plt.show() at the end of main() then blocks in the GUI
+# event loop, which is what draws the windows in the first place. With plt.ion() the call
+# returns immediately and nothing pumps that loop afterwards, so no window ever appears.
 plt.close("all")
 
 # Matplotlib Settings
@@ -78,7 +80,6 @@ def main():
     ax.grid(visible=True, which='major', linestyle='--', alpha=0.45)
     ax.legend(loc='best')
     plt.tight_layout()
-    plt.show()
 
     # ------------------------------------------------------------------
     # 3. Export transient figures and CSV
@@ -88,12 +89,17 @@ def main():
     np.savetxt(str(figures_dir / "inverter_top_tb_tran.csv"),
                np.column_stack((time_ms, vin, vout1, vout2, vout3, vout4)), comments="",
                header="time_ms,vin,vout1,vout2,vout3,vout4", delimiter=",")
+
+    # ------------------------------------------------------------------
+    # 4. Open the plot window (blocks until it is closed)
+    # ------------------------------------------------------------------
+    # Only open the interactive window when requested (sim-view-xschem sets
+    # SHOW_PLOTS=1); batch/headless runs just save the figures and exit.
+    if os.environ.get("SHOW_PLOTS"):
+        plt.show()
     # ============================================
 
 # Main Execution
 if __name__ == '__main__':
     main()
-
-    # Keep plots open
-    input("\nPress Enter to close plots and exit...")
 # =========================================================================
