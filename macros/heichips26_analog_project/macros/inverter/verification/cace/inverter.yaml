@@ -1,10 +1,13 @@
-﻿#--------------------------------------------------------------
+﻿# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+#
+#--------------------------------------------------------------
 # CACE circuit characterization file
 #--------------------------------------------------------------
 
 name:           inverter
-description:    Inverter macro for the ihp-sg13g2 chip template
-PDK:            ihp-sg13g2
+description:    Inverter macro for the ihp-sg13cmos5l chip template
+PDK:            ihp-sg13cmos5l
 
 cace_format:    5.2
 
@@ -60,10 +63,6 @@ default_conditions:
     description: Process corner resistor
     display: Corner R
     typical: typ
-  corner_c:
-    description: Process corner capacitor
-    display: Corner C
-    typical: typ
   temp:
     description: Ambient temperature
     display: Temperature
@@ -83,7 +82,7 @@ parameters:
         description: Small-signal open-loop gain at 10Hz
         unit: dB
         minimum:
-          value: 5
+          value: 3
         typical:
           value: any
         maximum:
@@ -169,8 +168,6 @@ parameters:
         # typical: tt
       corner_r:
         typical: typ
-      corner_c:
-        typical: typ
       temp:
         #minimum: 0
         typical: 27
@@ -187,7 +184,7 @@ parameters:
         description: Small-signal open-loop gain at 10Hz
         unit: dB
         minimum:
-          value: 5
+          value: 3
         typical:
           value: any
         maximum:
@@ -238,8 +235,6 @@ parameters:
         typical: tt_stat    # Process variation Monte Carlo
       corner_r:
         typical: stat
-      corner_c:
-        typical: typ_stat
       temp:
         #minimum: 0
         typical: 27
@@ -256,7 +251,7 @@ parameters:
         description: Small-signal open-loop gain at 10Hz
         unit: dB
         minimum:
-          value: 5
+          value: 3
         typical:
           value: any
         maximum:
@@ -309,8 +304,6 @@ parameters:
         # typical: ff_mismatch
         # typical: sf_mismatch
       corner_r:
-        typical: typ_mismatch
-      corner_c:
         typical: typ_mismatch
       temp:
         #minimum: 0

@@ -12,7 +12,7 @@ if { ![info exists env(PDK_ROOT)] } {
 
 # Set default PDK
 if { ![info exists env(PDK)] } {
-  set ::env(PDK) ihp-sg13g2
+  set ::env(PDK) ihp-sg13cmos5l
 }
 
 # Source the PDK xschemrc file
@@ -38,6 +38,11 @@ if {![llength [info commands append_xschem_library_path_unique]]} {
     }
   }
 }
+
+# The sg13cmos5l PDK xschemrc does not add its primitive-device library to the
+# search path (the sg13g2 one did), so bare symbol references like
+# sg13_lv_nmos.sym only resolve with this explicit append.
+append_xschem_library_path_unique $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/sg13cmos5l_pr
 
 # Add current directory to xschem library path
 append_xschem_library_path_unique [file dirname [info script]]

@@ -88,7 +88,6 @@ value="
 .lib cornerMOSlv.lib mos_CACE\{corner_mos\}
 .lib cornerMOShv.lib mos_CACE\{corner_mos\}
 .lib cornerRES.lib res_CACE\{corner_r\}
-.lib cornerCAP.lib cap_CACE\{corner_c\}
 "}
 C {inverter.sym} 440 -890 0 0 {name=x1}
 C {devices/vsource.sym} 320 -820 0 1 {name=vin spice_ignore=False value="dc CACE\{vcm\} ac 1"
