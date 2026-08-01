@@ -66,6 +66,7 @@ N 1120 -800 1120 -740 {lab=GND}
 C {devices/code_shown.sym} 60 -1450 0 0 {name=NGSPICE
 only_toplevel=true 
 value="
+.include ../../../netlist/pex/inverter_magic_pex_3.spice
 .param VDD=1.5
 .param Vcm=VDD/2
 .param temp=27
@@ -127,7 +128,7 @@ print PM
 unset appendwrite
 set wr_vecnames
 set wr_singlescale
-wrdata ../../../scripts/plot_simulations/data/@schname\\\\.txt v(Aol_dB) v(Aol_arg)
+wrdata ../plot_simulations/data/@schname\\\\.txt v(Aol_dB) v(Aol_arg)
 
 *quit
 .endc
@@ -150,9 +151,7 @@ format="tcleval( @value )"
 value="
 .lib cornerMOSlv.lib mos_tt
 .lib cornerMOShv.lib mos_tt
-.lib cornerHBT.lib hbt_typ
 .lib cornerRES.lib res_typ
-.lib cornerCAP.lib cap_typ
 .lib cornerDIO.lib dio_tt
 "}
 C {devices/vsource.sym} 1360 -1010 0 0 {name=VDD value=\{VDD\}}
@@ -183,5 +182,8 @@ m=1
 spice_ignore=true}
 C {devices/gnd.sym} 1260 -740 0 0 {name=l5 lab=GND}
 C {devices/gnd.sym} 1360 -740 0 0 {name=l6 lab=GND}
-C {inverter.sym} 1120 -840 0 0 {name=x1
-}
+C {inverter.sym} 1120 -840 0 0 {name=x1}
+C {inverter.sym} 1120 -1260 0 0 {name=x2
+spice_ignore=true}
+C {inverter_pex.sym} 1360 -1260 0 0 {name=x3
+spice_ignore=true}

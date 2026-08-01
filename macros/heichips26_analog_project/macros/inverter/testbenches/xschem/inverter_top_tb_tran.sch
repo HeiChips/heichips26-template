@@ -150,7 +150,7 @@ print vout_pp
 unset appendwrite
 set wr_vecnames
 set wr_singlescale
-wrdata ../../../scripts/plot_simulations/data/@schname\\\\.txt
+wrdata ../plot_simulations/data/@schname\\\\.txt
 + v(vin) v(vout1) v(vout2) v(vout3) v(vout4)
 
 *quit
@@ -182,9 +182,7 @@ format="tcleval( @value )"
 value="
 .lib cornerMOSlv.lib mos_tt
 .lib cornerMOShv.lib mos_tt
-.lib cornerHBT.lib hbt_typ
 .lib cornerRES.lib res_typ
-.lib cornerCAP.lib cap_typ
 .lib cornerDIO.lib dio_tt
 "}
 C {vdd.sym} 1000 -680 0 0 {name=l4 lab=VDD}

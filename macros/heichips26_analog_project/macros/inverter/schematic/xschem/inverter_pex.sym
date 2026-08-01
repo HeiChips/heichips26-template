@@ -1,6 +1,6 @@
 v {xschem version=3.4.8RC file_version=1.3}
 G {}
-K {type=subcircuit
+K {type=primitive
 format="@name @pinlist @symname"
 template="name=x1"
 }
