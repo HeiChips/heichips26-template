@@ -1,5 +1,6 @@
-# SPDX-FileCopyrightText: 2025 Leo Moser, 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+# Description: Render a GDS layout to an image.
 
 import os
 import argparse
@@ -22,26 +23,16 @@ def main(input_layout, output_image, width, height, oversampling, pdk_root, pdk)
     lv.load_layout(input_layout, 0)
     lv.max_hier()
 
-    top_cell = lv.active_cellview().layout().top_cell()
-    top_bbox = top_cell.dbbox()
-    aspect_ratio = top_bbox.width() / top_bbox.height()
-
-    if not height and not width:
-        width = 1024
-
-    if not height:
-        height = int(width / aspect_ratio)
-
     # Load the layer properties
     lv.load_layer_props(
-        os.path.join(pdk_root, pdk, "libs.tech", "klayout", "tech", "sg13g2.lyp")
+        os.path.join(pdk_root, pdk, "libs.tech", "klayout", "tech", "sg13cmos5l.lyp")
     )
 
     # Disable some layers
+    # sg13cmos5l metal stack: M1-M4-TM1 (no Metal5, TopMetal2, or MIM)
     enabled_layers = [
         (1, 0),      # Activ
         (31, 0),     # NWell
-        (32, 0),     # nBuLay
         (44, 0),     # ThickGateOx
         (5, 0),      # GatPoly
         (7, 0),      # nSD
@@ -55,13 +46,9 @@ def main(input_layout, output_image, width, height, oversampling, pdk_root, pdk)
         (30, 0),     # Metal3
         (49, 0),     # Via3
         (50, 0),     # Metal4
-        (66, 0),     # Via4
-        (67, 0),     # Metal5
         (125, 0),    # TopVia1
         (126, 0),    # TopMetal1
-        (133, 0),    # TopVia2
-        (134, 0),    # TopMetal2
-        # (134, 22), # TopMetal2 Filler
+        # (126, 22), # TopMetal1 Filler
         (9, 0),      # Passiv
     ]
     for lyp in lv.each_layer():
@@ -70,16 +57,42 @@ def main(input_layout, output_image, width, height, oversampling, pdk_root, pdk)
         if layer_datatype not in enabled_layers:
             lyp.visible = False
 
+    # Crop box: bounding box of the visible layers only (the outermost
+    # visible structure is the sealring). The full cell bounding box also
+    # covers invisible helper layers and would leave a border margin.
+    layout = lv.active_cellview().layout()
+    top_cell = layout.top_cell()
+    top_bbox = db.DBox()
+    for layer, datatype in enabled_layers:
+        layer_index = layout.find_layer(layer, datatype)
+        if layer_index is not None:
+            top_bbox += top_cell.dbbox(layer_index)
+    if top_bbox.empty():
+        top_bbox = top_cell.dbbox()
+    aspect_ratio = top_bbox.width() / top_bbox.height()
+
+    if not height and not width:
+        width = 1024
+
+    if not height:
+        height = max(1, round(width / aspect_ratio))
+
+    if not width:
+        width = max(1, round(height * aspect_ratio))
+
     # Save the images
     base_name = os.path.splitext(os.path.basename(output_image))[0]
     directory = os.path.dirname(output_image)
 
+    # target=top_bbox crops to the exact visible-layer bounding box, so the
+    # image has zero border margin
     lv.set_config("background-color", background_white)
     lv.save_image_with_options(
         os.path.join(directory, base_name + "_white.png"),
         width,
         height,
         oversampling=oversampling,
+        target=top_bbox,
     )
 
     lv.set_config("background-color", background_black)
@@ -88,13 +101,14 @@ def main(input_layout, output_image, width, height, oversampling, pdk_root, pdk)
         width,
         height,
         oversampling=oversampling,
+        target=top_bbox,
     )
 
 
 if __name__ == "__main__":
 
     pdk_root = os.getenv("PDK_ROOT", "IHP-Open-PDK")
-    pdk = os.getenv("PDK", "ihp-sg13g2")
+    pdk = os.getenv("PDK", "ihp-sg13cmos5l")
 
     parser = argparse.ArgumentParser(
         prog="lay2img", description="Convert a layout to an image."
