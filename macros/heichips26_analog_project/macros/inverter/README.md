@@ -290,6 +290,7 @@ The `verilog` target:
 - reads the `.subckt <TOP>_pex` pin list (including continuation lines)
 - emits recognized supply pins (`VDD`, `VSS`, `VPWR`, `VDPWR`, `VAPWR`, `VGND`, `VNB`, `VPB`) as `inout` under `` `ifdef USE_POWER_PINS ``
 - classifies signal pins by prefix: `di_*` as `input`, `do_*` as `output`, others as `inout`
+- collapses indexed pins (`name[i]`) into vector ports (e.g. `inout [7:0] ui_in`)
 
 ```sh
 make verilog
