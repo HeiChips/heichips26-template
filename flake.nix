@@ -87,6 +87,15 @@
                 matplotlib
               ]
               ++ (pkgs.lib.optionals (lib.meta.availableOn pkgs.stdenv.hostPlatform cocotb) [ cocotb ]);
+
+            # Point ngspice at config/.spiceinit (PDK model sourcepath + OSDI loads) for
+            # every run in this shell, including interactive ones started from xschem.
+            extra-env = [
+              {
+                name = "SPICE_USERINIT_DIR";
+                eval = "$PRJ_ROOT/config";
+              }
+            ];
           });
         }
       );
