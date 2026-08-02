@@ -46,6 +46,7 @@ EV_PRECISION ?= 5
 _GDS_EXT = $(if $(wildcard $(LAY_DIR)/$(CELL).gds),gds,klay.gds)
 
 # Folder structure
+MACROS_DIR      := macros
 XSCHEM_SCH_DIR  := schematic/xschem
 XSCHEM_TB_DIR   := testbenches/xschem
 LAY_DIR         := layout
@@ -117,7 +118,16 @@ sim-all: ## Simulate the macro
 # ================================================================================================
 
 
-# Build Target
+# Build Targets
+build-inverter: ## Verify, build and simulate the inverter macro
+	@$(MAKE) -C $(MACROS_DIR)/inverter all
+.PHONY: build-inverter
+
+build-macros: ## Verify, build and simulate all macros
+	$(MAKE) build-inverter
+#	ToDo: further macros
+.PHONY: build-macros
+
 build-top: ## Build TOP cell (Verilog, LEF, LIB, copy GDS, and render image)
 	$(MAKE) lef
 	$(MAKE) lib
@@ -177,8 +187,8 @@ verilog: ## Generate a Verilog stub of the TOP cell from Magic or KLayout PEX ne
 	fi; \
 	echo "Reading pins from $$pex_netlist..."; \
 	pex_pins=$$(awk '/^\.subckt $(TOP)_pex/{sub(/^\.subckt [^ ]+ /,"");p=$$0;next} p&&/^[+]/{sub(/^[+] */,"");p=p" "$$0;next} p{exit} END{print p}' "$$pex_netlist"); \
-	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
-	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
+	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
+	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
 	{ \
 		echo 'module $(TOP) ('; \
 		if [ -n "$$(echo $$power_pins | xargs)" ]; then \
@@ -354,7 +364,8 @@ magic-verify-all: ## Verify the top-level cell with Magic
 
 
 # Verify, Build and Simulate All Target
-all: ## Verify, build and simulate the TOP cell
+all: ## Verify, build and simulate the macros and the TOP cell
+	$(MAKE) build-macros
 	$(MAKE) klayout-verify-all
 	$(MAKE) magic-verify-all
 	$(MAKE) build-top

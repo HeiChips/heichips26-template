@@ -99,7 +99,7 @@ Exactly like `heichips26_digital_project` embeds the `counter` sub-macro, this p
 - **Top level (`heichips26_analog_project`)** — the hand-drawn submission macro. Its layout instantiates the `inverter` cells. Its Makefile verifies and builds the **top cell only** (`CELL` defaults to `heichips26_analog_project`).
 - **Sub-macro (`macros/inverter/`)** — the complete flow reference for the unit `inverter` cell (`TOP = inverter`), including sizing notebooks and CACE characterization.
 
-**Build order matters**: if you modify the inverter, run its own flow first (`make -C macros/inverter all`), then rebuild the top level. You can also remove the sub-macro entirely and draw everything flat in the top-level layout.
+**Build order matters**: if you modify the inverter, run its own flow first (`make -C macros/inverter all`, or equivalently `make build-inverter` from here), then rebuild the top level. The top-level `make all` does this automatically by running `build-macros` before verifying and building the top cell. You can also remove the sub-macro entirely and draw everything flat in the top-level layout (not recommended).
 
 The top-level `schematic/xschem/xschemrc` and `testbenches/xschem/xschemrc` append the sub-macro's schematic folder to the Xschem library path, so symbols like `inverter.sym` resolve from the top-level schematic.
 
@@ -133,15 +133,18 @@ make                                     # help: all targets and variables
 make klayout-verify-all                  # KLayout DRC + LVS of the top cell
 make magic-verify-all                    # Magic DRC + LVS + PEX of the top cell
 make build-top                           # LEF, LIB, Verilog stub, final GDS, render
+make build-inverter                      # run the inverter sub-macro's full flow (make -C macros/inverter all)
+make build-macros                        # verify, build and simulate all sub-macros (currently: inverter)
 make sim-xschem TB=heichips26_analog_project_tb_tran   # post-layout transient (needs magic-pex first)
 make sim-view-xschem SCRIPT=plot_heichips26_analog_project
-make all                                 # verify + build + simulate
+make all                                 # build-macros + verify + build + simulate
 ```
 
 Differences to the sub-macro:
 
 - `sim-all` runs only the top-level post-layout testbench (`heichips26_analog_project_tb_tran`). The schematic-level testbenches and CACE characterization live in `macros/inverter/`.
-- `klayout-verify-all`/`magic-verify-all` verify the top cell only — run the sub-macro's own `make` for the inverter cells.
+- `klayout-verify-all`/`magic-verify-all` verify the top cell only — the inverter cells are covered by `build-macros`/`build-inverter` (or run the sub-macro's own `make`).
+- `make all` first runs `build-macros`, so the sub-macros are verified, built and simulated before the top cell — the build order below is handled automatically.
 
 
 ## Where to Go Next
