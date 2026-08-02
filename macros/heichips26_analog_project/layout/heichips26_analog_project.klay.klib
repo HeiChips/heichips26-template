@@ -1,0 +1,9 @@
+{
+    "technology": "",
+    "statements": [
+        {
+            "lib_name": "inverter",
+            "lib_path": "/foss/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/layout/inverter.gds"
+        }
+    ]
+}
