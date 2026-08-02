@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    nix-eda.url = "github:fossi-foundation/nix-eda/7.4.0";
+    nix-eda.url = "github:fossi-foundation/nix-eda/leo/xschem";
     librelane = {
       url = "github:librelane/librelane/dev";
       inputs.nix-eda.follows = "nix-eda";

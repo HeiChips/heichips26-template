@@ -70,11 +70,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784917855,
-        "narHash": "sha256-5HpHUT91tNh7JeNxtCT5SDKfbOJfDSBqhswHV42a0Ww=",
+        "lastModified": 1785453985,
+        "narHash": "sha256-rcRN0hFvN0GiIVOKh5jiSfLTYnmnl52Qm0Dhxsl712Q=",
         "owner": "librelane",
         "repo": "librelane",
-        "rev": "64c5674fbcb13942d152f5fd19d6421c573563d0",
+        "rev": "fb1291cb1fda72090841aff2b348170aa9d9d8a2",
         "type": "github"
       },
       "original": {
@@ -89,16 +89,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1784877864,
-        "narHash": "sha256-y4g9K97zkJDW9zaUDvUbRhzHd3QQmUxhuo8GEg8SK6o=",
+        "lastModified": 1785658736,
+        "narHash": "sha256-c9XcjpGezTTZ1sSYuEfybO95Mavs0922PuCQZm9HsnE=",
         "owner": "fossi-foundation",
         "repo": "nix-eda",
-        "rev": "a08aa4a46310301548c39b094c5a5c08469b2349",
+        "rev": "eafa468dc5ad8c579b69681d93400dabf3bbef78",
         "type": "github"
       },
       "original": {
         "owner": "fossi-foundation",
-        "ref": "7.4.0",
+        "ref": "leo/xschem",
         "repo": "nix-eda",
         "type": "github"
       }
