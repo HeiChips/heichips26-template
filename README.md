@@ -36,7 +36,7 @@ The first time you enable the Nix shell, please run:
 
 The template builds on top of a recursive `macros` structure: inside `macros/` you can find the two directories `heichips26_analog_project` and `heichips26_digital_project`. These are the two example top-level macros for submission.
 
-Macros can themselves have one ore more macros, recursively. As an example, `heichips26_analog_project` includes the analog `inverter` macro, and `heichips26_digital_project` includes the digital `counter` macro. It is not required to use sub-macros such as `invert` and `counter`. You can simply delete them and implement your design in the corresponding top-level macro only.
+Macros can themselves have one or more macros, recursively. As an example, `heichips26_analog_project` includes the analog `inverter` macro, and `heichips26_digital_project` includes the digital `counter` macro. It is not required to use sub-macros such as `inverter` and `counter`. You can simply delete them and implement your design in the corresponding top-level macro only.
 
 For the submission, you need to decide whether you want to make an analog-on-top or digital-on-top design. Adjust `submission.yaml` accordingly.
 
@@ -59,10 +59,10 @@ If you would like to do an analog-on-top design (the top-level is drawn manually
 > You must rename `heichips26_analog_project` to a unique name starting with `heichips26_` and edit `submission.yaml`.
 > Make sure to update the top-level name throughout the repository.
 
-If you would like to use additional analog pins (up to 3 are possible), you must use the `small` slot size.
+If you would like to use additional analog pins (up to 3 are possible), you must use the `small` or `tiny` slot size.
 Use one of the provided templates in `macros/heichips26_analog_project/floorplan` for the pins.
 
-In addition, you need vertical `VDPWR`, `VGND` straps in your design. Optionally, you can also use `VAPWR`.
+In addition, you need vertical `VPWR`, `VGND` straps in your design. Optionally, you can also use `VAPWR`.
 
 > [!IMPORTANT]
 > Power straps must run vertically all the way from top to bottom of your layout. This is required for the integration.
@@ -89,8 +89,8 @@ For more details, see `macros/heichips26_analog_project/README.md`.
   - `cd macros/heichips26_analog_project/macros/inverter/testbenches/xschem`
   - `cd macros/heichips26_analog_project/schematic/xschem`
 4. Open xschem: `xschem <name of testbench>`, e.g. `xschem inverter_tb_tran.sch`
-6. In the schematic Ctrl + left click: "Simulate"
-7. In the schematic Ctrl + left click: "Annotate OP" or "Load waves"
+5. In the schematic Ctrl + left click: "Simulate"
+6. In the schematic Ctrl + left click: "Annotate OP" or "Load waves"
 
 ### Edit a Layout
 

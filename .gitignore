@@ -1,18 +1,48 @@
+# Generated file formats
 __pycache__/
-sim_build/
-runs/
-backups/
-drc_run_*
-lvs_run_*
+*.pyc
 *.vvp
+*.vcd
+*.raw
+*.log
 *.fst
+*.ext
 *.a
 *.o
 *.elf
 *.bin
 *.hex
+.DS_Store
 
+# Generated run folders and scripts
+runs/
+backups/
+sim_build/
+drc_run_*
+lvs_run_*
+drc_*.tcl
+ext_*.tcl
+pex_*.tcl
+
+# FPGA build outputs
 **/fpga/**/build/
 
+# PDK installation
 IHP-Open-PDK/
+
+# LibreLane outputs
 **/flow/final/
+
+# Xschem netlist/simulation outputs
+/macros/heichips26_analog_project/macros/inverter/schematic/xschem/simulations
+/macros/heichips26_analog_project/macros/inverter/testbenches/xschem/simulations
+/macros/heichips26_digital_project/schematic/xschem/simulations
+/macros/heichips26_digital_project/testbenches/xschem/simulations
+/macros/heichips26_digital_project/macros/counter/schematic/xschem/simulations
+/macros/heichips26_digital_project/macros/counter/testbenches/xschem/simulations
+
+# CACE run outputs (inverter macro)
+/macros/heichips26_analog_project/macros/inverter/verification/cace/_runs
+/macros/heichips26_analog_project/macros/inverter/verification/cace/_docs
+/macros/heichips26_analog_project/macros/inverter/verification/cace/netlist
+/macros/heichips26_analog_project/macros/inverter/verification/cace/templates/simulations

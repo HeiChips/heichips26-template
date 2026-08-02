@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
@@ -47,7 +50,7 @@ $(PDK_ROOT)/$(PDK):
 clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
 .PHONY: clone-pdk
 
-klayout-setup:
+klayout-setup: ## Install the KLayout plugins in your user directory
 	# Install KLayout Plugins
 	@echo "Installing KLayout Plugins…"
 	@for plugin in ${KLAYOUT_PLUGINS} ; do \
