@@ -1,4 +1,4 @@
-# ihp-sg13cmos5l Inverter
+﻿# ihp-sg13cmos5l Inverter
 
 This is the analog example **sub-macro** of the HeiChips 2026 template: the unit `inverter` cell with its complete flow (schematic → simulation → layout → DRC/LVS/PEX → characterization). The hand-drawn top level that embeds it, including the HeiChips power ring, lives one directory up in [`heichips26_analog_project`](../../README.md).
 
@@ -27,7 +27,7 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │  ├─ 📁 lib/
 │  │  └─ inverter.lib
 │  └─ 📁 vh/
-│     └─ inverter.v
+│     └─ inverter.vh
 ├─ 📁 layout/
 │  ├─ *.gds
 │  ├─ *.klay.gds
@@ -48,7 +48,6 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │     ├─ inverter_klayout.cdl
 │     └─ inverter_magic.spice
 ├─ 📁 render/
-│  ├─ 📁 blender/
 │  └─ 📁 img/
 │     ├─ inverter_black.png
 │     └─ inverter_white.png
@@ -79,7 +78,6 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │     │  ├─ 📁 data/
 │     │  ├─ 📁 figures/
 │     │  ├─ ngspice2python.py
-│     │  ├─ plot_inverter.py
 │     │  └─ plot_inverter.py
 │     ├─ *_tb_*.sch
 │     ├─ inverter_tb_ac_ol.sch
@@ -234,7 +232,8 @@ Runs all simulation steps in sequence:
 - `make sim-xschem TB=inverter_tb_ac_ol`
 - `make sim-xschem TB=inverter_tb_tran`
 - `make sim-xschem TB=inverter_tb_dc_vout`
-- `make sim-cace`
+
+`sim-cace` is intentionally not part of `sim-all` because CACE is currently not available in the nix shell.
 
 Invoke with:
 
@@ -277,7 +276,7 @@ make lib
 
 ### Verilog Stub
 
-Generates a Verilog stub (`final/vh/<TOP>.v`) for top-level integration by parsing pins from an extracted PEX netlist in `netlist/pex/`.
+Generates a Verilog stub (`final/vh/<TOP>.vh`) for top-level integration by parsing pins from an extracted PEX netlist in `netlist/pex/`.
 
 The `verilog` target:
 - requires one of the following PEX files (run `make magic-pex` or `make klayout-pex` first):
@@ -289,7 +288,7 @@ The `verilog` target:
   - `netlist/pex/<TOP>_klayout_pex_3.spice`
 - auto-selects the first existing file from the list above
 - reads the `.subckt <TOP>_pex` pin list (including continuation lines)
-- emits recognized supply pins (`VDD`, `VSS`, `VPWR`, `VGND`, `VNB`, `VPB`) as `inout` under `` `ifdef USE_POWER_PINS ``
+- emits recognized supply pins (`VDD`, `VSS`, `VPWR`, `VDPWR`, `VAPWR`, `VGND`, `VNB`, `VPB`) as `inout` under `` `ifdef USE_POWER_PINS ``
 - classifies signal pins by prefix: `di_*` as `input`, `do_*` as `output`, others as `inout`
 
 ```sh
