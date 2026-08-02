@@ -92,6 +92,9 @@ For more details, see `macros/heichips26_analog_project/README.md`.
 5. In the schematic Ctrl + left click: "Simulate"
 6. In the schematic Ctrl + left click: "Annotate OP" or "Load waves"
 
+> [!NOTE]
+> The Nix shell points ngspice at `config/.spiceinit` (via `SPICE_USERINIT_DIR`), which provides the PDK model search path and OSDI model loads — simulations work without any further setup. A local `.spiceinit` in the simulation directory takes precedence.
+
 ### Edit a Layout
 
 1. First, enable a Nix shell using `nix-shell`.

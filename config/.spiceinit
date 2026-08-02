@@ -1,0 +1,14 @@
+* HeiChips 2026 template - ngspice user init file
+* The nix shell exports SPICE_USERINIT_DIR pointing at this directory, so every
+* ngspice run (including interactive ones started from xschem) loads this file.
+* Requires PDK_ROOT and PDK to be exported (see the root README).
+* The IIC-OSIC-TOOLS container provides an equivalent global configuration.
+
+* Resolve bare .lib/.include file names against the PDK model directories
+setcs sourcepath = ( $sourcepath $PDK_ROOT/$PDK/libs.tech/ngspice/models $PDK_ROOT/$PDK/libs.ref/sg13cmos5l_stdcell/spice )
+
+* Load the OSDI device models (compiled by OpenVAF during 'make clone-pdk')
+osdi '$PDK_ROOT/$PDK/libs.tech/ngspice/osdi/psp103.osdi'
+osdi '$PDK_ROOT/$PDK/libs.tech/ngspice/osdi/psp103_nqs.osdi'
+osdi '$PDK_ROOT/$PDK/libs.tech/ngspice/osdi/r3_cmc.osdi'
+osdi '$PDK_ROOT/$PDK/libs.tech/ngspice/osdi/mosvar.osdi'
