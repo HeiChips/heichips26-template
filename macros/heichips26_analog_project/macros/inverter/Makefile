@@ -1,12 +1,16 @@
-# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Variables
-TOP = inverter_top
+TOP = inverter
 
 .DEFAULT_GOAL := help
+
+# The sak-* verification scripts (vendored from IIC-OSIC-TOOLS, see scripts/) expect PDKPATH and STD_CELL_LIBRARY
+export PDKPATH ?= $(PDK_ROOT)/$(PDK)
+export STD_CELL_LIBRARY ?= sg13cmos5l_stdcell
 
 # Cell name for verification targets (default: top-level cell)
 # Override with: make <target> CELL=<cellname>
@@ -16,21 +20,37 @@ CELL ?= $(TOP)
 # Override with: make <target> EXT_MODE=<1|2|3>
 EXT_MODE ?= 3
 
+# full-RC extresist threshold in mOhm (sak-pex.sh -t, only used in EXT_MODE=3; default: 10000 = 10 Ohm)
+# Override with: make <target> THRESHOLD=<mOhm>
+THRESHOLD ?= 10000
+
+# full-RC extresist minres in mOhm (sak-pex.sh -r, only used in EXT_MODE=3; default: 1000 = 1 Ohm)
+# Override with: make <target> MINRES=<mOhm>
+MINRES ?= 1000
+
+# full-RC extresist mindelay in ps (sak-pex.sh -y, only used in EXT_MODE=3; default: 1; 0 = gate by resistance)
+# Override with: make <target> MINDELAY=<ps>
+MINDELAY ?= 1
+
+# KLayout DRC level: precheck, macro, or regular (sak-drc.sh -l, only used by klayout-drc; default: macro)
+# Override with: make <target> DRC_LEVEL=<precheck|macro|regular>
+DRC_LEVEL ?= macro
+
 # Floating-point precision (significant digits) for Xschem's ev function
 # Override with: make <target> EV_PRECISION=<digits>
 EV_PRECISION ?= 5
 
-# Preferred GDS extension: use .gds when available, otherwise .klay.gds
-# This checks both TOP and CELL names so it can be used as: $(LAY_DIR)/$(TOP).$(_GDS_EXT) or $(LAY_DIR)/$(CELL).$(_GDS_EXT)
-# KLayout LVS, DRC and PEX work with either .gds or .klay.gds, but Magic LVS, DRC and PEX require .gds.
-_GDS_EXT = $(if $(wildcard $(LAY_DIR)/$(TOP).gds)$(wildcard $(LAY_DIR)/$(CELL).gds),gds,klay.gds)
+# Preferred GDS extension: use .gds when available for the CELL, otherwise .klay.gds
+# Resolved per CELL (CELL defaults to TOP), so cells can mix .gds and .klay.gds within one macro.
+# All DRC, LVS and PEX targets (KLayout and Magic) work with either .gds or .klay.gds.
+_GDS_EXT = $(if $(wildcard $(LAY_DIR)/$(CELL).gds),gds,klay.gds)
 
 # Folder structure
 XSCHEM_SCH_DIR  := schematic/xschem
 XSCHEM_TB_DIR   := testbenches/xschem
 LAY_DIR         := layout
 SCRIPTS_DIR     := scripts
-SIM_PLOT_DIR    := scripts/plot_simulations
+SIM_PLOT_DIR    := testbenches/xschem/plot_simulations
 GDS_DIR         := final/gds
 LEF_DIR         := final/lef
 LIB_DIR         := final/lib
@@ -46,14 +66,18 @@ DRC_RPT_DIR     := verification/drc
 
 # Help Target
 help: ## Show this help message
-	@echo 'Usage: make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [EV_PRECISION=<digits>]'
+	@echo 'Usage: make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>] [DRC_LEVEL=<precheck|macro|regular>] [EV_PRECISION=<digits>]'
 	@echo ''
 	@echo 'Available targets:'
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_.-]+:.*## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "  %-20s %s\n", $$1, $$2}'
 	@echo ''
 	@echo 'CELL defaults to $(TOP). Override to verify subcells.'
 	@echo 'EXT_MODE defaults to 3 (full-RC). 1=C-decoupled, 2=C-coupled.'
+	@echo 'THRESHOLD/MINRES/MINDELAY are full-RC (EXT_MODE=3) extresist settings for magic-pex (defaults 10000 mOhm / 1000 mOhm / 1 ps).'
+	@echo 'DRC_LEVEL defaults to macro. Sets the KLayout DRC level for klayout-drc (precheck|macro|regular).'
 	@echo 'EV_PRECISION defaults to 5 significant digits for xschem ev function.'
+	@echo 'TB selects the Xschem testbench for sim-xschem (e.g. inverter_tb_tran).'
+	@echo 'SCRIPT selects the plotting script for sim-view-xschem (e.g. plot_inverter).'
 .PHONY: help
 # ================================================================================================
 
@@ -61,18 +85,21 @@ help: ## Show this help message
 # Simulation Targets
 # Testbench name for sim-xschem target (required: make sim-xschem TB=<testbenchname>)
 TB ?= $(error TB is not set. Usage: make sim-xschem TB=<testbenchname>)
+SCRIPT ?= $(error SCRIPT is not set. Usage: make sim-view-xschem SCRIPT=<scriptname>)
 
-sim-xschem: ## Run TB simulation with Xschem (usage: make sim-xschem TB=<testbenchname>)
-	cd $(XSCHEM_TB_DIR) && xschem -x -q --rcfile xschemrc --command ' \
+sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xschem TB=<testbenchname>)
+	mkdir -p $(XSCHEM_TB_DIR)/simulations $(SIM_PLOT_DIR)/data
+	cd $(XSCHEM_TB_DIR) && xschem -r -x -q --rcfile xschemrc --command ' \
+		xschem set netlist_type spice; \
 		set netlist_dir $(abspath $(XSCHEM_TB_DIR)/simulations); \
 		xschem save; \
-		xschem netlist; \
-		xschem simulate \
+		xschem netlist \
 	' $(TB).sch
+	cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TB).spice
 .PHONY: sim-xschem
 
-sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem CELL=<cellname>)
-	python3 $(SIM_PLOT_DIR)/plot_$(CELL).py
+sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem SCRIPT=<scriptname>)
+	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
 sim-cace: ## Run CACE simulations and collect result plots
@@ -101,10 +128,7 @@ sim-all: ## Simulate the macro
 	$(MAKE) sim-xschem TB=inverter_tb_ac_ol
 	$(MAKE) sim-xschem TB=inverter_tb_tran
 	$(MAKE) sim-xschem TB=inverter_tb_dc_vout
-	$(MAKE) sim-xschem TB=inverter_top_tb_tran
-#	$(MAKE) sim-view-xschem CELL=inverter
-#	$(MAKE) sim-view-xschem CELL=inverter_top
-	$(MAKE) sim-cace
+#	$(MAKE) sim-cace
 .PHONY: sim-all
 # ================================================================================================
 
@@ -129,7 +153,7 @@ lef: ## Export LEF from the TOP cell layout using Magic
 		'load $(TOP)' \
 		'lef write $(LEF_DIR)/$(TOP).lef -hide -pinonly 2um' | \
 		magic -dnull -noconsole \
-		-rcfile $(PDK_ROOT)/$(PDK)/libs.tech/magic/ihp-sg13g2.magicrc
+		-rcfile $(PDK_ROOT)/$(PDK)/libs.tech/magic/ihp-sg13cmos5l.magicrc
 .PHONY: lef
 # ================================================================================================
 
@@ -169,8 +193,8 @@ verilog: ## Generate a Verilog stub of the TOP cell from Magic or KLayout PEX ne
 	fi; \
 	echo "Reading pins from $$pex_netlist..."; \
 	pex_pins=$$(awk '/^\.subckt $(TOP)_pex/{sub(/^\.subckt [^ ]+ /,"");p=$$0;next} p&&/^[+]/{sub(/^[+] */,"");p=p" "$$0;next} p{exit} END{print p}' "$$pex_netlist"); \
-	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
-	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
+	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
+	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
 	{ \
 		echo 'module $(TOP) ('; \
 		if [ -n "$$(echo $$power_pins | xargs)" ]; then \
@@ -178,18 +202,19 @@ verilog: ## Generate a Verilog stub of the TOP cell from Magic or KLayout PEX ne
 			for p in $$power_pins; do echo "    inout $$p,"; done; \
 			echo '`endif'; \
 		fi; \
-		last=$$(echo $$signal_pins | awk '{print $$NF}'); \
-		for p in $$signal_pins; do \
-			case "$$p" in \
-				di_*) t=input ;; \
-				do_*) t=output ;; \
-				*) t=inout ;; \
-			esac; \
-			if [ "$$p" = "$$last" ]; then echo "    $$t $$p"; else echo "    $$t $$p,"; fi; \
-		done; \
+		echo "$$signal_pins" | tr ' ' '\n' | grep -v '^$$' | awk ' \
+			{ name=$$0; idx=-1; base=name; \
+			  if (name ~ /\[[0-9]+\]$$/) { p=index(name,"["); base=substr(name,1,p-1); idx=substr(name,p+1,length(name)-p-1)+0; } \
+			  if (!(base in lo)) { order[++n]=base; lo[base]=idx; hi[base]=idx; } \
+			  if (idx>=0) { if (lo[base]<0 || idx<lo[base]) lo[base]=idx; if (idx>hi[base]) hi[base]=idx; } } \
+			END { for (i=1;i<=n;i++) { b=order[i]; \
+			  t="inout"; if (b ~ /^di_/) t="input"; else if (b ~ /^do_/) t="output"; \
+			  if (lo[b]<0) line="    " t " " b; else line="    " t " [" hi[b] ":" lo[b] "] " b; \
+			  printf "%s%s\n", line, (i<n ? "," : ""); } } \
+		'; \
 		echo ');'; \
 		echo 'endmodule'; \
-	} > $(VH_DIR)/$(TOP).v
+	} > $(VH_DIR)/$(TOP).vh
 .PHONY: verilog
 # ================================================================================================
 
@@ -212,6 +237,20 @@ render-gds: ## Render an image from the final GDS using lay2img.py
 # ================================================================================================
 
 
+# DRC Targets
+# The sak-* scripts are vendored from IIC-OSIC-TOOLS (see scripts/.sak-scripts-version)
+klayout-drc: ## Run KLayout DRC of the CELL cell (usage: make klayout-drc [CELL=<cellname>] [DRC_LEVEL=<precheck|macro|regular>])
+	mkdir -p $(DRC_RPT_DIR)
+	sh $(SCRIPTS_DIR)/sak-drc.sh -d -k -l $(DRC_LEVEL) -w $(DRC_RPT_DIR) $(LAY_DIR)/$(CELL).$(_GDS_EXT)
+.PHONY: klayout-drc
+
+magic-drc: ## Run Magic DRC of the CELL cell (usage: make magic-drc [CELL=<cellname>])
+	mkdir -p $(DRC_RPT_DIR)
+	sh $(SCRIPTS_DIR)/sak-drc.sh -d -m -f "*" -w $(DRC_RPT_DIR) $(LAY_DIR)/$(CELL).$(_GDS_EXT)
+.PHONY: magic-drc
+# ================================================================================================
+
+
 # LVS Targets
 klayout-lvs-netlist: ## Export CDL schematic netlist from Xschem for KLayout LVS (usage: make klayout-lvs-netlist [CELL=<cellname>] [EV_PRECISION=<digits>])
 	mkdir -p $(NET_SCH_DIR)
@@ -219,7 +258,7 @@ klayout-lvs-netlist: ## Export CDL schematic netlist from Xschem for KLayout LVS
 		set spiceprefix 1; \
 		set lvs_netlist 1; \
 		set top_is_subckt 1; \
-		set lvs_ignore 0; \
+		set lvs_ignore 1; \
 		set ev_precision $(EV_PRECISION); \
 		set netlist_dir $(NET_SCH_DIR); \
 		xschem set netlist_name [file tail [file rootname [xschem get current_name]]]_klayout.cdl; \
@@ -231,14 +270,8 @@ klayout-lvs: ## Run KLayout LVS of the CELL cell (usage: make klayout-lvs [CELL=
 	$(MAKE) klayout-lvs-netlist CELL=$(CELL)
 	mkdir -p $(LVS_RPT_DIR)
 	mkdir -p $(NET_LAY_DIR)
-	python3 $(PDK_ROOT)/$(PDK)/libs.tech/klayout/tech/lvs/run_lvs.py \
-		--layout=$(LAY_DIR)/$(CELL).$(_GDS_EXT) \
-		--netlist=$(NET_SCH_DIR)/$(CELL)_klayout.cdl \
-		--topcell=$(CELL) \
-		--run_dir=$(LVS_RPT_DIR) \
-		--run_mode=deep
-	mv $(LVS_RPT_DIR)/$(CELL)_extracted.cir $(NET_LAY_DIR)/$(CELL)_klayout.cir
-	sleep 4
+	sh $(SCRIPTS_DIR)/sak-lvs.sh -d -k -w $(LVS_RPT_DIR) -s $(NET_SCH_DIR)/$(CELL)_klayout.cdl -l $(LAY_DIR)/$(CELL).$(_GDS_EXT) -c $(CELL)
+	mv $(LVS_RPT_DIR)/$(CELL).klayout.lvs/$(CELL)_extracted.cir $(NET_LAY_DIR)/$(CELL)_klayout.cir
 .PHONY: klayout-lvs
 
 magic-lvs-netlist: ## Export SPICE schematic netlist from Xschem for Magic + Netgen LVS (usage: make magic-lvs-netlist [CELL=<cellname>] [EV_PRECISION=<digits>])
@@ -259,39 +292,9 @@ magic-lvs: ## Run Magic + Netgen LVS of the CELL cell (usage: make magic-lvs [CE
 	mkdir -p $(LVS_RPT_DIR)
 	mkdir -p $(NET_LAY_DIR)
 	$(MAKE) magic-lvs-netlist CELL=$(CELL)
-	sak-lvs.sh -d -w $(LVS_RPT_DIR) -s $(NET_SCH_DIR)/$(CELL)_magic.spice -l $(LAY_DIR)/$(CELL).gds -c $(CELL)
-# 	Alternative using sak-lvs.sh for netlist export and LVS in one step (replaces magic-lvs-netlist target):
-#   sak-lvs.sh -d -w $(LVS_RPT_DIR) -s $(XSCHEM_SCH_DIR)/$(CELL).sch -l $(LAY_DIR)/$(CELL).gds -c $(CELL)
-	mv $(LVS_RPT_DIR)/$(CELL).ext.spc $(NET_LAY_DIR)/$(CELL)_magic.ext.spc
-	rm -f $(LVS_RPT_DIR)/$(CELL).sch.spc
-	rm -f $(LVS_RPT_DIR)/ext_$(CELL).tcl
-	rm -f $(LVS_RPT_DIR)/*.ext
-	sleep 4
+	sh $(SCRIPTS_DIR)/sak-lvs.sh -d -w $(LVS_RPT_DIR) -s $(NET_SCH_DIR)/$(CELL)_magic.spice -l $(LAY_DIR)/$(CELL).$(_GDS_EXT) -c $(CELL)
+	mv $(LVS_RPT_DIR)/$(CELL).magic.lvs/$(CELL).ext.spc $(NET_LAY_DIR)/$(CELL)_magic.ext.spc
 .PHONY: magic-lvs
-# ================================================================================================
-
-
-# DRC Targets
-klayout-drc: ## Run KLayout DRC of the CELL cell (usage: make klayout-drc [CELL=<cellname>])
-	mkdir -p $(DRC_RPT_DIR)
-	python3 $(PDK_ROOT)/$(PDK)/libs.tech/klayout/tech/drc/run_drc.py \
-		--path=$(LAY_DIR)/$(CELL).$(_GDS_EXT) \
-		--topcell=$(CELL) \
-		--run_dir=$(DRC_RPT_DIR) \
-		--no_feol \
-		--no_density \
-		--disable_extra_rules \
-		--mp=32 \
-		--density_thr=32
-	sleep 4
-.PHONY: klayout-drc
-
-magic-drc: ## Run Magic DRC of the CELL cell (usage: make magic-drc [CELL=<cellname>])
-	mkdir -p $(DRC_RPT_DIR)
-	sak-drc.sh -d -m -f "*" -w $(DRC_RPT_DIR) $(LAY_DIR)/$(CELL).gds $(CELL)
-	rm -f $(DRC_RPT_DIR)/drc_$(CELL).tcl
-	sleep 4
-.PHONY: magic-drc
 # ================================================================================================
 
 
@@ -321,59 +324,57 @@ klayout-pex: ## Run Parasitic Extraction with KPEX of the CELL cell (usage: make
 	rm -f $(CELL).nodes $(CELL).sim
 	@if [ -f $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym ]; then \
 		echo "Reordering pins in $(CELL)_klayout_pex_$(EXT_MODE).spice to match $(CELL)_pex.sym..."; \
-		python3 $(SCRIPTS_DIR)/reorder_spice_pins.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice; \
+		python3 $(SCRIPTS_DIR)/sak-pin-reorder.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice --format spice; \
 	else \
 		echo "No symbol $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym found, skipping pin reorder."; \
 	fi
-	sleep 4
+	python3 $(SCRIPTS_DIR)/check_pex_ports.py $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice
 .PHONY: klayout-pex
 
-magic-pex: ## Run Parasitic Extraction with Magic of the CELL cell (usage: make magic-pex [CELL=<cellname>] [EXT_MODE=<1|2|3>])
+magic-pex: ## Run Parasitic Extraction with Magic of the CELL cell (usage: make magic-pex [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>])
 	mkdir -p $(NET_PEX_DIR)
-	sak-pex.sh -d -m $(EXT_MODE) -w $(NET_PEX_DIR) $(LAY_DIR)/$(CELL).gds
+	sh $(SCRIPTS_DIR)/sak-pex.sh -d -m $(EXT_MODE) -n $(CELL)_pex -t $(THRESHOLD) -r $(MINRES) -y $(MINDELAY) -w $(NET_PEX_DIR) $(LAY_DIR)/$(CELL).$(_GDS_EXT)
 	mv $(NET_PEX_DIR)/$(CELL).pex.spice $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice
-	sed -i 's/$(CELL)/$(CELL)_pex/g' $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice
-	rm -f $(NET_PEX_DIR)/pex_$(CELL).tcl $(NET_PEX_DIR)/$(CELL).ext $(NET_PEX_DIR)/$(CELL).res.ext
+	rm -f $(NET_PEX_DIR)/pex_$(CELL).tcl
 	@if [ -f $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym ]; then \
 		echo "Reordering pins in $(CELL)_magic_pex_$(EXT_MODE).spice to match $(CELL)_pex.sym..."; \
-		python3 $(SCRIPTS_DIR)/reorder_spice_pins.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice; \
+		python3 $(SCRIPTS_DIR)/sak-pin-reorder.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice --format spice; \
 	else \
 		echo "No symbol $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym found, skipping pin reorder."; \
 	fi
-	sleep 4
+	python3 $(SCRIPTS_DIR)/check_pex_ports.py $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice
 .PHONY: magic-pex
 # ================================================================================================
 
 
 # Verify Targets
 klayout-verify: ## Verify CELL cell with KLayout (usage: make klayout-verify [CELL=<cellname>])
-	$(MAKE) klayout-lvs CELL=$(CELL)
 	$(MAKE) klayout-drc CELL=$(CELL)
-	$(MAKE) klayout-pex CELL=$(CELL)
+	$(MAKE) klayout-lvs CELL=$(CELL)
+#	$(MAKE) klayout-pex CELL=$(CELL)
 .PHONY: klayout-verify
 
-klayout-verify-all: ## Verify all main subcells with KLayout (LVS, DRC, PEX)
-#	$(MAKE) klayout-verify CELL=inverter
-	$(MAKE) klayout-verify CELL=inverter_top
+klayout-verify-all: ## Verify all main subcells with KLayout (DRC, LVS, PEX)
+	$(MAKE) klayout-verify CELL=inverter
 .PHONY: klayout-verify-all
 
 magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<cellname>])
-	$(MAKE) magic-lvs CELL=$(CELL)
 	$(MAKE) magic-drc CELL=$(CELL)
+	$(MAKE) magic-lvs CELL=$(CELL)
 	$(MAKE) magic-pex CELL=$(CELL)
 .PHONY: magic-verify
 
-magic-verify-all: ## Verify all main subcells with Magic (LVS, DRC, PEX)
+magic-verify-all: ## Verify all main subcells with Magic (DRC, LVS, PEX)
 	$(MAKE) magic-verify CELL=inverter
-	$(MAKE) magic-verify CELL=inverter_top
 .PHONY: magic-verify-all
 # ================================================================================================
 
 
-# Simulate, Build and Verify All Target
-all: ## Simulate, build and verify the TOP cell
-	$(MAKE) sim-all
+# Verify, Build and Simulate All Target
+all: ## Verify, build and simulate the TOP cell
 	$(MAKE) klayout-verify-all
 	$(MAKE) magic-verify-all
 	$(MAKE) build-top
+	$(MAKE) sim-all
 .PHONY: all
+# ================================================================================================

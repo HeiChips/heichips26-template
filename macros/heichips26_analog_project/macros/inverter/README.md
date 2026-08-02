@@ -1,80 +1,88 @@
-﻿# ihp-sg13g2 Inverter
+﻿# ihp-sg13cmos5l Inverter
+
+This is the analog example **sub-macro** of the HeiChips 2026 template: the unit `inverter` cell with its complete flow (schematic → simulation → layout → DRC/LVS/PEX → characterization). The hand-drawn top level that embeds it, including the HeiChips power ring, lives one directory up in [`heichips26_analog_project`](../../README.md).
 
 <p align="center">
-  <a href="render/img/inverter_top_white.png">
-    <img src="render/img/inverter_top_white.png" alt="Render of the ihp-sg13g2 inverter layout (54um x 82um)" width=70%>
+  <a href="render/img/inverter_white.png">
+    <img src="render/img/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
   </a>
   <br>
-  <em>Render of the ihp-sg13g2 inverter layout (54um x 82um).</em>
+  <em>Render of the ihp-sg13cmos5l inverter layout.</em>
 </p>
 
 
+
 ## Directory Structure
+
+<details>
+<summary>Show Directory Structure</summary>
 
 ```text
 📁 inverter/
 ├─ 📁 final/
 │  ├─ 📁 gds/
-│  │  └─ inverter_top.gds
+│  │  └─ inverter.gds
 │  ├─ 📁 lef/
-│  │  └─ inverter_top.lef
+│  │  └─ inverter.lef
 │  ├─ 📁 lib/
-│  │  └─ inverter_top.lib
+│  │  └─ inverter.lib
 │  └─ 📁 vh/
-│     └─ inverter_top.v
+│     └─ inverter.vh
 ├─ 📁 layout/
 │  ├─ *.gds
 │  ├─ *.klay.gds
-│  └─ inverter_top.gds
+│  └─ inverter.gds
 ├─ 📁 netlist/
 │  ├─ 📁 layout/
 │  │  ├─ *.cir
 │  │  ├─ *.ext.spc
-│  │  ├─ inverter_top_klayout.cir
-│  │  └─ inverter_top_magic.ext.spc
+│  │  ├─ inverter_klayout.cir
+│  │  └─ inverter_magic.ext.spc
 │  ├─ 📁 pex/
 │  │  ├─ *.spice
-│  │  ├─ inverter_top_klayout_pex_*.spice
-│  │  └─ inverter_top_magic_pex_*.spice
+│  │  ├─ inverter_klayout_pex_*.spice
+│  │  └─ inverter_magic_pex_*.spice
 │  └─ 📁 schematic/
 │     ├─ *.cdl
 │     ├─ *.spice
-│     ├─ inverter_top_klayout.cdl
-│     └─ inverter_top_magic.spice
+│     ├─ inverter_klayout.cdl
+│     └─ inverter_magic.spice
 ├─ 📁 render/
-│  ├─ 📁 blender/
 │  └─ 📁 img/
-│     ├─ inverter_top_black.png
-│     └─ inverter_top_white.png
+│     ├─ inverter_black.png
+│     └─ inverter_white.png
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
 │     ├─ *.sch
 │     ├─ *.sym
-│     ├─ inverter_top.sch
-│     ├─ inverter_top.sym
-│     ├─ inverter_top_pex.sym
+│     ├─ inverter.sch
+│     ├─ inverter.sym
+│     ├─ inverter_pex.sym
 │     └─ xschemrc
 ├─ 📁 scripts/
-│  ├─ 📁 plot_simulations/
-│  │  ├─ 📁 data/
-│  │  ├─ 📁 figures/
-│  │  ├─ ngspice2python.py
-│  │  ├─ plot_inverter.py
-│  │  └─ plot_inverter_top.py
 │  ├─ 📁 sizing/
 │  │  ├─ 📁 data/
 │  │  ├─ 📁 figures/
 │  │  ├─ lookup_commands.ipynb
 │  │  └─ sizing_inverter.ipynb
-│  ├─ reorder_spice_pins.py
-│  └─ lay2img.py
+│  ├─ check_pex_ports.py
+│  ├─ lay2img.py
+│  ├─ sak-drc.sh
+│  ├─ sak-lvs.sh
+│  ├─ sak-pex.sh
+│  ├─ sak-pin-reorder.py
+│  └─ .sak-scripts-version
 ├─ 📁 testbenches/
 │  └─ 📁 xschem/
+│     ├─ 📁 plot_simulations/
+│     │  ├─ 📁 data/
+│     │  ├─ 📁 figures/
+│     │  ├─ ngspice2python.py
+│     │  └─ plot_inverter.py
 │     ├─ *_tb_*.sch
 │     ├─ inverter_tb_ac_ol.sch
 │     ├─ inverter_tb_tran.sch
 │     ├─ inverter_tb_dc_vout.sch
-│     ├─ inverter_top_tb_tran.sch
 │     └─ xschemrc
 ├─ 📁 verification/
 │  ├─ 📁 cace/
@@ -83,19 +91,37 @@
 │  │  ├─ 📁 templates/
 │  │  └─ inverter.yaml
 │  ├─ 📁 drc/
-│  │  ├─ *.magic.drc.rpt
-│  │  ├─ *_full.lyrdb
-│  │  ├─ inverter_top.magic.drc.rpt
-│  │  └─ inverter_top_inverter_top_full.lyrdb
+│  │  ├─ 📁 *.klayout.drc/
+│  │  ├─ 📁 *.magic.drc/
+│  │  ├─ 📁 inverter.klayout.drc/
+│  │  └─ 📁 inverter.magic.drc/
 │  └─ 📁 lvs/
-│     ├─ *.lvsdb
-│     └─ inverter_top.lvsdb
+│     ├─ 📁 *.klayout.lvs/
+│     ├─ 📁 *.magic.lvs/
+│     ├─ 📁 inverter.klayout.lvs/
+│     └─ 📁 inverter.magic.lvs/
 ├─ Makefile
 └─ README.md
 ```
 
+</details>
 
-## Show Available Targets
+
+## Vendored Verification Scripts (`sak-*`)
+
+The DRC/LVS/PEX targets use the `sak-*` Swiss-Army-Knife scripts from [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS). Because this template runs in the **nix-shell** (not the IIC-OSIC-TOOLS container, where they are pre-installed), the scripts are vendored in `scripts/`:
+
+- `sak-drc.sh` — DRC with Magic or KLayout
+- `sak-lvs.sh` — LVS with Magic + Netgen or KLayout
+- `sak-pex.sh` — parasitic extraction with Magic
+- `sak-pin-reorder.py` — reorders extracted `.subckt` pins to match an Xschem symbol
+
+`scripts/.sak-scripts-version` records the IIC-OSIC-TOOLS commit they were taken from. The scripts require the `PDKPATH` (`$PDK_ROOT/$PDK`) and `STD_CELL_LIBRARY` environment variables, which the Makefile exports automatically.
+
+
+## Makefile Targets
+
+### Show Available Targets
 
 The default Make target is `help`, so running `make` prints usage and all available targets with short descriptions.
 
@@ -106,23 +132,21 @@ make help
 
 For the `sim-xschem` target, `TB=<testbenchname>` is required.
 
-All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter_top`).
+All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter`).
 
 ```sh
-make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [EV_PRECISION=<digits>]
+make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>] [DRC_LEVEL=<precheck|macro|regular>] [EV_PRECISION=<digits>]
 ```
 
 
-## Layout File Extension Usage
+### Layout File Extension Usage
 
 The Makefile defines a `_GDS_EXT` variable that auto-selects the layout file extension: it prefers `.gds` when available, and falls back to `.klay.gds` otherwise.
 
-- KLayout targets use `layout/<name>.$(_GDS_EXT)` and work with either `.gds` or `.klay.gds`:
+- Targets that use `layout/<name>.$(_GDS_EXT)` and work with either `.gds` or `.klay.gds` (the `sak` scripts derive the GDS top cell name from the `<name>.klay.gds` naming convention):
   - `klayout-lvs`
   - `klayout-drc`
   - `klayout-pex`
-
-- Magic targets always use `layout/<name>.gds` (Magic requires standard `.gds`):
   - `magic-lvs`
   - `magic-drc`
   - `magic-pex`
@@ -133,9 +157,15 @@ The Makefile defines a `_GDS_EXT` variable that auto-selects the layout file ext
   - `render-gds`
 
 
-## Run Xschem Testbench Simulation
+### Run Xschem Testbench Simulation
 
-Runs a single Xschem testbench in batch mode (no display): saves the schematic, exports the netlist to `testbenches/xschem/simulations/`, and runs the simulator. The testbench name **must** be specified via the `TB` variable:
+Runs a single Xschem testbench in batch mode (no display): saves the schematic, exports the netlist to `testbenches/xschem/simulations/`, and runs the simulator.
+
+The target netlists the testbench with `xschem netlist` and then invokes `ngspice -b` directly instead of using `xschem simulate`. `xschem simulate` would spawn an interactive ngspice in a terminal detached from `make`: the target would return immediately, the result would never be checked, and the process would leak. Running the simulator directly makes `make` block until the run finishes and see its exit status.
+
+Because the run is headless, the `plot` commands in a testbench's `.control` block are a no-op and no plot windows appear. Every testbench instead exports its results with `wrdata` to `testbenches/xschem/plot_simulations/data/`, from where they are plotted with `sim-view-xschem`.
+
+The testbench name **must** be specified via the `TB` variable:
 
 ```sh
 make sim-xschem TB=<testbenchname>
@@ -147,37 +177,34 @@ For example:
 make sim-xschem TB=inverter_tb_ac_ol
 make sim-xschem TB=inverter_tb_tran
 make sim-xschem TB=inverter_tb_dc_vout
-make sim-xschem TB=inverter_top_tb_tran
 ```
 
 All available testbench schematics are located in `testbenches/xschem/`. Generated netlists are written to `testbenches/xschem/simulations/`.
 
 
-## Plot Xschem Simulation Results
+### Plot Xschem Simulation Results
 
-Plots simulation results using the Python script selected by `CELL`:
+Plots simulation results using the Python script selected by `SCRIPT` (given without the `.py` extension):
 
 ```sh
-make sim-view-xschem [CELL=<cellname>]
+make sim-view-xschem SCRIPT=<scriptname>
 ```
 
-The target runs:
-- `python3 scripts/plot_simulations/plot_<CELL>.py`
-
-`CELL` defaults to `inverter_top`, so running without `CELL` uses `plot_inverter_top.py`.
+The target runs `SHOW_PLOTS=1 python3 testbenches/xschem/plot_simulations/<SCRIPT>.py`. Every script writes its figures to `testbenches/xschem/plot_simulations/figures/`. The interactive plot windows only open when `SHOW_PLOTS` is set (the target sets it). Running a script directly without it is fully headless and just writes the figures.
 
 Examples:
 
 ```sh
-make sim-view-xschem
-make sim-view-xschem CELL=inverter_top
-make sim-view-xschem CELL=inverter
+make sim-view-xschem SCRIPT=plot_inverter
 ```
 
 
-## CACE Simulations
+### CACE Simulations
 
 Runs [CACE](https://github.com/fossi-foundation/cace) characterization for the inverter macro using `verification/cace/inverter.yaml`.
+
+> [!NOTE]
+> Currently, CACE is not part of the nix shell.
 
 The `sim-cace` target runs these parameter sets in sequence:
 - `ac_mm_params`
@@ -199,14 +226,14 @@ Result plots are saved to:
   - `Adc_ol_dB_vs_vdd.png`, `fcu_vs_vdd.png`
 
 
-## Simulate All
+### Simulate All
 
 Runs all simulation steps in sequence:
 - `make sim-xschem TB=inverter_tb_ac_ol`
 - `make sim-xschem TB=inverter_tb_tran`
 - `make sim-xschem TB=inverter_tb_dc_vout`
-- `make sim-xschem TB=inverter_top_tb_tran`
-- `make sim-cace`
+
+`sim-cace` is intentionally not part of `sim-all` because CACE is currently not available in the nix shell.
 
 Invoke with:
 
@@ -220,7 +247,7 @@ make sim-all
 > They are designed for interactive use and must be called manually after the simulation has completed.
 
 
-## Build Top Cell
+### Build Top Cell
 
 Builds the top-level cell deliverables in sequence: LEF export, LIB generation, Verilog stub generation, GDS copy, and layout image rendering:
 
@@ -229,7 +256,7 @@ make build-top
 ```
 
 
-## Export LEF
+### Export LEF
 
 Exports a LEF file (`final/lef/<TOP>.lef`) from the top-level layout GDS in `layout/` using Magic with the `-hide` option:
 
@@ -238,7 +265,7 @@ make lef
 ```
 
 
-## Liberty Timing Library
+### Liberty Timing Library
 
 Generates a Liberty timing library stub (`final/lib/<TOP>.lib`) with default threshold settings for the top-level cell:
 
@@ -247,9 +274,9 @@ make lib
 ```
 
 
-## Verilog Stub
+### Verilog Stub
 
-Generates a Verilog stub (`final/vh/<TOP>.v`) for top-level integration into the LibreLane flow by parsing pins from an extracted PEX netlist in `netlist/pex/`.
+Generates a Verilog stub (`final/vh/<TOP>.vh`) for top-level integration by parsing pins from an extracted PEX netlist in `netlist/pex/`.
 
 The `verilog` target:
 - requires one of the following PEX files (run `make magic-pex` or `make klayout-pex` first):
@@ -261,15 +288,16 @@ The `verilog` target:
   - `netlist/pex/<TOP>_klayout_pex_3.spice`
 - auto-selects the first existing file from the list above
 - reads the `.subckt <TOP>_pex` pin list (including continuation lines)
-- emits recognized supply pins (`VDD`, `VSS`, `VPWR`, `VGND`, `VNB`, `VPB`) as `inout` under `` `ifdef USE_POWER_PINS ``
+- emits recognized supply pins (`VDD`, `VSS`, `VPWR`, `VDPWR`, `VAPWR`, `VGND`, `VNB`, `VPB`) as `inout` under `` `ifdef USE_POWER_PINS ``
 - classifies signal pins by prefix: `di_*` as `input`, `do_*` as `output`, others as `inout`
+- collapses indexed pins (`name[i]`) into vector ports (e.g. `inout [7:0] ui_in`)
 
 ```sh
 make verilog
 ```
 
 
-## Copy GDS
+### Copy GDS
 
 Copies the top-level GDS from `layout/` to `final/gds/`:
 
@@ -278,94 +306,108 @@ make copy-gds
 ```
 
 
-## Render Layout Image
+### Render Layout Image
 
-Renders the top-level layout GDS using `lay2img.py` and saves the image to `render/img/`:
+Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `render/img/`:
 
 ```sh
 make render-gds
 ```
 
 
-## Export Schematic Netlist for LVS
+### Design Rule Check (DRC)
+
+Runs DRC on the layout in `layout/`. Both flows use the vendored `scripts/sak-drc.sh`.
+
+- `klayout-drc` and `magic-drc` use `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
+
+Reports are written into per-cell run folders: `verification/drc/<CELL>.magic.drc/` (Magic) and `verification/drc/<CELL>.klayout.drc/` (KLayout, `.lyrdb`). The run folders are wiped at the start of each run, so they always reflect the latest run only.
+
+The `DRC_LEVEL` parameter selects the KLayout DRC level (`sak-drc.sh -l`). It is ignored by `magic-drc`, since Magic has no selectable rule decks and always runs the full rule set compiled into the PDK's Magic tech file:
+
+- `precheck` = core FEOL + BEOL manufacturing rules only (fast iteration)
+- `macro` = block-in-isolation sign-off: `precheck` plus off-grid, zero-area, and pin/label checks (default)
+- `regular` = full-chip sign-off: all checks, including density and antenna
+
+| Check | `precheck` | `macro` _(default)_ | `regular` |
+| --- | :---: | :---: | :---: |
+| FEOL + BEOL core rules | ✓ | ✓ | ✓ |
+| Off-grid / angle | – | ✓ | ✓ |
+| Zero-area / geometry | – | ✓ | ✓ |
+| Pin / label | – | ✓ | ✓ |
+| Recommended / extra rules | – | – | ✓ |
+| Density (chip-level fill) | – | – | ✓ |
+| Antenna | – | – | ✓ |
+
+**KLayout DRC** runs a KLayout DRC at the selected `DRC_LEVEL`:
+
+```sh
+make klayout-drc
+make klayout-drc CELL=inverter
+make klayout-drc CELL=inverter DRC_LEVEL=regular
+```
+
+**Magic DRC** runs a Magic DRC with all subcells flattened (`sak-drc.sh -f "*"`):
+
+```sh
+make magic-drc
+make magic-drc CELL=inverter
+```
+
+
+### Export Schematic Netlist for LVS
 
 Exports the schematic netlist for LVS from Xschem and places it in `netlist/schematic/`.
 
 The `EV_PRECISION` parameter sets the number of significant digits used by Xschem's `ev` function when calculating device properties (default: 5). Increase this to avoid LVS mismatches caused by floating-point rounding differences between Xschem and KLayout (see [xschem#465](https://github.com/StefanSchippers/xschem/issues/465)).
 
-Currently, KLayout LVS extracts `ntap` and `ptap` devices, so the schematic netlist must include them as well. In contrast, Magic + Netgen LVS does not extract `ntap` and `ptap`. Therefore, the schematic uses `lvs_ignore = short` for these devices and conditional net labels (see [xschem#474](https://github.com/StefanSchippers/xschem/issues/474)). To make this effective during schematic netlist export, `set lvs_ignore 1` must be set in the `magic-lvs-netlist` target.
+The `ntap` and `ptap` substrate contacts are ignored during LVS in both flows. `sak-lvs.sh` runs KLayout LVS with the `--disable_tap_extraction` option so it does not extract `ntap` and `ptap` devices from the layout (matching Magic + Netgen LVS).
 
-KLayout uses CDL netlists, while Magic uses SPICE netlists. Accordingly, `klayout-lvs-netlist` uses the Xschem commands `set spiceprefix 1`, `set lvs_netlist 1`, `set top_is_subckt 1`, and `set lvs_ignore 0`. In contrast, `magic-lvs-netlist` uses `set spiceprefix 1`, `set lvs_netlist 0`, `set top_is_subckt 1`, and `set lvs_ignore 1`.
+KLayout uses CDL netlists, while Magic uses SPICE netlists. Accordingly, `klayout-lvs-netlist` uses the Xschem commands `set spiceprefix 1`, `set lvs_netlist 1`, `set top_is_subckt 1`, and `set lvs_ignore 1`, while `magic-lvs-netlist` uses `set spiceprefix 1`, `set lvs_netlist 0`, `set top_is_subckt 1`, and `set lvs_ignore 1`. Hence, switching between CDL and SPICE netlists can be done with `lvs_netlist`.
 
 To extract a CDL schematic netlist for KLayout LVS, use:
 ```sh
 make klayout-lvs-netlist
-make klayout-lvs-netlist CELL=inverter_top
+make klayout-lvs-netlist CELL=inverter
 make klayout-lvs-netlist EV_PRECISION=5
 ```
 
 To extract a SPICE schematic netlist for Magic + Netgen LVS, use:
 ```sh
 make magic-lvs-netlist
-make magic-lvs-netlist CELL=inverter_top
+make magic-lvs-netlist CELL=inverter
 make magic-lvs-netlist EV_PRECISION=5
 ```
 
 
-## Layout Versus Schematic (LVS)
+### Layout Versus Schematic (LVS)
 
 Exports the schematic netlist from Xschem, then runs LVS. Compares the layout in `layout/` against the schematic netlist in `netlist/schematic/`.
 
-- `klayout-lvs` uses `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
-- `magic-lvs` uses `layout/<CELL>.gds` (Magic requires `.gds`)
+- `klayout-lvs` and `magic-lvs` use `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
 
-Reports are saved to `verification/lvs/`. The extracted layout netlist is moved to `netlist/layout/`.
+Both flows use the vendored `scripts/sak-lvs.sh` and write their reports into per-cell run folders: `verification/lvs/<CELL>.magic.lvs/` (Magic + Netgen) and `verification/lvs/<CELL>.klayout.lvs/` (KLayout, `.lvsdb`). The run folders are wiped at the start of each run, so they always reflect the latest run only. The extracted layout netlist is moved to `netlist/layout/`.
 
-**KLayout LVS** uses `run_lvs.py` from the IHP Open-PDK:
+**KLayout LVS** uses `sak-lvs.sh` (KLayout mode `-k`), which wraps `run_lvs.py` from the IHP Open-PDK:
 
 ```sh
 make klayout-lvs
-make klayout-lvs CELL=inverter_top
+make klayout-lvs CELL=inverter
 ```
 
-**Magic + Netgen LVS** uses `sak-lvs.sh`:
+**Magic + Netgen LVS** uses `sak-lvs.sh` (Magic + Netgen mode, the default), which extracts the layout netlist with Magic and compares it against the schematic netlist with Netgen:
 
 ```sh
 make magic-lvs
-make magic-lvs CELL=inverter_top
+make magic-lvs CELL=inverter
 ```
 
 
-## Design Rule Check (DRC)
-
-Runs DRC on the layout in `layout/`.
-
-- `klayout-drc` uses `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
-- `magic-drc` uses `layout/<CELL>.gds` (Magic requires `.gds`)
-
-Reports are saved to `verification/drc/`.
-
-**KLayout DRC** uses `run_drc.py` from the IHP Open-PDK with relaxed rules (FEOL, density checks, and extra rules disabled):
-
-```sh
-make klayout-drc
-make klayout-drc CELL=inverter_top
-```
-
-**Magic DRC** uses `sak-drc.sh`:
-
-```sh
-make magic-drc
-make magic-drc CELL=inverter_top
-```
-
-
-## Parasitic Extraction (PEX)
+### Parasitic Extraction (PEX)
 
 Runs parasitic extraction on the layout in `layout/`. The extracted SPICE netlist is written to `netlist/pex/`.
 
-- `klayout-pex` uses `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
-- `magic-pex` uses `layout/<CELL>.gds` (Magic requires `.gds`)
+- `klayout-pex` and `magic-pex` use `layout/<CELL>.$(_GDS_EXT)` (`.gds` if present, otherwise `.klay.gds`)
 
 The extracted SPICE filenames include the selected extraction mode:
 - `klayout-pex` writes `netlist/pex/<CELL>_klayout_pex_<EXT_MODE>.spice`
@@ -379,63 +421,94 @@ The `EXT_MODE` parameter selects the extraction mode:
 > [!NOTE]
 > For `klayout-pex`, `EXT_MODE=1` (C-decoupled) is not yet supported by kpex and automatically falls back to `EXT_MODE=2` (CC) with a warning.
 
-The `.subckt` name in the extracted SPICE file is automatically renamed from `<CELL>_flat` (kpex) or `<CELL>` (Magic) to `<CELL>_pex`.
+The `.subckt` name in the extracted SPICE file is `<CELL>_pex`: `magic-pex` sets it directly via the `sak-pex.sh` option `-n <CELL>_pex`, while for `klayout-pex` it is automatically renamed from `<CELL>` (kpex).
 
-If a matching Xschem symbol (`schematic/xschem/<CELL>_pex.sym`) exists, the `.subckt` pin order in the extracted SPICE file is automatically reordered to match the symbol's pin positions. This ensures the PEX netlist can be used directly with the corresponding Xschem symbol for simulation regardless of the selected `EXT_MODE`.
+If a matching Xschem symbol (`schematic/xschem/<CELL>_pex.sym`) exists, the `.subckt` pin order in the extracted SPICE file is automatically reordered with the vendored `scripts/sak-pin-reorder.py` to match the symbol's pin positions. This ensures the PEX netlist can be used directly with the corresponding Xschem symbol for simulation regardless of the selected `EXT_MODE`.
+
+Both targets finish by running [`scripts/check_pex_ports.py`](scripts/check_pex_ports.py) on the netlist they just wrote. It verifies that every pin of the `.subckt` really reaches the circuit, and fails the target otherwise. Two cases are caught:
+
+- A port that is declared in the `.subckt` line but referenced by no element at all. Whatever is wired to that pin from outside is then left floating.
+- A port whose net was split into `<port>.t<n>` and `<port>.n<n>` fragments by `extresist` (`EXT_MODE=3`), where none of the fragments is connected back to the port. The pin is then dangling even though the fragments themselves are wired up.
+
+Both produce a netlist that ngspice reads without a single warning while the cell behaves completely differently in simulation, so the check is worth the two seconds it costs. It can also be run by hand on any SPICE netlist:
+
+```sh
+python3 scripts/check_pex_ports.py netlist/pex/inverter_magic_pex_2.spice
+python3 scripts/check_pex_ports.py -v netlist/pex/*.spice     # -v also prints the size of each subcircuit
+```
 
 **KLayout PEX** uses `kpex` with the Magic extraction engine currently (2.5D engine is work in progress):
 
+> [!WARNING]
+> `kpex` does not support the `ihp-sg13cmos5l` PDK yet, so the `klayout-pex` target currently fails (kpex is also not part of the nix shell). Use `magic-pex` for parasitic extraction until kpex gains CMOS5L support. In the `klayout-verify` target, the `klayout-pex` target is currently commented out.
+
 ```sh
 make klayout-pex
-make klayout-pex CELL=inverter_top
-make klayout-pex CELL=inverter_top EXT_MODE=3
+make klayout-pex CELL=inverter
+make klayout-pex CELL=inverter EXT_MODE=3
 ```
 
-**Magic PEX** uses `sak-pex.sh`:
+**Magic PEX** uses the vendored `scripts/sak-pex.sh`, which extracts the parasitics with Magic (C-decoupled, C-coupled, or full-RC):
 
 ```sh
 make magic-pex
-make magic-pex CELL=inverter_top
-make magic-pex CELL=inverter_top EXT_MODE=3
+make magic-pex CELL=inverter
+make magic-pex CELL=inverter EXT_MODE=3
+```
+
+For full-RC extraction (`EXT_MODE=3`), `magic-pex` additionally exposes the three `extresist` tuning parameters of `sak-pex.sh`. They are ignored in `EXT_MODE=1`/`2`.
+
+A full-RC extraction models every wire as a resistor network, and most of those wires are so short that their resistance does not matter. The three parameters are the filters Magic applies to keep only the part of the network that is worth having. They run in this order:
+
+1. **`THRESHOLD`** (`-t`, in mOhm, default `10000` = 10 Ohm) decides **which nets are extracted at all**. Before doing any real work, Magic makes a quick end-to-end resistance guess for every net. The guess is deliberately pessimistic, it is an absolute worst case. Nets that stay below `THRESHOLD` even in that worst case cannot matter, so they are treated as ideal wires and skipped. This is the cheap first pass that removes the many short, low-resistance nets.
+2. **`MINDELAY`** (`-y`, in ps, default `1`) decides **which of the extracted nets are kept**. Because the guess above overestimates, Magic re-checks each net once it has been properly extracted and discards its resistor network again if the RC delay it adds stays below `MINDELAY`. Setting `MINDELAY=0` switches the delay criterion off and applies `THRESHOLD` a second time instead, now against the accurately extracted resistance rather than the initial guess.
+3. **`MINRES`** (`-r`, in mOhm, default `1000` = 1 Ohm) decides **how detailed the kept networks are**. Inside a net, neighbouring resistors below `MINRES` are merged as far as possible, which shrinks the network without changing its overall resistance much.
+
+In short: `THRESHOLD` and `MINDELAY` control *how many* nets carry parasitic resistance, `MINRES` controls *how finely* each of them is modelled. Raising all three gives a smaller netlist that simulates faster with less detail, lowering them gives a more accurate but considerably larger one.
+
+```sh
+make magic-pex CELL=inverter EXT_MODE=3 THRESHOLD=5000 MINRES=500 MINDELAY=2
 ```
 
 
-## Verify with KLayout
+### Verify with KLayout
 
-**Verify a single cell** by running LVS, DRC, and PEX in sequence:
+**Verify a single cell** by running DRC and LVS in sequence:
 
 ```sh
 make klayout-verify
 make klayout-verify CELL=inverter
 ```
 
-**Verify all cells** (`inverter`, `inverter_top`):
+**Verify all cells**
 
 ```sh
 make klayout-verify-all
 ```
 
 
-## Verify with Magic
+### Verify with Magic
 
-**Verify a single cell** by running LVS, DRC, and PEX in sequence:
+**Verify a single cell** by running DRC, LVS, and PEX in sequence:
 
 ```sh
 make magic-verify
 make magic-verify CELL=inverter
 ```
 
-**Verify all cells** (`inverter`, `inverter_top`):
+**Verify all cells**
 
 ```sh
 make magic-verify-all
 ```
 
 
-## Build All
+### Verify, Build and Simulate All
 
-Runs the full flow in sequence: simulations, KLayout verification, Magic verification, and top-level build deliverables (`sim-all`, `klayout-verify-all`, `magic-verify-all`, `build-top`):
+Runs the full flow in sequence: KLayout verification, Magic verification, top-level build deliverables, and simulations (`klayout-verify-all`, `magic-verify-all`, `build-top`, `sim-all`):
 
 ```sh
 make all
 ```
+
+Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX netlists from the current layout. The build follows, since the Verilog stub reads its pins from a PEX netlist. The simulations run **last**, so the `inverter` testbench includes the PEX netlist produced by this run, not by a previous one.

@@ -1,0 +1,35 @@
+** sch_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/schematic/xschem/heichips26_analog_project.sch
+.subckt heichips26_analog_project VPWR VAPWR VGND rst_n clk ena uio_in[7] uio_in[6] uio_in[5] uio_in[4] uio_in[3] uio_in[2]
++ uio_in[1] uio_in[0] ui_in[7] ui_in[6] ui_in[5] ui_in[4] ui_in[3] ui_in[2] ui_in[1] ui_in[0] uio_oe[7] uio_oe[6] uio_oe[5] uio_oe[4]
++ uio_oe[3] uio_oe[2] uio_oe[1] uio_oe[0] uio_out[7] uio_out[6] uio_out[5] uio_out[4] uio_out[3] uio_out[2] uio_out[1] uio_out[0] uo_out[7]
++ uo_out[6] uo_out[5] uo_out[4] uo_out[3] uo_out[2] uo_out[1] uo_out[0] analog_2 analog_1 analog_0
+*.PININFO rst_n:I clk:I ena:I uio_in[7]:I ui_in[7]:I uio_oe[7]:O uio_oe[6]:O uio_oe[5]:O uio_oe[4]:O uio_oe[3]:O uio_oe[2]:O
+*+ uio_oe[1]:O uio_oe[0]:O uio_out[7]:O uio_out[6]:O uio_out[5]:O uio_out[4]:O uio_out[3]:O uio_out[2]:O uio_out[1]:O uio_out[0]:O uo_out[7]:O
+*+ uo_out[6]:O uo_out[5]:O uo_out[4]:O uo_out[3]:O uo_out[2]:O uo_out[1]:O uo_out[0]:O VPWR:B VGND:B VAPWR:B ui_in[6]:I ui_in[5]:I ui_in[4]:I
+*+ ui_in[3]:I ui_in[2]:I ui_in[1]:I ui_in[0]:I uio_in[6]:I uio_in[5]:I uio_in[4]:I uio_in[3]:I uio_in[2]:I uio_in[1]:I uio_in[0]:I analog_2:B
+*+ analog_1:B analog_0:B
+x3 VAPWR analog_0 analog_1 VGND inverter
+x4 VAPWR ui_in[0] analog_2 VGND inverter
+*connector(3,1) ?1 rst_n ?1 clk ?1 ena
+*connector(8,1) ?1 uio_in[7] ?1 uio_in[6] ?1 uio_in[5] ?1 uio_in[4] ?1 uio_in[3] ?1 uio_in[2] ?1 uio_in[1] ?1 uio_in[0]
+*connector(8,1) ?1 ui_in[7] ?1 ui_in[6] ?1 ui_in[5] ?1 ui_in[4] ?1 ui_in[3] ?1 ui_in[2] ?1 ui_in[1] ?1 ui_in[0]
+*connector(8,1) ?1 uio_oe[7] ?1 uio_oe[6] ?1 uio_oe[5] ?1 uio_oe[4] ?1 uio_oe[3] ?1 uio_oe[2] ?1 uio_oe[1] ?1 uio_oe[0]
+*connector(8,1) ?1 uio_out[7] ?1 uio_out[6] ?1 uio_out[5] ?1 uio_out[4] ?1 uio_out[3] ?1 uio_out[2] ?1 uio_out[1] ?1 uio_out[0]
+*connector(8,1) ?1 uo_out[7] ?1 uo_out[6] ?1 uo_out[5] ?1 uo_out[4] ?1 uo_out[3] ?1 uo_out[2] ?1 uo_out[1] ?1 uo_out[0]
+*connector(3,1) ?1 VPWR ?1 VAPWR ?1 VGND
+*connector(3,1) ?1 analog_2 ?1 analog_1 ?1 analog_0
+MM1 VGND VPWR VGND VGND sg13_lv_pmos w=10.0u l=10.0u ng=1
+MM2 VGND VAPWR VGND VGND sg13_lv_pmos w=10.0u l=10.0u ng=1
+.ends
+
+* expanding   symbol:  inverter.sym # of pins=4
+** sym_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sch
+.subckt inverter VDD vin vout VSS
+*.PININFO vin:I VDD:B VSS:B vout:B
+MMdummy1 VSS VSS VSS VSS sg13_lv_nmos w=2.0u l=1.0u ng=2
+MMdummy2 VDD VDD VDD VDD sg13_lv_pmos w=12.0u l=1.0u ng=2
+MM1 vout vin VSS VSS sg13_lv_nmos w=20.0u l=1.0u ng=20
+MM2 vout vin VDD VDD sg13_lv_pmos w=120.0u l=1.0u ng=20
+.ends
+
