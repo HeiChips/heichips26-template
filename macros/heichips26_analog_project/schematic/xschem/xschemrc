@@ -51,3 +51,4 @@ append_xschem_library_path_unique [file join [file dirname [info script]] ../../
 
 # Source project xschemrc
 append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/inverter/schematic/xschem]
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../macros/inverter/testbenches/xschem]
