@@ -6,8 +6,8 @@ S {}
 F {}
 E {}
 B 2 1680 -1420 2480 -1020 {flags=graph
-y1=-0.0016
-y2=-4e-11
+y1=-0.0047
+y2=1.9e-06
 ypos1=0
 ypos2=2
 divy=5
@@ -30,8 +30,8 @@ color="4 21"
 node="i(VPWR)
 i(VAPWR)"}
 B 2 1680 -1000 2480 -600 {flags=graph
-y1=0.33
-y2=0.99
+y1=0.35
+y2=1.1
 ypos1=0
 ypos2=2
 divy=5
@@ -53,8 +53,8 @@ logy=0
 linewidth_mult=3
 autoload=0}
 B 2 1680 -580 2480 -180 {flags=graph
-y1=0.33
-y2=0.99
+y1=0
+y2=1.6
 ypos1=0
 ypos2=2
 divy=5
@@ -262,7 +262,6 @@ m=1
 spice_ignore=true}
 C {devices/gnd.sym} 1420 -740 0 0 {name=l13 lab=GND}
 C {devices/gnd.sym} 1520 -740 0 0 {name=l14 lab=GND}
-C {heichips26_analog_project.sym} 1080 -800 0 0 {name=x1}
 C {devices/code_shown.sym} 20 -1550 0 0 {name=SAVE only_toplevel=true
 format="tcleval( @value )"
 value=".include [file rootname [xschem get schname]].save
@@ -320,3 +319,9 @@ C {devices/lab_pin.sym} 1100 -1160 3 1 {name=l15 sig_type=std_logic lab=VAPWR}
 C {devices/vsource.sym} 780 -470 0 1 {name=vpulse spice_ignore=False value="pulse(0 \{VPWR\} 0 10n 10n 500u 1m)"
 }
 C {noconn.sym} 880 -880 2 1 {name=l16}
+C {heichips26_analog_project.sym} 2720 -1080 0 0 {name=x2
+spice_ignore=true}
+C {heichips26_analog_project_pex.sym} 2720 -360 0 0 {name=x3
+spice_ignore=true}
+C {heichips26_analog_project.sym} 1080 -800 0 0 {name=x1
+}
