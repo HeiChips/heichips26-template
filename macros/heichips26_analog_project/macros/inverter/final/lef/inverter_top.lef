@@ -35,6 +35,44 @@ MACRO inverter_top
         RECT 0.000 65.790 39.615 66.790 ;
     END
   END vin4
+  PIN VSS
+    USE GROUND ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 79.720 54.180 81.920 ;
+    END
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 0.000 54.180 2.200 ;
+    END
+    PORT
+      LAYER Metal4 ;
+        RECT 0.000 0.000 2.200 81.920 ;
+    END
+    PORT
+      LAYER Metal4 ;
+        RECT 51.980 0.000 54.180 81.920 ;
+    END
+  END VSS
+  PIN VDD
+    USE POWER ;
+    PORT
+      LAYER Metal3 ;
+        RECT 4.200 75.520 49.980 77.720 ;
+    END
+    PORT
+      LAYER Metal3 ;
+        RECT 4.200 4.200 49.980 6.400 ;
+    END
+    PORT
+      LAYER Metal4 ;
+        RECT 4.200 4.200 6.400 77.720 ;
+    END
+    PORT
+      LAYER Metal4 ;
+        RECT 47.780 4.200 49.980 77.720 ;
+    END
+  END VDD
   PIN vout1
     ANTENNADIFFAREA 26.599998 ;
     PORT
@@ -63,44 +101,6 @@ MACRO inverter_top
         RECT 14.170 65.540 54.180 67.040 ;
     END
   END vout4
-  PIN VSS
-    USE GROUND ;
-    PORT
-      LAYER Metal5 ;
-        RECT 0.000 0.000 54.180 2.200 ;
-    END
-    PORT
-      LAYER Metal5 ;
-        RECT 0.000 79.720 54.180 81.920 ;
-    END
-    PORT
-      LAYER TopMetal1 ;
-        RECT 0.000 0.000 2.200 81.920 ;
-    END
-    PORT
-      LAYER TopMetal1 ;
-        RECT 51.980 0.000 54.180 81.920 ;
-    END
-  END VSS
-  PIN VDD
-    USE POWER ;
-    PORT
-      LAYER Metal5 ;
-        RECT 4.200 4.200 49.980 6.400 ;
-    END
-    PORT
-      LAYER Metal5 ;
-        RECT 4.200 75.520 49.980 77.720 ;
-    END
-    PORT
-      LAYER TopMetal1 ;
-        RECT 47.780 4.200 49.980 77.720 ;
-    END
-    PORT
-      LAYER TopMetal1 ;
-        RECT 4.200 4.200 6.400 77.720 ;
-    END
-  END VDD
   OBS
       LAYER GatPoly ;
         RECT 10.750 11.900 43.430 70.020 ;
@@ -126,10 +126,6 @@ MACRO inverter_top
         RECT 0.000 16.590 54.180 34.770 ;
         RECT 0.000 14.670 13.960 16.590 ;
         RECT 0.000 10.400 54.180 14.670 ;
-      LAYER Metal4 ;
-        RECT 0.750 10.845 53.430 71.075 ;
-      LAYER Metal5 ;
-        RECT 0.750 10.840 53.430 71.080 ;
   END
 END inverter_top
 END LIBRARY
