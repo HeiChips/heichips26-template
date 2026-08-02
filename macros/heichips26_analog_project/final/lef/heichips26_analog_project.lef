@@ -1,0 +1,337 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO heichips26_analog_project
+  CLASS BLOCK ;
+  FOREIGN heichips26_analog_project ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 200.000 BY 200.000 ;
+  PIN analog_0
+    ANTENNAGATEAREA 140.000000 ;
+    PORT
+      LAYER Metal2 ;
+        RECT 149.740 0.000 150.740 68.955 ;
+    END
+  END analog_0
+  PIN analog_1
+    ANTENNADIFFAREA 26.599998 ;
+    PORT
+      LAYER Metal2 ;
+        RECT 154.540 0.000 155.540 68.955 ;
+    END
+  END analog_1
+  PIN analog_2
+    ANTENNADIFFAREA 26.599998 ;
+    PORT
+      LAYER Metal2 ;
+        RECT 159.340 0.000 160.340 66.460 ;
+    END
+  END analog_2
+  PIN clk
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 183.340 0.400 183.740 ;
+    END
+  END clk
+  PIN ena
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 179.140 0.400 179.540 ;
+    END
+  END ena
+  PIN rst_n
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 187.540 0.400 187.940 ;
+    END
+  END rst_n
+  PIN ui_in[0]
+    ANTENNAGATEAREA 140.000000 ;
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 111.940 135.710 112.340 ;
+    END
+  END ui_in[0]
+  PIN ui_in[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 116.140 0.400 116.540 ;
+    END
+  END ui_in[1]
+  PIN ui_in[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 120.340 0.400 120.740 ;
+    END
+  END ui_in[2]
+  PIN ui_in[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 124.540 0.400 124.940 ;
+    END
+  END ui_in[3]
+  PIN ui_in[4]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 128.740 0.400 129.140 ;
+    END
+  END ui_in[4]
+  PIN ui_in[5]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 132.940 0.400 133.340 ;
+    END
+  END ui_in[5]
+  PIN ui_in[6]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 137.140 0.400 137.540 ;
+    END
+  END ui_in[6]
+  PIN ui_in[7]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 141.340 0.400 141.740 ;
+    END
+  END ui_in[7]
+  PIN uio_in[0]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 145.540 0.400 145.940 ;
+    END
+  END uio_in[0]
+  PIN uio_in[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 149.740 0.400 150.140 ;
+    END
+  END uio_in[1]
+  PIN uio_in[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 153.940 0.400 154.340 ;
+    END
+  END uio_in[2]
+  PIN uio_in[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 158.140 0.400 158.540 ;
+    END
+  END uio_in[3]
+  PIN uio_in[4]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 162.340 0.400 162.740 ;
+    END
+  END uio_in[4]
+  PIN uio_in[5]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 166.540 0.400 166.940 ;
+    END
+  END uio_in[5]
+  PIN uio_in[6]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 170.740 0.400 171.140 ;
+    END
+  END uio_in[6]
+  PIN uio_in[7]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 174.940 0.400 175.340 ;
+    END
+  END uio_in[7]
+  PIN uio_oe[0]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 78.340 0.400 78.740 ;
+    END
+  END uio_oe[0]
+  PIN uio_oe[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 82.540 0.400 82.940 ;
+    END
+  END uio_oe[1]
+  PIN uio_oe[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 86.740 0.400 87.140 ;
+    END
+  END uio_oe[2]
+  PIN uio_oe[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 90.940 0.400 91.340 ;
+    END
+  END uio_oe[3]
+  PIN uio_oe[4]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 95.140 0.400 95.540 ;
+    END
+  END uio_oe[4]
+  PIN uio_oe[5]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 99.340 0.400 99.740 ;
+    END
+  END uio_oe[5]
+  PIN uio_oe[6]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 103.540 0.400 103.940 ;
+    END
+  END uio_oe[6]
+  PIN uio_oe[7]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 107.740 0.400 108.140 ;
+    END
+  END uio_oe[7]
+  PIN uio_out[0]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 44.740 0.400 45.140 ;
+    END
+  END uio_out[0]
+  PIN uio_out[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 48.940 0.400 49.340 ;
+    END
+  END uio_out[1]
+  PIN uio_out[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 53.140 0.400 53.540 ;
+    END
+  END uio_out[2]
+  PIN uio_out[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 57.340 0.400 57.740 ;
+    END
+  END uio_out[3]
+  PIN uio_out[4]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 61.540 0.400 61.940 ;
+    END
+  END uio_out[4]
+  PIN uio_out[5]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 65.740 0.400 66.140 ;
+    END
+  END uio_out[5]
+  PIN uio_out[6]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 69.940 0.400 70.340 ;
+    END
+  END uio_out[6]
+  PIN uio_out[7]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 74.140 0.400 74.540 ;
+    END
+  END uio_out[7]
+  PIN uo_out[0]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 11.140 0.400 11.540 ;
+    END
+  END uo_out[0]
+  PIN uo_out[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 15.340 0.400 15.740 ;
+    END
+  END uo_out[1]
+  PIN uo_out[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 19.540 0.400 19.940 ;
+    END
+  END uo_out[2]
+  PIN uo_out[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 23.740 0.400 24.140 ;
+    END
+  END uo_out[3]
+  PIN uo_out[4]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 27.940 0.400 28.340 ;
+    END
+  END uo_out[4]
+  PIN uo_out[5]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 32.140 0.400 32.540 ;
+    END
+  END uo_out[5]
+  PIN uo_out[6]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 36.340 0.400 36.740 ;
+    END
+  END uo_out[6]
+  PIN uo_out[7]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 40.540 0.400 40.940 ;
+    END
+  END uo_out[7]
+  PIN VAPWR
+    ANTENNAGATEAREA 124.000000 ;
+    ANTENNADIFFAREA 106.439995 ;
+    PORT
+      LAYER Metal4 ;
+        RECT 112.000 0.000 117.000 200.000 ;
+    END
+  END VAPWR
+  PIN VGND
+    ANTENNAGATEAREA 4.000000 ;
+    ANTENNADIFFAREA 96.255997 ;
+    PORT
+      LAYER Metal4 ;
+        RECT 106.000 0.000 111.000 200.000 ;
+    END
+  END VGND
+  PIN VPWR
+    ANTENNAGATEAREA 100.000000 ;
+    PORT
+      LAYER Metal4 ;
+        RECT 100.000 0.000 105.000 200.000 ;
+    END
+  END VPWR
+  OBS
+      LAYER GatPoly ;
+        RECT 82.360 93.130 170.720 193.770 ;
+      LAYER Metal1 ;
+        RECT 82.360 91.630 170.720 193.770 ;
+      LAYER Metal2 ;
+        RECT 83.330 69.165 181.680 192.890 ;
+        RECT 83.330 65.460 149.530 69.165 ;
+        RECT 150.950 65.460 154.330 69.165 ;
+        RECT 155.750 66.670 181.680 69.165 ;
+        RECT 155.750 65.460 159.130 66.670 ;
+        RECT 160.550 65.460 181.680 66.670 ;
+      LAYER Metal3 ;
+        RECT 83.330 112.550 174.000 192.890 ;
+        RECT 135.920 111.730 174.000 112.550 ;
+        RECT 83.330 91.630 174.000 111.730 ;
+      LAYER Metal4 ;
+        RECT 83.330 180.230 99.790 194.690 ;
+        RECT 105.210 180.230 105.790 194.690 ;
+        RECT 111.210 180.230 111.790 194.690 ;
+        RECT 117.210 180.230 133.670 194.690 ;
+  END
+END heichips26_analog_project
+END LIBRARY
+
