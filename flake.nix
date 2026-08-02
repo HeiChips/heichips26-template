@@ -38,15 +38,6 @@
             nix-eda.overlays.default
             devshell.overlays.default
             librelane.overlays.default
-            # Xschem 3.4.8RC (master): needed so @schname is substituted inside
-            # the testbench .control blocks (the 3.4.7 release does not do this).
-            (final: prev: {
-              xschem = prev.xschem.override {
-                version = "3.4.8RC";
-                rev = "ff2f4824c1a24e158d218f44db11cc682b4881c8";
-                sha256 = "sha256-0uYrN7UQBkLcVqycf+m7tJuPC73Z5gE7xk3hlBSRTvE=";
-              };
-            })
           ];
         }
       );
