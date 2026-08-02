@@ -13,6 +13,17 @@ This is the analog-on-top example project for the HeiChips 2026 Hackathon: the t
 > [!IMPORTANT]
 > You must rename `heichips26_analog_project` to a unique name starting with `heichips26_` and edit `submission.yaml` in the repository root.
 
+For an analog-on-top submission, `submission.yaml` needs your macro name and the analog artifact paths, for example:
+
+```yaml
+top-cell: "heichips26_yourname"
+slot-size: tiny # this example fits the tiny slot
+analog-pins: 3  # number of used analog pins (0-3)
+gds-path: macros/heichips26_yourname/final/gds/*.gds
+lef-path: macros/heichips26_yourname/final/lef/*.lef
+header-path: macros/heichips26_yourname/final/vh/*.vh
+```
+
 
 ## Directory Structure
 
@@ -29,7 +40,7 @@ This is the analog-on-top example project for the HeiChips 2026 Hackathon: the t
 │  ├─ 📁 lib/
 │  │  └─ heichips26_analog_project.lib
 │  └─ 📁 vh/
-│     └─ heichips26_analog_project.v
+│     └─ heichips26_analog_project.vh
 ├─ 📁 floorplan/
 │  ├─ heichips26_template_small.gds          # 500µm × 200µm slot
 │  ├─ heichips26_template_small_analog.gds   # 500µm × 200µm slot + 3 analog pins
@@ -135,14 +146,14 @@ make magic-verify-all                    # Magic DRC + LVS + PEX of the top cell
 make build-top                           # LEF, LIB, Verilog stub, final GDS, render
 make build-inverter                      # run the inverter sub-macro's full flow (make -C macros/inverter all)
 make build-macros                        # verify, build and simulate all sub-macros (currently: inverter)
-make sim-xschem TB=heichips26_analog_project_tb_tran   # post-layout transient (needs magic-pex first)
+make sim-xschem TB=heichips26_analog_project_tb_tran   # top-level transient (needs magic-pex first)
 make sim-view-xschem SCRIPT=plot_heichips26_analog_project
 make all                                 # build-macros + verify + build + simulate
 ```
 
 Differences to the sub-macro:
 
-- `sim-all` runs only the top-level post-layout testbench (`heichips26_analog_project_tb_tran`). The schematic-level testbenches and CACE characterization live in `macros/inverter/`.
+- `sim-all` runs only the top-level testbenches (e.g. `heichips26_analog_project_tb_tran`). It simulates the schematic by default and includes the extracted PEX netlist by swapping the DUT to the `_pex` symbol for a post-layout run. The inverter's own testbenches and CACE characterization live in `macros/inverter/`.
 - `klayout-verify-all`/`magic-verify-all` verify the top cell only — the inverter cells are covered by `build-macros`/`build-inverter` (or run the sub-macro's own `make`).
 - `make all` first runs `build-macros`, so the sub-macros are verified, built and simulated before the top cell — the build order below is handled automatically.
 

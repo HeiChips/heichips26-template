@@ -196,15 +196,16 @@ verilog: ## Generate a Verilog stub of the TOP cell from Magic or KLayout PEX ne
 			for p in $$power_pins; do echo "    inout $$p,"; done; \
 			echo '`endif'; \
 		fi; \
-		last=$$(echo $$signal_pins | awk '{print $$NF}'); \
-		for p in $$signal_pins; do \
-			case "$$p" in \
-				di_*) t=input ;; \
-				do_*) t=output ;; \
-				*) t=inout ;; \
-			esac; \
-			if [ "$$p" = "$$last" ]; then echo "    $$t $$p"; else echo "    $$t $$p,"; fi; \
-		done; \
+		echo "$$signal_pins" | tr ' ' '\n' | grep -v '^$$' | awk ' \
+			{ name=$$0; idx=-1; base=name; \
+			  if (name ~ /\[[0-9]+\]$$/) { p=index(name,"["); base=substr(name,1,p-1); idx=substr(name,p+1,length(name)-p-1)+0; } \
+			  if (!(base in lo)) { order[++n]=base; lo[base]=idx; hi[base]=idx; } \
+			  if (idx>=0) { if (lo[base]<0 || idx<lo[base]) lo[base]=idx; if (idx>hi[base]) hi[base]=idx; } } \
+			END { for (i=1;i<=n;i++) { b=order[i]; \
+			  t="inout"; if (b ~ /^di_/) t="input"; else if (b ~ /^do_/) t="output"; \
+			  if (lo[b]<0) line="    " t " " b; else line="    " t " [" hi[b] ":" lo[b] "] " b; \
+			  printf "%s%s\n", line, (i<n ? "," : ""); } } \
+		'; \
 		echo ');'; \
 		echo 'endmodule'; \
 	} > $(VH_DIR)/$(TOP).vh
