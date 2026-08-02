@@ -14,10 +14,10 @@ N 1200 -800 1200 -780 {lab=VAPWR}
 N 1200 -700 1200 -680 {lab=VGND}
 N 1200 -1080 1200 -1060 {lab=VAPWR}
 N 1200 -980 1200 -960 {lab=VGND}
-N 1080 -740 1140 -740 {lab=analog_1}
+N 1080 -740 1140 -740 {lab=analog_0}
 N 1080 -1020 1140 -1020 {lab=ui_in[0]}
-N 1280 -1020 1340 -1020 {lab=analog_0}
-N 1280 -740 1340 -740 {lab=analog_2}
+N 1280 -1020 1340 -1020 {lab=analog_2}
+N 1280 -740 1340 -740 {lab=analog_1}
 N 1920 -800 1920 -760 {lab=VAPWR}
 N 1860 -720 1890 -720 {lab=VGND}
 N 1860 -720 1860 -620 {lab=VGND}
@@ -172,6 +172,6 @@ C {lab_pin.sym} 1200 -800 1 0 {name=p5 sig_type=std_logic lab=VAPWR}
 C {lab_pin.sym} 1200 -960 3 0 {name=p11 sig_type=std_logic lab=VGND}
 C {lab_pin.sym} 1200 -680 3 0 {name=p19 sig_type=std_logic lab=VGND}
 C {lab_pin.sym} 1080 -1020 0 0 {name=p2 sig_type=std_logic lab=ui_in[0]}
-C {lab_pin.sym} 1340 -1020 0 1 {name=p6 sig_type=std_logic lab=analog_0}
-C {lab_pin.sym} 1080 -740 0 0 {name=p7 sig_type=std_logic lab=analog_1}
-C {lab_pin.sym} 1340 -740 0 1 {name=p10 sig_type=std_logic lab=analog_2}
+C {lab_pin.sym} 1340 -1020 0 1 {name=p6 sig_type=std_logic lab=analog_2}
+C {lab_pin.sym} 1080 -740 0 0 {name=p7 sig_type=std_logic lab=analog_0}
+C {lab_pin.sym} 1340 -740 0 1 {name=p10 sig_type=std_logic lab=analog_1}
