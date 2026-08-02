@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <absolute-units>false</absolute-units>
+ <abstract-mode-enabled>false</abstract-mode-enabled>
+ <abstract-mode-width>10.0</abstract-mode-width>
+ <always-exit-without-saving>false</always-exit-without-saving>
+ <apply-text-trans>true</apply-text-trans>
+ <apply-text-trans-mode>3</apply-text-trans-mode>
+ <assistant-bookmarks/>
+ <auto-create-new-layers>true</auto-create-new-layers>
+ <auto-sync-libraries>false</auto-sync-libraries>
+ <background-color>#000000</background-color>
+ <bitmap-caching>true</bitmap-caching>
+ <bitmap-oversampling>1</bitmap-oversampling>
+ <cell-list-sorting>by-name</cell-list-sorting>
+ <cell-search-as-expressions>true</cell-search-as-expressions>
+ <cell-search-as-filter>false</cell-search-as-filter>
+ <cell-search-case-sensitive>true</cell-search-case-sensitive>
+ <child-context-color>auto</child-context-color>
+ <child-context-dimming>50</child-context-dimming>
+ <child-context-enabled>false</child-context-enabled>
+ <child-context-hollow>false</child-context-hollow>
+ <cib-context-cell/>
+ <cib-context-mode>any-top</cib-context-mode>
+ <cib-max-inst-count>1000</cib-max-inst-count>
+ <cib-window-dim>1.0</cib-window-dim>
+ <cib-window-mode>fit-marker</cib-window-mode>
+ <cib-window-state/>
+ <circle-points>32</circle-points>
+ <clear-ruler-new-cell>false</clear-ruler-new-cell>
+ <color-palette/>
+ <combine-mode>add</combine-mode>
+ <context-color>auto</context-color>
+ <context-dimming>50</context-dimming>
+ <context-hollow>false</context-hollow>
+ <copy-cell-mode>-1</copy-cell-mode>
+ <crosshair-cursor-color>auto</crosshair-cursor-color>
+ <crosshair-cursor-enabled>true</crosshair-cursor-enabled>
+ <crosshair-cursor-line-style>0</crosshair-cursor-line-style>
+ <current-lib-view/>
+ <current-ruler-template>9</current-ruler-template>
+ <custom-macro-paths/>
+ <dbu-units>false</dbu-units>
+ <def-import-spec/>
+ <default-add-other-layers>false</default-add-other-layers>
+ <default-font-size>0</default-font-size>
+ <default-grids>1.0,0.1,0.01,0.005</default-grids>
+ <default-layer-properties/>
+ <default-text-size>0.1</default-text-size>
+ <density-map-averaging-mode>averaging-mode-square</density-map-averaging-mode>
+ <density-map-boundary-mode>boundary-mode-periodic</density-map-boundary-mode>
+ <density-map-layer-mode>layer-mode-specific</density-map-layer-mode>
+ <density-map-pixel-size>100</density-map-pixel-size>
+ <density-map-region-mode>region-mode-global-bbox</density-map-region-mode>
+ <density-map-threads>1</density-map-threads>
+ <density-map-window-size>0</density-map-window-size>
+ <diff-detailed>false</diff-detailed>
+ <diff-exact>false</diff-exact>
+ <diff-expand-cell-arrays>false</diff-expand-cell-arrays>
+ <diff-run-xor>false</diff-run-xor>
+ <diff-summarize>false</diff-summarize>
+ <digits-dbu>2</digits-dbu>
+ <digits-micron>5</digits-micron>
+ <draw-array-border-instances>false</draw-array-border-instances>
+ <drawing-workers>1</drawing-workers>
+ <drop-small-cells>false</drop-small-cells>
+ <drop-small-cells-condition>0</drop-small-cells-condition>
+ <drop-small-cells-value>10</drop-small-cells-value>
+ <edit-connect-angle-mode>ortho</edit-connect-angle-mode>
+ <edit-grid/>
+ <edit-hier-copy-mode>-1</edit-hier-copy-mode>
+ <edit-inst-angle>0</edit-inst-angle>
+ <edit-inst-array>false</edit-inst-array>
+ <edit-inst-cell-name>nmos</edit-inst-cell-name>
+ <edit-inst-column_x>0</edit-inst-column_x>
+ <edit-inst-column_y>0</edit-inst-column_y>
+ <edit-inst-columns>1</edit-inst-columns>
+ <edit-inst-lib-name>SG13_dev</edit-inst-lib-name>
+ <edit-inst-mirror>false</edit-inst-mirror>
+ <edit-inst-pcell-parameters/>
+ <edit-inst-place-origin>false</edit-inst-place-origin>
+ <edit-inst-row_x>0</edit-inst-row_x>
+ <edit-inst-row_y>0</edit-inst-row_y>
+ <edit-inst-rows>1</edit-inst-rows>
+ <edit-inst-scale>1</edit-inst-scale>
+ <edit-max-shapes-of-instances>1000</edit-max-shapes-of-instances>
+ <edit-mode>false</edit-mode>
+ <edit-move-angle-mode>diagonal</edit-move-angle-mode>
+ <edit-path-ext-type>flush</edit-path-ext-type>
+ <edit-path-ext-var-begin>0.0</edit-path-ext-var-begin>
+ <edit-path-ext-var-end>0.0</edit-path-ext-var-end>
+ <edit-path-width>0.2</edit-path-width>
+ <edit-pcell-lazy-eval-mode>-1</edit-pcell-lazy-eval-mode>
+ <edit-pcell-show-parameter-names>false</edit-pcell-show-parameter-names>
+ <edit-recent-inst-param>SG13_dev,nmos,'0',false,'1',false,'1','0','0','1','0','0','!',</edit-recent-inst-param>
+ <edit-show-shapes-of-instances>true</edit-show-shapes-of-instances>
+ <edit-snap-objects-to-grid>true</edit-snap-objects-to-grid>
+ <edit-snap-to-objects>true</edit-snap-to-objects>
+ <edit-text-halign>left</edit-text-halign>
+ <edit-text-size>0</edit-text-size>
+ <edit-text-string>ABC</edit-text-string>
+ <edit-text-valign>bottom</edit-text-valign>
+ <edit-top-level-selection>true</edit-top-level-selection>
+ <empty-cell-dimension>4</empty-cell-dimension>
+ <fit-new-cell>true</fit-new-cell>
+ <flat-cell-list>false</flat-cell-list>
+ <full-hierarchy-new-cell>true</full-hierarchy-new-cell>
+ <ghost-cells-visible>true</ghost-cells-visible>
+ <global-trans>r0</global-trans>
+ <grid-axis-color>auto</grid-axis-color>
+ <grid-color>auto</grid-color>
+ <grid-density/>
+ <grid-grid-color>auto</grid-grid-color>
+ <grid-micron>0.01</grid-micron>
+ <grid-ruler-color>auto</grid-ruler-color>
+ <grid-show-ruler>false</grid-show-ruler>
+ <grid-style0>lines</grid-style0>
+ <grid-style1>invisible</grid-style1>
+ <grid-style2>dots</grid-style2>
+ <grid-visible>true</grid-visible>
+ <guiding-shape-color>auto</guiding-shape-color>
+ <guiding-shape-line-width>1</guiding-shape-line-width>
+ <guiding-shape-vertex-size>5</guiding-shape-vertex-size>
+ <guiding-shape-visible>true</guiding-shape-visible>
+ <hide-empty-layers>true</hide-empty-layers>
+ <highres-mode>false</highres-mode>
+ <image-cache-size>1</image-cache-size>
+ <images-visible>true</images-visible>
+ <initial-hier-depth>1</initial-hier-depth>
+ <initial-technology>sg13g2</initial-technology>
+ <inst-color>#ff8000</inst-color>
+ <inst-label-font>0</inst-label-font>
+ <inst-label-transform>true</inst-label-transform>
+ <inst-visible>true</inst-visible>
+ <key-bindings>
+'@secrets.duplicate_interactive':C;
+'@secrets.paste_interactive':H;
+edit_menu.cell_menu.adjust_cell_origin:'Shift+O';
+edit_menu.clear_all_rulers:'Shift+K';
+edit_menu.edit_options:'Shift+E';
+edit_menu.mode_menu.box:R;
+edit_menu.mode_menu.instance:I;
+edit_menu.mode_menu.partial:S;
+edit_menu.mode_menu.path:P;
+edit_menu.mode_menu.polygon:'Ctrl+Shift+P';
+edit_menu.mode_menu.ruler:K;
+edit_menu.mode_menu.text:T;
+edit_menu.selection_menu.tap:Y;
+edit_menu.redo:'Shift+U';
+edit_menu.mode_menu.Move:M;
+edit_menu.mode_menu.Align:A;
+edit_menu.select_menu.select_all:'Ctrl+A';
+edit_menu.select_menu.unselect_all:'Ctrl+D';
+edit_menu.selection_menu.change_layer:'Shift+L';
+edit_menu.selection_menu.flatten_insts:'Alt+Shift+F';
+edit_menu.selection_menu.make_cell:'Alt+Shift+M';
+edit_menu.selection_menu.sel_flip_x:'Shift+H';
+edit_menu.selection_menu.sel_flip_y:'Shift+V';
+edit_menu.selection_menu.sel_move:'[';
+edit_menu.selection_menu.sel_move_to:']';
+edit_menu.selection_menu.sel_rot_ccw:'Ctrl+Shift+R';
+edit_menu.selection_menu.sel_rot_cw:'Shift+R';
+edit_menu.selection_menu.union:'Shift+M';
+edit_menu.selection_menu.intersection:'Shift+I';
+edit_menu.undo:U;
+file_menu.new_layout:none;
+file_menu.new_hierarchical_layout:'Ctrl+N';
+file_menu.open_same_panel:none;
+file_menu.open_new_panel:none;
+file_menu.open_hierarchical_layout:'Ctrl+O';
+file_menu.save:none;
+file_menu.save_hierarchical_layout:'Ctrl+S';
+file_menu.save_as:none;
+file_menu.save_as_hierarchical_layout:'Ctrl+Shift+S';
+file_menu.reload:none;
+file_menu.reload_cell_libraries:'Ctrl+Shift+R';
+file_menu.manage_cell_library_map:'Ctrl+Shift+M';
+view_menu.crosshair_cursor:'Shift+C';
+zoom_menu.ascend:'Ctrl+E';
+zoom_menu.descend:'X';
+zoom_menu.descend_into:E;
+zoom_menu.max_hier:'Shift+F';
+zoom_menu.redraw:'Ctrl+R';
+zoom_menu.select_cell:'Shift+S';
+zoom_menu.select_current_cell:'Shift+T';
+zoom_menu.zoom_fit:F;
+zoom_menu.zoom_fit_sel:'Alt+F';
+zoom_menu.zoom_in:'Z';
+zoom_menu.zoom_out:'Shift+Z';
+zoom_menu.max_hier_0:none;
+zoom_menu.max_hier_1:'Ctrl+F';
+zoom_menu.dec_max_hier:'-';
+zoom_menu.inc_max_hier:'+';
+sg13g2_menu.macro_in_menu_sg13g2_drc:F9;
+sg13g2_menu.macro_in_menu_sg13g2_drc_options:F10;
+sg13g2_menu.macro_in_menu_sg13g2_lvs:F11;
+sg13g2_menu.macro_in_menu_sg13g2_lvs_options:F12;
+ </key-bindings>
+ <klayout_auto_backups_enabled>true</klayout_auto_backups_enabled>
+ <l2ndb-export-circuit-cell-prefix>CIRCUIT_</l2ndb-export-circuit-cell-prefix>
+ <l2ndb-export-device-cell-prefix>DEVICE_</l2ndb-export-device-cell-prefix>
+ <l2ndb-export-net-cell-prefix>NET_</l2ndb-export-net-cell-prefix>
+ <l2ndb-export-net-propname/>
+ <l2ndb-export-produce-circuit-cells>false</l2ndb-export-produce-circuit-cells>
+ <l2ndb-export-produce-device-cells>false</l2ndb-export-produce-device-cells>
+ <l2ndb-export-start-layer-number>1000</l2ndb-export-start-layer-number>
+ <l2ndb-marker-color>#f3ff80</l2ndb-marker-color>
+ <l2ndb-marker-cycle-colors>255,0,0 0,255,0 0,0,255 255,255,0 255,0,255 0,255,255 160,80,255 255,160,0</l2ndb-marker-cycle-colors>
+ <l2ndb-marker-cycle-colors-enabled>false</l2ndb-marker-cycle-colors-enabled>
+ <l2ndb-marker-dither-pattern>-1</l2ndb-marker-dither-pattern>
+ <l2ndb-marker-halo>-1</l2ndb-marker-halo>
+ <l2ndb-marker-intensity>50</l2ndb-marker-intensity>
+ <l2ndb-marker-line-width>3</l2ndb-marker-line-width>
+ <l2ndb-marker-use-original-colors>false</l2ndb-marker-use-original-colors>
+ <l2ndb-marker-vertex-size>-1</l2ndb-marker-vertex-size>
+ <l2ndb-max-shapes-highlighted>10000</l2ndb-max-shapes-highlighted>
+ <l2ndb-show-all>true</l2ndb-show-all>
+ <l2ndb-window-dim>1.0</l2ndb-window-dim>
+ <l2ndb-window-mode>fit-net</l2ndb-window-mode>
+ <l2ndb-window-state/>
+ <layer-search-as-expressions>true</layer-search-as-expressions>
+ <layer-search-as-filter>false</layer-search-as-filter>
+ <layer-search-case-sensitive>true</layer-search-case-sensitive>
+ <layer-visibility-follows-selection>false</layer-visibility-follows-selection>
+ <layers-always-show-layout-index>false</layers-always-show-layout-index>
+ <layers-always-show-ld>true</layers-always-show-ld>
+ <layers-always-show-source>true</layers-always-show-source>
+ <layout-file-watcher-enabled>true</layout-file-watcher-enabled>
+ <lef-import-spec/>
+ <line-style-palette/>
+ <macro-editor-active-macro/>
+ <macro-editor-console-interpreter/>
+ <macro-editor-console-mru/>
+ <macro-editor-current-macro/>
+ <macro-editor-debugging-enabled>true</macro-editor-debugging-enabled>
+ <macro-editor-file-watcher-enabled>true</macro-editor-file-watcher-enabled>
+ <macro-editor-font-family/>
+ <macro-editor-font-size/>
+ <macro-editor-indent>4</macro-editor-indent>
+ <macro-editor-open-macros/>
+ <macro-editor-save-all-on-run>false</macro-editor-save-all-on-run>
+ <macro-editor-stop-on-exception>true</macro-editor-stop-on-exception>
+ <macro-editor-styles/>
+ <macro-editor-tab-width>8</macro-editor-tab-width>
+ <macro-editor-watch-expressions/>
+ <macro-editor-window-state/>
+ <markers-visible>true</markers-visible>
+ <menu-items-hidden/>
+ <min-inst-label-size>16</min-inst-label-size>
+ <mouse-wheel-mode>0</mouse-wheel-mode>
+ <mru/>
+ <mru-bookmarks/>
+ <mru-layer-properties/>
+ <mru-sessions/>
+ <navigator-show-all-hier-levels>false</navigator-show-all-hier-levels>
+ <navigator-show-images>true</navigator-show-images>
+ <no-stipple>false</no-stipple>
+ <nt-marker-color>#f3ff80</nt-marker-color>
+ <nt-marker-cycle-colors>255,0,0 0,255,0 0,0,255 255,255,0 255,0,255 0,255,255 160,80,255 255,160,0</nt-marker-cycle-colors>
+ <nt-marker-cycle-colors-enabled>false</nt-marker-cycle-colors-enabled>
+ <nt-marker-dither-pattern>-1</nt-marker-dither-pattern>
+ <nt-marker-halo>-1</nt-marker-halo>
+ <nt-marker-intensity>90</nt-marker-intensity>
+ <nt-marker-line-width>3</nt-marker-line-width>
+ <nt-marker-vertex-size>-1</nt-marker-vertex-size>
+ <nt-max-shapes-highlighted>10000</nt-max-shapes-highlighted>
+ <nt-window-dim>1.0</nt-window-dim>
+ <nt-window-mode>fit-net</nt-window-mode>
+ <pan-distance>0.15</pan-distance>
+ <paste-display-mode>2</paste-display-mode>
+ <pcb-import-spec/>
+ <properties-dialog-relative-mode>true</properties-dialog-relative-mode>
+ <rdb-context-mode>database-top</rdb-context-mode>
+ <rdb-marker-color>auto</rdb-marker-color>
+ <rdb-marker-dither-pattern>-1</rdb-marker-dither-pattern>
+ <rdb-marker-halo>-1</rdb-marker-halo>
+ <rdb-marker-line-width>3</rdb-marker-line-width>
+ <rdb-marker-vertex-size>-1</rdb-marker-vertex-size>
+ <rdb-max-marker-count>1000</rdb-max-marker-count>
+ <rdb-tree-state/>
+ <rdb-window-dim>1.0</rdb-window-dim>
+ <rdb-window-mode>fit-marker</rdb-window-mode>
+ <rdb-window-state-v2/>
+ <reader-options-show-always>false</reader-options-show-always>
+ <ruler-color>#ff8000</ruler-color>
+ <ruler-grid-snap>true</ruler-grid-snap>
+ <ruler-halo>true</ruler-halo>
+ <ruler-obj-snap>true</ruler-obj-snap>
+ <ruler-snap-mode>any</ruler-snap-mode>
+ <ruler-snap-range>8</ruler-snap-range>
+ <ruler-templates-v2>mode=normal,title=Ruler,category=_ruler,version=1,fmt=$D,fmt_x=$X,fmt_y=$Y,position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=ruler,outline=diag,snap=true,angle_constraint=global;mode=multi_segment,title='Multi-ruler',category=_multi_ruler,version=1,fmt=$D,fmt_x=$X,fmt_y=$Y,position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=ruler,outline=diag,snap=true,angle_constraint=global;mode=single_click,title=Cross,category=_cross,version=1,fmt='$U,$V',fmt_x='',fmt_y='',position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=cross_both,outline=diag,snap=true,angle_constraint=global;mode=auto_metric,title=Measure,category=_measure,version=1,fmt=$D,fmt_x=$X,fmt_y=$Y,position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=ruler,outline=diag,snap=true,angle_constraint=global;mode=auto_metric_edge,title='Measure edge',category=_measure_edge,version=1,fmt=$D,fmt_x=$X,fmt_y=$Y,position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=ruler,outline=diag,snap=true,angle_constraint=global;mode=angle,title=Angle,category=_angle,version=1,fmt='$(sprintf(\'%.5g\',G))\302\260',fmt_x='',fmt_y='',position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=line,outline=angle,snap=true,angle_constraint=any;mode=angle,title=Radius,category=_radius,version=1,fmt='R=$D',fmt_x='',fmt_y='',position=center,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=arrow_end,outline=radius,snap=true,angle_constraint=any;mode=normal,title=Ellipse,category='',version=1,fmt='',fmt_x='W=$(abs(X))',fmt_y='H=$(abs(Y))',position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=line,outline=ellipse,snap=true,angle_constraint=any;mode=normal,title=Box,category='',version=1,fmt='',fmt_x='W=$(abs(X))',fmt_y='H=$(abs(Y))',position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=line,outline=box,snap=true,angle_constraint=any;mode=normal,title='Ruler+',category='',version=1,fmt='',fmt_x='W=$(abs(X))',fmt_y='H=$(abs(Y))',position=auto,xalign=auto,yalign=auto,xlabel_xalign=auto,xlabel_yalign=auto,ylabel_xalign=auto,ylabel_yalign=auto,style=ruler,outline=xy,snap=true,angle_constraint=global</ruler-templates-v2>
+ <rulers>-1</rulers>
+ <salt-manager-window-state/>
+ <search-range>5</search-range>
+ <search-range-box>0</search-range-box>
+ <sel-color>#f3ff80</sel-color>
+ <sel-dither-pattern>1</sel-dither-pattern>
+ <sel-halo>true</sel-halo>
+ <sel-inside-pcells-mode>false</sel-inside-pcells-mode>
+ <sel-line-style>0</sel-line-style>
+ <sel-line-width>1</sel-line-width>
+ <sel-transient-mode>true</sel-transient-mode>
+ <sel-vertex-size>3</sel-vertex-size>
+ <shb-context-cell/>
+ <shb-context-mode>any-top</shb-context-mode>
+ <shb-max-inst-count>1000</shb-max-inst-count>
+ <shb-max-shape-count>1000</shb-max-shape-count>
+ <shb-window-dim>1.0</shb-window-dim>
+ <shb-window-mode>fit-marker</shb-window-mode>
+ <shb-window-state/>
+ <show-bookmarks-view>false</show-bookmarks-view>
+ <show-hierarchy-panel>true</show-hierarchy-panel>
+ <show-layer-panel>true</show-layer-panel>
+ <show-layer-toolbox>true</show-layer-toolbox>
+ <show-libraries-view>true</show-libraries-view>
+ <show-navigator>false</show-navigator>
+ <show-properties>false</show-properties>
+ <show-tool-options>true</show-tool-options>
+ <show-toolbar>true</show-toolbar>
+ <split-cell-list>false</split-cell-list>
+ <split-lib-views>false</split-lib-views>
+ <sr-max-item-count>1000</sr-max-item-count>
+ <sr-window-dim>1.0</sr-window-dim>
+ <sr-window-mode>fit-marker</sr-window-mode>
+ <sr-window-state/>
+ <stipple-offset>true</stipple-offset>
+ <stipple-palette/>
+ <stream-import-spec2/>
+ <subres-mode>false</subres-mode>
+ <synchronized-views>false</synchronized-views>
+ <tech-editor-window-state/>
+ <technology-data/>
+ <test-shapes-in-view>false</test-shapes-in-view>
+ <text-color>auto</text-color>
+ <text-font>0</text-font>
+ <text-lazy-rendering>true</text-lazy-rendering>
+ <text-point-mode>false</text-point-mode>
+ <text-visible>true</text-visible>
+ <tip-window-hidden>only-top-level-shown-by-default=3</tip-window-hidden>
+ <tracking-cursor-color>auto</tracking-cursor-color>
+ <tracking-cursor-enabled>true</tracking-cursor-enabled>
+ <transient-sel-color>auto</transient-sel-color>
+ <transient-sel-dither-pattern>-1</transient-sel-dither-pattern>
+ <transient-sel-halo>false</transient-sel-halo>
+ <transient-sel-line-style>-1</transient-sel-line-style>
+ <transient-sel-line-width>1</transient-sel-line-width>
+ <transient-sel-vertex-size>0</transient-sel-vertex-size>
+ <window-geometry>AdnQywADAAD////+////+wAABa8AAAN5AAAAAQAAABkAAAWsAAADdgAAAAAAAAAAB4AAAAABAAAAGQAABawAAAN2</window-geometry>
+ <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAADEAAAC8/wCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAkQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAAVAAAAFEAAAAUAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAAqwAAAEsAAAAUAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAD8AAACSwAAAJYA////AAAAAQAAAJQAAALz/AIAAAAD+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAUAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABUAAACWwAAABQA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAArUAAACSAAAAFAD///8AAARIAAAC8wAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAADgB0AG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=</window-state>
+ <xor-anotb>false</xor-anotb>
+ <xor-axorb>true</xor-axorb>
+ <xor-bnota>false</xor-bnota>
+ <xor-input-mode>all</xor-input-mode>
+ <xor-layer-offset/>
+ <xor-num-workers>1</xor-num-workers>
+ <xor-output-mode>rdb</xor-output-mode>
+ <xor-region-mode>all</xor-region-mode>
+ <xor-summarize>false</xor-summarize>
+ <xor-tiling/>
+ <xor-tolerances/>
+</config>
