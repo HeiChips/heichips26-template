@@ -1,22 +1,15 @@
 # ihp-sg13cmos5l Inverter
 
+This is the analog example **sub-macro** of the HeiChips 2026 template: the unit `inverter` cell with its complete flow (schematic → simulation → layout → DRC/LVS/PEX → characterization). The hand-drawn top level that embeds it, including the HeiChips power ring, lives one directory up in [`heichips26_analog_project`](../../README.md).
+
 <p align="center">
-  <a href="render/img/inverter_top_white.png">
-    <img src="render/img/inverter_top_white.png" alt="Render of the ihp-sg13cmos5l inverter layout (54um x 82um)" width=70%>
+  <a href="render/img/inverter_white.png">
+    <img src="render/img/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
   </a>
   <br>
-  <em>Render of the ihp-sg13cmos5l inverter layout (54um x 82um).</em>
+  <em>Render of the ihp-sg13cmos5l inverter layout.</em>
 </p>
 
-
-## Power Ring (HeiChips Integration)
-
-The `inverter_top` power ring is drawn for the HeiChips 2026 integration rules:
-
-- **Vertical `VDD`/`VSS` straps on Metal4** run all the way from the bottom to the top of the layout (outer pair `VSS`, inner pair `VDD`).
-- **Horizontal ring straps on Metal3** close the ring at the top and bottom edges.
-- **Via3 arrays** connect the Metal3 ring to the Metal4 straps at the eight crossings. The internal Metal3 supply rails connect to the straps through the PDK `via_stack` cells (Metal3 → Via3 → Metal4).
-- **TopMetal1 is completely empty**, as required for the integration (see the submission checklist in the repository README).
 
 
 ## Directory Structure
@@ -28,44 +21,44 @@ The `inverter_top` power ring is drawn for the HeiChips 2026 integration rules:
 📁 inverter/
 ├─ 📁 final/
 │  ├─ 📁 gds/
-│  │  └─ inverter_top.gds
+│  │  └─ inverter.gds
 │  ├─ 📁 lef/
-│  │  └─ inverter_top.lef
+│  │  └─ inverter.lef
 │  ├─ 📁 lib/
-│  │  └─ inverter_top.lib
+│  │  └─ inverter.lib
 │  └─ 📁 vh/
-│     └─ inverter_top.v
+│     └─ inverter.v
 ├─ 📁 layout/
 │  ├─ *.gds
 │  ├─ *.klay.gds
-│  └─ inverter_top.gds
+│  └─ inverter.gds
 ├─ 📁 netlist/
 │  ├─ 📁 layout/
 │  │  ├─ *.cir
 │  │  ├─ *.ext.spc
-│  │  ├─ inverter_top_klayout.cir
-│  │  └─ inverter_top_magic.ext.spc
+│  │  ├─ inverter_klayout.cir
+│  │  └─ inverter_magic.ext.spc
 │  ├─ 📁 pex/
 │  │  ├─ *.spice
-│  │  ├─ inverter_top_klayout_pex_*.spice
-│  │  └─ inverter_top_magic_pex_*.spice
+│  │  ├─ inverter_klayout_pex_*.spice
+│  │  └─ inverter_magic_pex_*.spice
 │  └─ 📁 schematic/
 │     ├─ *.cdl
 │     ├─ *.spice
-│     ├─ inverter_top_klayout.cdl
-│     └─ inverter_top_magic.spice
+│     ├─ inverter_klayout.cdl
+│     └─ inverter_magic.spice
 ├─ 📁 render/
 │  ├─ 📁 blender/
 │  └─ 📁 img/
-│     ├─ inverter_top_black.png
-│     └─ inverter_top_white.png
+│     ├─ inverter_black.png
+│     └─ inverter_white.png
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
 │     ├─ *.sch
 │     ├─ *.sym
-│     ├─ inverter_top.sch
-│     ├─ inverter_top.sym
-│     ├─ inverter_top_pex.sym
+│     ├─ inverter.sch
+│     ├─ inverter.sym
+│     ├─ inverter_pex.sym
 │     └─ xschemrc
 ├─ 📁 scripts/
 │  ├─ 📁 sizing/
@@ -87,12 +80,11 @@ The `inverter_top` power ring is drawn for the HeiChips 2026 integration rules:
 │     │  ├─ 📁 figures/
 │     │  ├─ ngspice2python.py
 │     │  ├─ plot_inverter.py
-│     │  └─ plot_inverter_top.py
+│     │  └─ plot_inverter.py
 │     ├─ *_tb_*.sch
 │     ├─ inverter_tb_ac_ol.sch
 │     ├─ inverter_tb_tran.sch
 │     ├─ inverter_tb_dc_vout.sch
-│     ├─ inverter_top_tb_tran.sch
 │     └─ xschemrc
 ├─ 📁 verification/
 │  ├─ 📁 cace/
@@ -103,13 +95,13 @@ The `inverter_top` power ring is drawn for the HeiChips 2026 integration rules:
 │  ├─ 📁 drc/
 │  │  ├─ 📁 *.klayout.drc/
 │  │  ├─ 📁 *.magic.drc/
-│  │  ├─ 📁 inverter_top.klayout.drc/
-│  │  └─ 📁 inverter_top.magic.drc/
+│  │  ├─ 📁 inverter.klayout.drc/
+│  │  └─ 📁 inverter.magic.drc/
 │  └─ 📁 lvs/
 │     ├─ 📁 *.klayout.lvs/
 │     ├─ 📁 *.magic.lvs/
-│     ├─ 📁 inverter_top.klayout.lvs/
-│     └─ 📁 inverter_top.magic.lvs/
+│     ├─ 📁 inverter.klayout.lvs/
+│     └─ 📁 inverter.magic.lvs/
 ├─ Makefile
 └─ README.md
 ```
@@ -142,7 +134,7 @@ make help
 
 For the `sim-xschem` target, `TB=<testbenchname>` is required.
 
-All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter_top`).
+All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter`).
 
 ```sh
 make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>] [DRC_LEVEL=<precheck|macro|regular>] [EV_PRECISION=<digits>]
@@ -187,7 +179,6 @@ For example:
 make sim-xschem TB=inverter_tb_ac_ol
 make sim-xschem TB=inverter_tb_tran
 make sim-xschem TB=inverter_tb_dc_vout
-make sim-xschem TB=inverter_top_tb_tran
 ```
 
 All available testbench schematics are located in `testbenches/xschem/`. Generated netlists are written to `testbenches/xschem/simulations/`.
@@ -206,7 +197,6 @@ The target runs `SHOW_PLOTS=1 python3 testbenches/xschem/plot_simulations/<SCRIP
 Examples:
 
 ```sh
-make sim-view-xschem SCRIPT=plot_inverter_top
 make sim-view-xschem SCRIPT=plot_inverter
 ```
 
@@ -244,7 +234,6 @@ Runs all simulation steps in sequence:
 - `make sim-xschem TB=inverter_tb_ac_ol`
 - `make sim-xschem TB=inverter_tb_tran`
 - `make sim-xschem TB=inverter_tb_dc_vout`
-- `make sim-xschem TB=inverter_top_tb_tran`
 - `make sim-cace`
 
 Invoke with:
@@ -319,7 +308,7 @@ make copy-gds
 
 ### Render Layout Image
 
-Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_top_black.png` and `inverter_top_white.png` in `render/img/`:
+Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `render/img/`:
 
 ```sh
 make render-gds
@@ -354,15 +343,15 @@ The `DRC_LEVEL` parameter selects the KLayout DRC level (`sak-drc.sh -l`). It is
 
 ```sh
 make klayout-drc
-make klayout-drc CELL=inverter_top
-make klayout-drc CELL=inverter_top DRC_LEVEL=regular
+make klayout-drc CELL=inverter
+make klayout-drc CELL=inverter DRC_LEVEL=regular
 ```
 
 **Magic DRC** runs a Magic DRC with all subcells flattened (`sak-drc.sh -f "*"`):
 
 ```sh
 make magic-drc
-make magic-drc CELL=inverter_top
+make magic-drc CELL=inverter
 ```
 
 
@@ -379,14 +368,14 @@ KLayout uses CDL netlists, while Magic uses SPICE netlists. Accordingly, `klayou
 To extract a CDL schematic netlist for KLayout LVS, use:
 ```sh
 make klayout-lvs-netlist
-make klayout-lvs-netlist CELL=inverter_top
+make klayout-lvs-netlist CELL=inverter
 make klayout-lvs-netlist EV_PRECISION=5
 ```
 
 To extract a SPICE schematic netlist for Magic + Netgen LVS, use:
 ```sh
 make magic-lvs-netlist
-make magic-lvs-netlist CELL=inverter_top
+make magic-lvs-netlist CELL=inverter
 make magic-lvs-netlist EV_PRECISION=5
 ```
 
@@ -403,14 +392,14 @@ Both flows use the vendored `scripts/sak-lvs.sh` and write their reports into pe
 
 ```sh
 make klayout-lvs
-make klayout-lvs CELL=inverter_top
+make klayout-lvs CELL=inverter
 ```
 
 **Magic + Netgen LVS** uses `sak-lvs.sh` (Magic + Netgen mode, the default), which extracts the layout netlist with Magic and compares it against the schematic netlist with Netgen:
 
 ```sh
 make magic-lvs
-make magic-lvs CELL=inverter_top
+make magic-lvs CELL=inverter
 ```
 
 
@@ -444,7 +433,7 @@ Both targets finish by running [`scripts/check_pex_ports.py`](scripts/check_pex_
 Both produce a netlist that ngspice reads without a single warning while the cell behaves completely differently in simulation, so the check is worth the two seconds it costs. It can also be run by hand on any SPICE netlist:
 
 ```sh
-python3 scripts/check_pex_ports.py netlist/pex/inverter_top_magic_pex_2.spice
+python3 scripts/check_pex_ports.py netlist/pex/inverter_magic_pex_2.spice
 python3 scripts/check_pex_ports.py -v netlist/pex/*.spice     # -v also prints the size of each subcircuit
 ```
 
@@ -455,16 +444,16 @@ python3 scripts/check_pex_ports.py -v netlist/pex/*.spice     # -v also prints t
 
 ```sh
 make klayout-pex
-make klayout-pex CELL=inverter_top
-make klayout-pex CELL=inverter_top EXT_MODE=3
+make klayout-pex CELL=inverter
+make klayout-pex CELL=inverter EXT_MODE=3
 ```
 
 **Magic PEX** uses the vendored `scripts/sak-pex.sh`, which extracts the parasitics with Magic (C-decoupled, C-coupled, or full-RC):
 
 ```sh
 make magic-pex
-make magic-pex CELL=inverter_top
-make magic-pex CELL=inverter_top EXT_MODE=3
+make magic-pex CELL=inverter
+make magic-pex CELL=inverter EXT_MODE=3
 ```
 
 For full-RC extraction (`EXT_MODE=3`), `magic-pex` additionally exposes the three `extresist` tuning parameters of `sak-pex.sh`. They are ignored in `EXT_MODE=1`/`2`.
@@ -478,7 +467,7 @@ A full-RC extraction models every wire as a resistor network, and most of those 
 In short: `THRESHOLD` and `MINDELAY` control *how many* nets carry parasitic resistance, `MINRES` controls *how finely* each of them is modelled. Raising all three gives a smaller netlist that simulates faster with less detail, lowering them gives a more accurate but considerably larger one.
 
 ```sh
-make magic-pex CELL=inverter_top EXT_MODE=3 THRESHOLD=5000 MINRES=500 MINDELAY=2
+make magic-pex CELL=inverter EXT_MODE=3 THRESHOLD=5000 MINRES=500 MINDELAY=2
 ```
 
 
@@ -491,7 +480,7 @@ make klayout-verify
 make klayout-verify CELL=inverter
 ```
 
-**Verify all cells** (`inverter`, `inverter_top`):
+**Verify all cells**
 
 ```sh
 make klayout-verify-all
@@ -507,7 +496,7 @@ make magic-verify
 make magic-verify CELL=inverter
 ```
 
-**Verify all cells** (`inverter`, `inverter_top`):
+**Verify all cells**
 
 ```sh
 make magic-verify-all
@@ -522,4 +511,4 @@ Runs the full flow in sequence: KLayout verification, Magic verification, top-le
 make all
 ```
 
-Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX netlists from the current layout. The build follows, since the Verilog stub reads its pins from a PEX netlist. The simulations run **last**, so the `inverter_top` testbench includes the PEX netlist produced by this run, not by a previous one.
+Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX netlists from the current layout. The build follows, since the Verilog stub reads its pins from a PEX netlist. The simulations run **last**, so the `inverter` testbench includes the PEX netlist produced by this run, not by a previous one.
