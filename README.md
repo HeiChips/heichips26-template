@@ -87,7 +87,7 @@ For more details, see `macros/heichips26_analog_project/README.md`.
 2. Export `PDK_ROOT` and `PDK`: `export PDK_ROOT=$(pwd)/IHP-Open-PDK && export PDK=ihp-sg13cmos5l`
 3. Change the path to the schematic or testbench folder of the macro, e.g.
   - `cd macros/heichips26_analog_project/macros/inverter/testbenches/xschem`
-  - `cd macros/heichips26_analog_project/schematic/xschem`
+  - `cd macros/heichips26_analog_project/testbenches/xschem`
 4. Open xschem: `xschem <name of testbench>`, e.g. `xschem inverter_tb_tran.sch`
 5. In the schematic Ctrl + left click: "Simulate"
 6. In the schematic Ctrl + left click: "Annotate OP" or "Load waves"
