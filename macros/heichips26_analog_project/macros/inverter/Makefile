@@ -4,11 +4,11 @@
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Variables
-TOP = inverter_top
+TOP = inverter
 
 .DEFAULT_GOAL := help
 
-# The sak-* verification scripts (vendored from IIC-OSIC-TOOLS, see scripts/) expect PDKPATH and STD_CELL_LIBRARY (both are preset in the IIC-OSIC-TOOLS container)
+# The sak-* verification scripts (vendored from IIC-OSIC-TOOLS, see scripts/) expect PDKPATH and STD_CELL_LIBRARY
 export PDKPATH ?= $(PDK_ROOT)/$(PDK)
 export STD_CELL_LIBRARY ?= sg13cmos5l_stdcell
 
@@ -77,7 +77,7 @@ help: ## Show this help message
 	@echo 'DRC_LEVEL defaults to macro. Sets the KLayout DRC level for klayout-drc (precheck|macro|regular).'
 	@echo 'EV_PRECISION defaults to 5 significant digits for xschem ev function.'
 	@echo 'TB selects the Xschem testbench for sim-xschem (e.g. inverter_tb_tran).'
-	@echo 'SCRIPT selects the plotting script for sim-view-xschem (e.g. plot_inverter_top).'
+	@echo 'SCRIPT selects the plotting script for sim-view-xschem (e.g. plot_inverter).'
 .PHONY: help
 # ================================================================================================
 
@@ -128,7 +128,6 @@ sim-all: ## Simulate the macro
 	$(MAKE) sim-xschem TB=inverter_tb_ac_ol
 	$(MAKE) sim-xschem TB=inverter_tb_tran
 	$(MAKE) sim-xschem TB=inverter_tb_dc_vout
-	$(MAKE) sim-xschem TB=inverter_top_tb_tran
 #	$(MAKE) sim-cace
 .PHONY: sim-all
 # ================================================================================================
@@ -194,8 +193,8 @@ verilog: ## Generate a Verilog stub of the TOP cell from Magic or KLayout PEX ne
 	fi; \
 	echo "Reading pins from $$pex_netlist..."; \
 	pex_pins=$$(awk '/^\.subckt $(TOP)_pex/{sub(/^\.subckt [^ ]+ /,"");p=$$0;next} p&&/^[+]/{sub(/^[+] */,"");p=p" "$$0;next} p{exit} END{print p}' "$$pex_netlist"); \
-	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
-	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
+	power_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -E '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | sort -u | tr '\n' ' '); \
+	signal_pins=$$(echo "$$pex_pins" | tr ' ' '\n' | grep -vE '^(VDD|VSS|VPWR|VDPWR|VAPWR|VGND|VNB|VPB)$$' | grep -v '^$$' | sort | tr '\n' ' '); \
 	{ \
 		echo 'module $(TOP) ('; \
 		if [ -n "$$(echo $$power_pins | xargs)" ]; then \
@@ -356,7 +355,6 @@ klayout-verify: ## Verify CELL cell with KLayout (usage: make klayout-verify [CE
 
 klayout-verify-all: ## Verify all main subcells with KLayout (DRC, LVS, PEX)
 	$(MAKE) klayout-verify CELL=inverter
-	$(MAKE) klayout-verify CELL=inverter_top
 .PHONY: klayout-verify-all
 
 magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<cellname>])
@@ -367,7 +365,6 @@ magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<ce
 
 magic-verify-all: ## Verify all main subcells with Magic (DRC, LVS, PEX)
 	$(MAKE) magic-verify CELL=inverter
-	$(MAKE) magic-verify CELL=inverter_top
 .PHONY: magic-verify-all
 # ================================================================================================
 
