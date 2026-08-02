@@ -1,4 +1,4 @@
-** sch_path: /foss/designs/heichips26-template/macros/heichips26_analog_project/schematic/xschem/heichips26_analog_project.sch
+** sch_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/schematic/xschem/heichips26_analog_project.sch
 .subckt heichips26_analog_project VPWR VAPWR VGND rst_n clk ena uio_in[7] uio_in[6] uio_in[5] uio_in[4] uio_in[3] uio_in[2]
 + uio_in[1] uio_in[0] ui_in[7] ui_in[6] ui_in[5] ui_in[4] ui_in[3] ui_in[2] ui_in[1] ui_in[0] uio_oe[7] uio_oe[6] uio_oe[5] uio_oe[4]
 + uio_oe[3] uio_oe[2] uio_oe[1] uio_oe[0] uio_out[7] uio_out[6] uio_out[5] uio_out[4] uio_out[3] uio_out[2] uio_out[1] uio_out[0] uo_out[7]
@@ -23,8 +23,8 @@ MM2 VGND VAPWR VGND VGND sg13_lv_pmos w=10.0u l=10.0u ng=1
 .ends
 
 * expanding   symbol:  inverter.sym # of pins=4
-** sym_path: /foss/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sym
-** sch_path: /foss/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sch
+** sym_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sym
+** sch_path: /mnt/c/Users/si150/eda/designs/heichips26-template/macros/heichips26_analog_project/macros/inverter/schematic/xschem/inverter.sch
 .subckt inverter VDD vin vout VSS
 *.PININFO vin:I VDD:B VSS:B vout:B
 MMdummy1 VSS VSS VSS VSS sg13_lv_nmos w=2.0u l=1.0u ng=2
