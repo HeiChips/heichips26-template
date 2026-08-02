@@ -40,10 +40,8 @@ if {![llength [info commands append_xschem_library_path_unique]]} {
   }
 }
 
-# The sg13cmos5l PDK xschemrc does not add its primitive-device library to the
-# search path (the sg13g2 one did), so bare symbol references like
-# sg13_lv_nmos.sym only resolve with this explicit append.
-append_xschem_library_path_unique $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/sg13cmos5l_pr
+# Allow execution of Tcl scripts embedded in schematics/symbols without asking
+set xschem_execute_scripts yes
 
 # Source top-level schematic xschemrc to pull in canonical library paths and macro libraries.
 source [file normalize [file join [file dirname [info script]] ../../schematic/xschem/xschemrc]]
