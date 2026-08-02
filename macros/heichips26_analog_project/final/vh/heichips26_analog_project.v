@@ -1,5 +1,6 @@
 module heichips26_analog_project (
 `ifdef USE_POWER_PINS
+    inout VAPWR,
     inout VGND,
     inout VPWR,
 `endif
@@ -48,7 +49,6 @@ module heichips26_analog_project (
     inout uo_out[4],
     inout uo_out[5],
     inout uo_out[6],
-    inout uo_out[7],
-    inout VAPWR
+    inout uo_out[7]
 );
 endmodule
