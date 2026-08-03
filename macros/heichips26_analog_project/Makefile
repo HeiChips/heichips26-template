@@ -56,7 +56,7 @@ GDS_DIR         := final/gds
 LEF_DIR         := final/lef
 LIB_DIR         := final/lib
 VH_DIR          := final/vh
-RENDER_IMG_DIR  := render/img
+RENDER_DIR      := final/render
 NET_SCH_DIR     := netlist/schematic
 NET_LAY_DIR     := netlist/layout
 NET_PEX_DIR     := netlist/pex
@@ -218,9 +218,9 @@ copy-gds: ## Copy the TOP cell GDS from layout/ to final/gds/
 
 # Render Target
 render-gds: ## Render an image from the final GDS using lay2img.py
-	rm -rf $(RENDER_IMG_DIR)/
-	mkdir -p $(RENDER_IMG_DIR)/
-	python3 $(SCRIPTS_DIR)/lay2img.py $(LAY_DIR)/$(TOP).gds $(RENDER_IMG_DIR)/$(TOP).png --width 2048 --oversampling 4
+	rm -rf $(RENDER_DIR)/
+	mkdir -p $(RENDER_DIR)/
+	python3 $(SCRIPTS_DIR)/lay2img.py $(LAY_DIR)/$(TOP).gds $(RENDER_DIR)/$(TOP).png --width 2048 --oversampling 4
 .PHONY: render-gds
 # ================================================================================================
 
@@ -370,8 +370,8 @@ all: ## Verify, build and simulate the macros and the TOP cell
 
 
 # Clean Targets
-clean: ## Delete all generated files and folders of the TOP cell (final, netlist, render, DRC/LVS reports, simulation outputs)
-	rm -rf final netlist render
+clean: ## Delete all generated files and folders of the TOP cell (final, netlist, DRC/LVS reports, simulation outputs)
+	rm -rf final netlist
 	rm -rf $(DRC_RPT_DIR) $(LVS_RPT_DIR)
 	rm -rf $(XSCHEM_TB_DIR)/simulations
 	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__

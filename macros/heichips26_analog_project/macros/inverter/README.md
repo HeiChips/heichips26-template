@@ -3,8 +3,8 @@
 This is the analog example **sub-macro** of the HeiChips 2026 template: the unit `inverter` cell with its complete flow (schematic → simulation → layout → DRC/LVS/PEX → characterization). The hand-drawn top level that embeds it, including the HeiChips power ring, lives one directory up in [`heichips26_analog_project`](../../README.md).
 
 <p align="center">
-  <a href="render/img/inverter_white.png">
-    <img src="render/img/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
+  <a href="final/render/inverter_white.png">
+    <img src="final/render/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
   </a>
   <br>
   <em>Render of the ihp-sg13cmos5l inverter layout.</em>
@@ -26,6 +26,9 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │  │  └─ inverter.lef
 │  ├─ 📁 lib/
 │  │  └─ inverter.lib
+│  ├─ 📁 render/
+│  │  ├─ inverter_black.png
+│  │  └─ inverter_white.png
 │  └─ 📁 vh/
 │     └─ inverter.vh
 ├─ 📁 layout/
@@ -47,10 +50,6 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │     ├─ *.spice
 │     ├─ inverter_klayout.cdl
 │     └─ inverter_magic.spice
-├─ 📁 render/
-│  └─ 📁 img/
-│     ├─ inverter_black.png
-│     └─ inverter_white.png
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
 │     ├─ *.sch
@@ -310,7 +309,7 @@ make copy-gds
 
 ### Render Layout Image
 
-Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `render/img/`:
+Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `final/render/`:
 
 ```sh
 make render-gds
@@ -520,9 +519,8 @@ Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX
 
 `make clean` deletes all generated files and folders. The sources (schematics, symbols, testbenches, the layout, the scripts, and the CACE configuration) stay untouched. Deleted are:
 
-- `final/` (GDS, LEF, LIB, and Verilog stub deliverables)
+- `final/` (GDS, LEF, LIB, Verilog stub, and layout render deliverables)
 - `netlist/` (schematic, layout, and PEX netlists)
-- `render/` (layout render images)
 - `verification/drc/` and `verification/lvs/` (DRC and LVS reports)
 - `testbenches/xschem/simulations/` and the `plot_simulations/` outputs (`data/`, `figures/`, `__pycache__/`)
 - the CACE outputs under `verification/cace/` (`_runs/`, `_docs/`, `netlist/`, `results/`)
