@@ -364,3 +364,27 @@ all: ## Verify, build and simulate the macros and the TOP cell
 	$(MAKE) sim-all
 .PHONY: all
 # ================================================================================================
+
+
+# Clean Targets
+clean: ## Delete all generated files and folders of the TOP cell (final, netlist, render, DRC/LVS reports, simulation outputs)
+	rm -rf final netlist render
+	rm -rf $(DRC_RPT_DIR) $(LVS_RPT_DIR)
+	rm -rf $(XSCHEM_TB_DIR)/simulations
+	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
+.PHONY: clean
+
+clean-inverter: ## Delete all generated files and folders of the inverter macro
+	@$(MAKE) -C $(MACROS_DIR)/inverter clean
+.PHONY: clean-inverter
+
+clean-macros: ## Delete all generated files and folders of all macros
+	$(MAKE) clean-inverter
+#	ToDo: further macros
+.PHONY: clean-macros
+
+clean-all: ## Delete all generated files and folders of the macros and the TOP cell
+	$(MAKE) clean-macros
+	$(MAKE) clean
+.PHONY: clean-all
+# ================================================================================================

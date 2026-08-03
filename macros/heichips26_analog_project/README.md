@@ -149,6 +149,9 @@ make build-macros                        # verify, build and simulate all sub-ma
 make sim-xschem TB=heichips26_analog_project_tb_tran   # top-level transient (needs magic-pex first)
 make sim-view-xschem SCRIPT=plot_heichips26_analog_project
 make all                                 # build-macros + verify + build + simulate
+make clean                               # delete the top level's generated files (final, netlist, render, reports, simulations)
+make clean-macros                        # run make clean in all sub-macros (currently: inverter)
+make clean-all                           # clean-macros + clean
 ```
 
 Differences to the sub-macro:
@@ -156,6 +159,7 @@ Differences to the sub-macro:
 - `sim-all` runs only the top-level testbenches (e.g. `heichips26_analog_project_tb_tran`). It simulates the schematic by default and includes the extracted PEX netlist by swapping the DUT to the `_pex` symbol for a post-layout run. The inverter's own testbenches and CACE characterization live in `macros/inverter/`.
 - `klayout-verify-all`/`magic-verify-all` verify the top cell only — the inverter cells are covered by `build-macros`/`build-inverter` (or run the sub-macro's own `make`).
 - `make all` first runs `build-macros`, so the sub-macros are verified, built and simulated before the top cell — the build order below is handled automatically.
+- `clean` deletes only the top level's generated files (`final/`, `netlist/`, `render/`, the DRC/LVS reports, and the simulation outputs — there is no CACE at this level). `clean-macros` runs `make clean` in every sub-macro, and `clean-all` combines both, mirroring `build-macros`/`all`. Directly after cleaning, run `make magic-pex` (or the full `make all`) once before `make sim-xschem`/`make sim-all`, since the testbenches `.include` the extracted PEX netlist.
 
 
 ## Where to Go Next
