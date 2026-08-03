@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 # Author: Simon Dorrer
 # Description: Transient plots for the counter macro based on ngspice exports.
-# Created: 08.05.2026
-# Last Modified: 08.05.2026
 # ============================================
 
 # Imports
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import ngspice2python as ng
@@ -16,8 +15,9 @@ from pathlib import Path
 
 # Plotting Configuration
 # ============================================
-# Enable interactive mode so plots do not block execution
-plt.ion()
+# Interactive mode stays off: the plt.show() at the end of main() then blocks in the GUI
+# event loop, which is what draws the windows in the first place. With plt.ion() the call
+# returns immediately and nothing pumps that loop afterwards, so no window ever appears.
 plt.close("all")
 
 # Matplotlib Settings
@@ -43,7 +43,7 @@ def main():
     # ------------------------------------------------------------------
     # 1. Load ngspice gate-level transient simulation data
     # ------------------------------------------------------------------
-    ngspice_file = data_dir / "counter_top_tb_tran.txt"
+    ngspice_file = data_dir / "counter_tb_tran.txt"
 
     data_time = ng.loadngspicecol(str(ngspice_file), "time") * 1e6
     data_clock = ng.loadngspicecol(str(ngspice_file), "clock")
@@ -57,20 +57,6 @@ def main():
     data_b5 = ng.loadngspicecol(str(ngspice_file), "b5")
     data_b6 = ng.loadngspicecol(str(ngspice_file), "b6")
     data_b7 = ng.loadngspicecol(str(ngspice_file), "b7")
-
-    # Subsample data for clearer plots and smaller CSV output.
-    # data_time = data_time[1::4]
-    # data_clock = data_clock[1::4]
-    # data_enable = data_enable[1::4]
-    # data_reset_n = data_reset_n[1::4]
-    # data_b0 = data_b0[1::4]
-    # data_b1 = data_b1[1::4]
-    # data_b2 = data_b2[1::4]
-    # data_b3 = data_b3[1::4]
-    # data_b4 = data_b4[1::4]
-    # data_b5 = data_b5[1::4]
-    # data_b6 = data_b6[1::4]
-    # data_b7 = data_b7[1::4]
 
     # ------------------------------------------------------------------
     # 2. Transient Plot
@@ -88,33 +74,33 @@ def main():
         ("B6", data_b6, "#7b2cbf"),
         ("B7", data_b7, "#b39f00"),
     ]
-    y_ticks = [0.0, 0.5, 1.0, 1.5]
+    # The heichips26 flow runs the sg13cmos5l standard cells at 1.2 V
+    y_ticks = [0.0, 0.4, 0.8, 1.2]
 
     fig1, axs = plt.subplots(len(signals), sharex=True)
     fig1.set_figwidth(16)
     fig1.set_figheight(9)
-    fig1.suptitle('Counter Top - Gate-Level Transient Simulation')
+    fig1.suptitle('Counter - Gate-Level Transient Simulation')
 
     for ax, (name, values, color) in zip(axs, signals):
         ax.plot(data_time, values, color=color, linewidth=1.3)
         ax.set_ylabel(f'{name} (V)', fontsize=11)
-        ax.set_ylim(-0.1, 1.6)
+        ax.set_ylim(-0.1, 1.3)
         ax.set_yticks(y_ticks)
-        ax.set_yticklabels(["0", "0.5", "1.0", "1.5"], fontsize=8)
+        ax.set_yticklabels(["0", "0.4", "0.8", "1.2"], fontsize=8)
         ax.tick_params(axis='x', labelsize=8)
         ax.grid(True, alpha=0.4)
 
     axs[-1].set_xlabel(r'$t$ ($\mu$s)')
     fig1.tight_layout(rect=[0, 0, 1, 0.98], pad=0.5, w_pad=0.1, h_pad=0.1)
-    plt.show()
 
     # ------------------------------------------------------------------
     # 3. Export transient figures and CSV
     # ------------------------------------------------------------------
-    fig1.savefig(str(figures_dir / "counter_top_tb_tran.svg"), bbox_inches='tight')
-    fig1.savefig(str(figures_dir / "counter_top_tb_tran.pdf"), bbox_inches='tight')
+    fig1.savefig(str(figures_dir / "counter_tb_tran.svg"), bbox_inches='tight')
+    fig1.savefig(str(figures_dir / "counter_tb_tran.pdf"), bbox_inches='tight')
     np.savetxt(
-        str(figures_dir / "counter_top_tb_tran.csv"),
+        str(figures_dir / "counter_tb_tran.csv"),
         np.column_stack((
             data_time, data_clock, data_reset_n, data_enable,
             data_b0, data_b1, data_b2, data_b3,
@@ -124,12 +110,17 @@ def main():
         header="time,clock,reset_n,enable,b0,b1,b2,b3,b4,b5,b6,b7",
         delimiter=",",
     )
+
+    # ------------------------------------------------------------------
+    # 4. Open the plot window (blocks until it is closed)
+    # ------------------------------------------------------------------
+    # Only open the interactive window when requested (sim-view-xschem sets
+    # SHOW_PLOTS=1); batch/headless runs just save the figures and exit.
+    if os.environ.get("SHOW_PLOTS"):
+        plt.show()
     # =========================================================================
 
 # Main Execution
 if __name__ == '__main__':
     main()
-
-    # Keep plots open
-    input("\nPress Enter to close plots and exit...")
 # =========================================================================
