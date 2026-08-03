@@ -18,27 +18,19 @@ CELL ?= $(TOP)
 # Override with: make <target> EXT_MODE=<1|2|3>
 EXT_MODE ?= 3
 
-# Floating-point precision (significant digits) for xschem's ev function
-# Override with: make <target> EV_PRECISION=<digits>
-EV_PRECISION ?= 5
-
 # Set the waveform viewer GTKWave or Surfer (default: gtkwave)
 # Override with: make <target> WAVEFORM_VIEWER=<gtkwave|surfer>
 WAVEFORM_VIEWER ?= gtkwave
 
 # Folder structure
+MACROS_DIR      := macros
 COCOTB_DIR      := testbenches/cocotb
 VERILOG_TB_DIR 	:= testbenches/verilog
-XSCHEM_TB_DIR  	:= testbenches/xschem
-XSCHEM_SCH_DIR  := schematic/xschem
-SCRIPTS_DIR   	:= scripts
-SIM_PLOT_DIR  	:= testbenches/xschem/plot_simulations
 REPORT_DIR     	:= verification
 SRC_DIR 		:= rtl
 NET_NL_DIR    	:= netlist/nl
 NET_PNL_DIR  	:= netlist/pnl
 NET_SPICE_DIR 	:= netlist/spice
-XSPICE_DIR  	:= netlist/xspice
 LIBRELANE_DIR 	:= flow/librelane
 FLOW_FINAL_DIR 	:= flow/final
 FINAL_DIR      	:= final
@@ -48,7 +40,7 @@ FINAL_DIR      	:= final
 # is needed for linting and RTL simulation of the whole design.
 MODULES_SYNTH := \
 	$(SRC_DIR)/heichips26_digital_project.sv \
-	macros/counter/rtl/counter.sv
+	$(MACROS_DIR)/counter/rtl/counter.sv
 
 MODULES_SIM := \
 	$(MODULES_SYNTH)
@@ -72,8 +64,6 @@ help: ## Show this help message
 	@echo ''
 	@echo 'CELL defaults to $(TOP). Override to lint or simulate subcells.'
 	@echo 'WAVEFORM_VIEWER defaults to gtkwave. Use surfer to launch Surfer instead.'
-	@echo 'TB selects the Xschem testbench for sim-gl-xschem (default: <CELL>_tb_tran).'
-	@echo 'SCRIPT selects the plotting script for sim-view-xschem (default: plot_<CELL>).'
 .PHONY: help
 # ================================================================================================
 
@@ -84,20 +74,13 @@ lint-verilog: ## Lint Verilog source files with Verilator (usage: make lint-veri
 .PHONY: lint-verilog
 
 lint-verilog-all: ## Lint all Verilog source files (counter sub-macro + heichips26_digital_project)
-	$(MAKE) -C macros/counter lint-verilog-all
+	$(MAKE) -C $(MACROS_DIR)/counter lint-verilog-all
 	$(MAKE) lint-verilog
 .PHONY: lint-verilog-all
 # ================================================================================================
 
 
 # Simulation Targets
-# Testbench for the Xschem simulation targets (default: <CELL>_tb_tran)
-# Override with: make <target> TB=<testbenchname>
-TB ?= $(CELL)_tb_tran
-# Plotting script for sim-view-xschem (default: plot_<CELL>)
-# Override with: make <target> SCRIPT=<scriptname>
-SCRIPT ?= plot_$(CELL)
-
 sim-rtl-verilog: ## Run RTL simulation of CELL cell with Icarus Verilog (usage: make sim-rtl-verilog [CELL=<cellname>])
 	iverilog -g2012 -DSIM -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.$(_TB_EXT)
 	cd $(VERILOG_TB_DIR) && vvp test_$(CELL) -fst
@@ -131,21 +114,6 @@ sim-view-cocotb: ## View CELL cell cocotb simulation waveforms (usage: make sim-
 		$(WAVEFORM_VIEWER) $(COCOTB_DIR)/sim_build/$(CELL).fst; \
 	fi
 .PHONY: sim-view-cocotb
-
-sim-gl-xschem: ## Run gate-level simulation of CELL cell with Xschem in batch mode (usage: make sim-gl-xschem [CELL=<cellname>] [TB=<testbenchname>])
-	mkdir -p $(XSCHEM_TB_DIR)/simulations $(SIM_PLOT_DIR)/data
-	cd $(XSCHEM_TB_DIR) && xschem -r -x -q --rcfile xschemrc --command ' \
-		xschem set netlist_type spice; \
-		set netlist_dir $(abspath $(XSCHEM_TB_DIR)/simulations); \
-		xschem save; \
-		xschem netlist \
-	' $(TB).sch
-	cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TB).spice
-.PHONY: sim-gl-xschem
-
-sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem [SCRIPT=<scriptname>])
-	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
-.PHONY: sim-view-xschem
 
 sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digital_project)
 	$(MAKE) sim-rtl-verilog
@@ -233,21 +201,16 @@ copy-netlist: ## Copy final output spice, pnl and nl netlists from the last Libr
 # ================================================================================================
 
 
-# Generate XSPICE Target
-# NOTE: spi2xspice.py models standard cells only. Hardened sub-macros (such as the
-# counter macro in this example) are NOT translated and are dropped from the XSPICE
-# model. Use this flow for macros without hardened sub-macros (e.g. macros/counter/,
-# or your design if it is sea-of-gates only). This is also why generate-xspice is
-# not part of build-top here, unlike in macros/counter/.
-generate-xspice: ## Generate XSPICE model from the LibreLane-extracted SPICE netlist (standard cells only, see note)
-	mkdir -p $(XSPICE_DIR)
-	python3 $(SCRIPTS_DIR)/spi2xspice.py $(PDK_ROOT)/$(PDK)/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib -io_time=500p -time=50p -idelay=5p -odelay=50p -cload=250f $(NET_SPICE_DIR)/${TOP}.spice $(XSPICE_DIR)/${TOP}.xspice
-	python3 $(SCRIPTS_DIR)/sak-pin-reorder.py $(XSCHEM_SCH_DIR)/${TOP}.sym $(XSPICE_DIR)/${TOP}.xspice --format xspice
-.PHONY: generate-xspice
-# ================================================================================================
-
-
 # Build Targets
+build-counter: ## Lint, build, verify and simulate the counter macro
+	@$(MAKE) -C $(MACROS_DIR)/counter all
+.PHONY: build-counter
+
+build-macros: ## Lint, build, verify and simulate all macros
+	$(MAKE) build-counter
+#	ToDo: further macros
+.PHONY: build-macros
+
 build-fpga: ## Build FPGA bitstream (usage: make build-fpga [BOARD=ulx3s])
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
@@ -276,10 +239,9 @@ build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy r
 
 
 # Lint, Build, Verify and Simulate All Target
-# Linting runs first to fail fast; the simulations run after the build, so the gate-level
-# simulations use the netlists produced by this build.
-all: ## Lint, build, verify and simulate the macro
+all: ## Lint, build, verify and simulate the macros and the TOP cell
 	$(MAKE) lint-verilog-all
+	$(MAKE) build-macros
 	$(MAKE) build-fpga
 	$(MAKE) build-top
 	$(MAKE) sim-all
@@ -293,13 +255,11 @@ clean: ## Delete all generated files and folders of the TOP cell (LibreLane outp
 	rm -rf final netlist
 	rm -rf $(REPORT_DIR)
 	rm -rf $(COCOTB_DIR)/sim_build $(VERILOG_TB_DIR)/*.fst
-	rm -rf $(XSCHEM_TB_DIR)/simulations
-	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
 	@$(MAKE) -C fpga clean
 .PHONY: clean
 
 clean-counter: ## Delete all generated files and folders of the counter macro
-	@$(MAKE) -C macros/counter clean
+	@$(MAKE) -C $(MACROS_DIR)/counter clean
 .PHONY: clean-counter
 
 clean-macros: ## Delete all generated files and folders of all macros

@@ -98,35 +98,17 @@ This is the digital-on-top example project for the HeiChips 2026 Hackathon. The 
 │  │  └─ heichips26_digital_project.nl.v
 │  ├─ 📁 pnl/
 │  │  └─ heichips26_digital_project.pnl.v
-│  ├─ 📁 spice/
-│  │  └─ heichips26_digital_project.spice
-│  └─ 📁 xspice/
+│  └─ 📁 spice/
+│     └─ heichips26_digital_project.spice
 ├─ 📁 rtl/
 │  └─ heichips26_digital_project.sv
-├─ 📁 schematic/
-│  └─ 📁 xschem/
-│     ├─ heichips26_digital_project.sym
-│     └─ xschemrc
-├─ 📁 scripts/
-│  ├─ sak-pin-reorder.py
-│  ├─ spi2xspice.py
-│  └─ .sak-scripts-version
 ├─ 📁 testbenches/
 │  ├─ 📁 cocotb/
 │  │  ├─ heichips26_digital_project_tb.gtkw
 │  │  └─ heichips26_digital_project_tb.py
-│  ├─ 📁 verilog/
-│  │  ├─ heichips26_digital_project_tb.gtkw
-│  │  └─ heichips26_digital_project_tb.sv
-│  └─ 📁 xschem/
-│     ├─ 📁 plot_simulations/
-│     │  ├─ 📁 data/
-│     │  ├─ 📁 figures/
-│     │  ├─ ngspice2python.py
-│     │  └─ plot_heichips26_digital_project.py
-│     ├─ 📁 simulations/
-│     ├─ heichips26_digital_project_tb_tran.sch
-│     └─ xschemrc
+│  └─ 📁 verilog/
+│     ├─ heichips26_digital_project_tb.gtkw
+│     └─ heichips26_digital_project_tb.sv
 ├─ 📁 verification/
 │  ├─ antenna_summary.rpt
 │  ├─ antenna_violations.rpt
@@ -154,7 +136,7 @@ This is the digital-on-top example project for the HeiChips 2026 Hackathon. The 
 
 The `counter` is hardened as an own macro in [`macros/counter/`](macros/counter/) and integrated as a black box via the `MACROS` section in [`flow/librelane/config.yaml`](flow/librelane/config.yaml) (GDS, LEF, LIB, SPEF views from `macros/counter/final/`).
 
-**Build order matters**: if you modify the counter, first run `make build-top` in `macros/counter/` so its `final/` views are up to date, then build this top level.
+**Build order matters**: if you modify the counter, run its own flow first (`make build-counter` from here, or equivalently `make -C macros/counter all`) so its `final/` views are up to date, then build this top level. The top-level `make all` does this automatically by running `build-macros` before `build-top`.
 
 You can also remove all sub-macros and implement your design as sea-of-gates only: delete `macros/`, remove the `MACROS` section from `flow/librelane/config.yaml`, and put your RTL into `rtl/`.
 
@@ -203,8 +185,8 @@ The waveform viewer can be changed with `WAVEFORM_VIEWER=<gtkwave|surfer>` (defa
 > [Surfer](https://surfer-project.org/) is currently **not** available in the nix shell — use the default GTKWave there. Surfer is provided by the IIC-OSIC-TOOLS container.
 
 > [!NOTE]
-> In the current repository state, the provided Verilog, cocotb, and Xschem testbench/viewer files are for `heichips26_digital_project`.
-> Running simulation/view targets with another `CELL` requires corresponding testbench files (for example, `testbenches/verilog/<CELL>_tb.*`, `testbenches/cocotb/<CELL>_tb.py`, and `testbenches/xschem/<CELL>_tb_tran.sch`).
+> In the current repository state, the provided Verilog and cocotb testbench/viewer files are for `heichips26_digital_project`.
+> Running simulation/view targets with another `CELL` requires corresponding testbench files (for example, `testbenches/verilog/<CELL>_tb.*` and `testbenches/cocotb/<CELL>_tb.py`).
 
 #### RTL Verilog Simulation
 
@@ -260,40 +242,6 @@ make sim-view-cocotb WAVEFORM_VIEWER=surfer           # use Surfer instead
 The cocotb folder contains a pre-configured waveform layout file (`heichips26_digital_project_tb.gtkw` for GTKWave, `heichips26_digital_project_tb.surf.ron` for Surfer).
 The view target loads it automatically together with the current `.fst`, so signal formatting is preserved across runs.
 
-#### Gate-Level Xschem Simulation
-
-Runs the mixed-signal gate-level transient simulation testbench in `testbenches/xschem/<CELL>_tb_tran.sch`:
-
-```sh
-make sim-gl-xschem                # run heichips26_digital_project gate-level Xschem simulation
-make sim-gl-xschem CELL=<cell>    # run gate-level Xschem simulation for another cell
-make sim-gl-xschem TB=<tb>        # run another testbench (default: <CELL>_tb_tran)
-```
-
-The testbench is selected with the `TB` variable, given without the `.sch` extension (default: `<CELL>_tb_tran`). All testbench schematics are located in `testbenches/xschem/`, and the generated netlists are written to `testbenches/xschem/simulations/`.
-
-The simulation runs in **batch mode**: the target netlists the testbench with `xschem netlist` and then invokes `ngspice -b` directly instead of using `xschem simulate`, so `make` blocks until the run finishes and sees its exit status. Because the run is headless, the `plot` commands in a testbench's `.control` block are a no-op; every testbench instead exports its results with `wrdata` to `testbenches/xschem/plot_simulations/data/`, from where they are plotted with `sim-view-xschem`.
-
-> [!IMPORTANT]
-> This flow expects the generated XSPICE model in `netlist/xspice/`, which covers **standard cells only** — see the [Generate XSPICE File](#generate-xspice-file) note. As shipped, this top level contains the hardened `counter` sub-macro, so the fully working mixed-signal reference flow is the one in [`macros/counter/`](macros/counter/README.md). The testbench here becomes usable once your design is sea-of-gates only.
-
-> [!NOTE]
-> Besides this XSPICE-based gate-level flow, Xschem also supports true RTL mixed-signal co-simulation with ngspice and Verilog (see [Ngspice + Verilog Co-Simulation in Xschem](https://www.youtube.com/watch?v=PPd7jkcHOgA)).
-
-#### View Xschem Simulation Results
-
-After the gate-level Xschem simulation has completed, plot the results with:
-
-```sh
-make sim-view-xschem              # plot results (default script: plot_heichips26_digital_project)
-make sim-view-xschem SCRIPT=<scriptname>  # run another plotting script
-```
-
-The target runs `python3 testbenches/xschem/plot_simulations/<SCRIPT>.py` (default: `plot_<CELL>`) and exports the figures and a CSV to `testbenches/xschem/plot_simulations/figures/`. The `SCRIPT` variable is given without the `.py` extension.
-
-> [!NOTE]
-> `sim-view-xschem` is intentionally **not** called by `sim-all`. It opens an interactive plot window and must be called manually after the simulation has completed.
-
 #### Run All Simulations
 
 To run all simulation targets in sequence:
@@ -309,8 +257,10 @@ This executes the following targets in order:
 3. `sim-gl-cocotb` (default: `heichips26_digital_project`)
 
 > [!NOTE]
-> `sim-gl-xschem` is not part of `sim-all` at this level because the shipped design contains a hardened sub-macro (see the XSPICE note above). The counter macro's `sim-all` includes the full mixed-signal flow.
-> The `sim-view-verilog` and `sim-view-cocotb` targets are also **not** called by `sim-all`: both open a waveform viewer GUI (GTKWave or Surfer), which blocks the shell until the window is closed. They are designed for interactive use.
+> The `sim-view-verilog` and `sim-view-cocotb` targets are **not** called by `sim-all`: both open a waveform viewer GUI (GTKWave or Surfer), which blocks the shell until the window is closed. They are designed for interactive use.
+
+> [!TIP]
+> This top level is verified with Icarus Verilog and cocotb only. The mixed-signal gate-level flow in Xschem (XSPICE model + ngspice) lives in the [`counter`](macros/counter/README.md#gate-level-xschem-simulation) sub-macro, which is the reference for analog mixed-signal simulation in this template.
 
 
 ### LibreLane Flow
@@ -419,6 +369,18 @@ make -C macros/counter build-fpga
 See `fpga/README.md` for the full shared-flow reference (variables, targets, adding a new board or macro).
 
 
+### Build Macros
+
+To lint, build, verify and simulate the sub-macros, run:
+
+```sh
+make build-counter               # run the counter sub-macro's full flow (make -C macros/counter all)
+make build-macros                # run the full flow of all sub-macros (currently: counter)
+```
+
+`build-macros` is the target to extend when you add further sub-macros: give each one its own `build-<macro>` target and call it from `build-macros`, mirroring `clean-macros`.
+
+
 ### Build Top
 
 To build the macro with LibreLane, copy its reports, copy final folders, and copy netlists, run:
@@ -428,7 +390,7 @@ make build-top
 ```
 
 > [!NOTE]
-> If you modified the counter sub-macro, run `make -C macros/counter build-top` first so the `MACROS` views referenced by the top-level config are up to date.
+> If you modified the counter sub-macro, run `make build-counter` first so the `MACROS` views referenced by the top-level config are up to date. `make all` takes care of this ordering for you.
 
 
 ### Design Rule Check (DRC) & Layout Versus Schematic (LVS)
@@ -438,50 +400,30 @@ The LibreLane flow already includes DRC and LVS checks with Magic and KLayout, a
 
 ### Lint, Build, Verify and Simulate All
 
-Lints, builds, verifies and simulates the whole macro:
+Lints, builds, verifies and simulates the sub-macros and the whole top level:
 
 - `lint-verilog-all`
+- `build-macros`
 - `build-fpga`
 - `build-top`
 - `sim-all`
 
-Linting runs first to fail fast on structural RTL issues. The simulations run **after** the build, so the gate-level simulation (`sim-gl-cocotb`) runs on the netlists produced by this build, not on those of a previous one. The DRC and LVS verification is done within the LibreLane flow.
+Linting runs first to fail fast on structural RTL issues. `build-macros` then hardens the sub-macros, so `build-top` instantiates the `final/` views produced by this run — the build order from [Sub-Macros](#sub-macros) is handled automatically. The simulations run **after** the build, so the gate-level simulation (`sim-gl-cocotb`) runs on the netlists produced by this build, not on those of a previous one. The DRC and LVS verification is done within the LibreLane flow.
 
 ```sh
 make all
 ```
 
 
-### Generate XSPICE File
-
-To generate an XSPICE file of the macro for mixed-signal simulation in Xschem, run:
-
-```sh
-make generate-xspice
-```
-
-This builds the XSPICE model **directly from the LibreLane-extracted SPICE netlist** in `netlist/spice/<TOP>.spice` (copied from the last run by `make copy-netlist`). Two scripts do the work:
-
-1. `scripts/spi2xspice.py` replaces every standard cell with an XSPICE primitive (`d_lut`, `d_dff`, …), taking the pin order from the inline black-box `.subckt` stubs in the extracted netlist and the logic functions from the liberty file.
-2. `scripts/sak-pin-reorder.py` (vendored from [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS), see `scripts/.sak-scripts-version`) reorders the resulting `.subckt` ports to match the Xschem symbol in `schematic/xschem/<TOP>.sym` (`--format xspice`). It matches pins **by name** via the `sim_pinname` property on every symbol pin (Magic sorts the extracted ports alphabetically, so positional matching would mis-wire them).
-
-> [!IMPORTANT]
-> `spi2xspice.py` models **standard cells only**. Hardened sub-macros — such as the `counter` in this example — are **not** translated and are silently dropped from the XSPICE model. This is why `generate-xspice` is *not* part of `build-top` at this level.
-> Use this flow for macros without hardened sub-macros: the [`macros/counter/`](macros/counter/README.md) flow is the fully working mixed-signal reference (there, `generate-xspice` runs automatically as part of `build-top`). If you turn this top level into a sea-of-gates-only design, the flow works here in exactly the same way.
-
-For the details of the `sim_pinname` convention (and what to do when you add ports), see the [counter README](macros/counter/README.md#generate-xspice-file).
-
-
 ### Clean
 
-`make clean` deletes all generated files and folders of the top level. The sources (RTL, testbenches, symbols, scripts, and the LibreLane configuration) stay untouched. Deleted are:
+`make clean` deletes all generated files and folders of the top level. The sources (RTL, testbenches, and the LibreLane configuration) stay untouched. Deleted are:
 
 - `flow/librelane/runs/` and `flow/final/` (LibreLane runs and output views)
 - `final/` (GDS, LEF, LIB, netlist, SPEF, Verilog header, and render deliverables)
-- `netlist/` (extracted netlists and, if generated, the XSPICE model)
+- `netlist/` (the extracted netlists)
 - `verification/` (the copied LibreLane reports)
 - `testbenches/cocotb/sim_build/` and the Verilog testbench waveforms (`*.fst`)
-- `testbenches/xschem/simulations/` and the `plot_simulations/` outputs (`data/`, `figures/`, `__pycache__/`)
 - the FPGA build outputs (via `make -C fpga clean`)
 
 `make clean-counter` runs `make clean` in the counter macro, `clean-macros` cleans all sub-macros, and `clean-all` combines both (`clean-macros` + `clean`), mirroring the analog project's targets.
@@ -493,5 +435,4 @@ make clean-all
 make all
 ```
 
-> [!NOTE]
-> The top-level `make all` does not harden the counter sub-macro — its LibreLane flow instantiates the counter from `macros/counter/final/`. Directly after `make clean-all`, first rebuild the counter (`make -C macros/counter all`) before running `make all` here.
+`make all` starts with `build-macros`, so the counter's `final/` views deleted by `clean-all` are rebuilt before the top level needs them.
