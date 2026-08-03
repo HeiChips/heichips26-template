@@ -146,8 +146,10 @@ make magic-verify-all                    # Magic DRC + LVS + PEX of the top cell
 make build-top                           # LEF, LIB, Verilog stub, final GDS, render
 make build-inverter                      # run the inverter sub-macro's full flow (make -C macros/inverter all)
 make build-macros                        # verify, build and simulate all sub-macros (currently: inverter)
-make sim-xschem TB=heichips26_analog_project_tb_tran   # top-level transient (needs magic-pex first)
-make sim-view-xschem SCRIPT=plot_heichips26_analog_project
+make sim-xschem                          # top-level transient (default: <CELL>_tb_tran, needs magic-pex first)
+make sim-xschem TB=<testbenchname>       # run another testbench
+make sim-view-xschem                     # plot the results (default: plot_<CELL>)
+make sim-view-xschem SCRIPT=<scriptname> # run another plotting script
 make all                                 # build-macros + verify + build + simulate
 make clean                               # delete the top level's generated files (final, netlist, render, reports, simulations)
 make clean-macros                        # run make clean in all sub-macros (currently: inverter)

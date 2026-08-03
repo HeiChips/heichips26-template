@@ -130,7 +130,7 @@ make
 make help
 ```
 
-For the `sim-xschem` target, `TB=<testbenchname>` is required.
+The `sim-xschem` target accepts an optional `TB=<testbenchname>` parameter (default: `<CELL>_tb_tran`), and `sim-view-xschem` an optional `SCRIPT=<scriptname>` parameter (default: `plot_<CELL>`).
 
 All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter`).
 
@@ -165,10 +165,11 @@ The target netlists the testbench with `xschem netlist` and then invokes `ngspic
 
 Because the run is headless, the `plot` commands in a testbench's `.control` block are a no-op and no plot windows appear. Every testbench instead exports its results with `wrdata` to `testbenches/xschem/plot_simulations/data/`, from where they are plotted with `sim-view-xschem`.
 
-The testbench name **must** be specified via the `TB` variable:
+The testbench is selected with the `TB` variable, given without the `.sch` extension (default: `<CELL>_tb_tran`):
 
 ```sh
-make sim-xschem TB=<testbenchname>
+make sim-xschem                     # run the default testbench (default: <CELL>_tb_tran)
+make sim-xschem TB=<testbenchname>  # run another testbench
 ```
 
 For example:
@@ -184,10 +185,11 @@ All available testbench schematics are located in `testbenches/xschem/`. Generat
 
 ### Plot Xschem Simulation Results
 
-Plots simulation results using the Python script selected by `SCRIPT` (given without the `.py` extension):
+Plots simulation results using the Python script selected by `SCRIPT`, given without the `.py` extension (default: `plot_<CELL>`):
 
 ```sh
-make sim-view-xschem SCRIPT=<scriptname>
+make sim-view-xschem                      # run the default plotting script (default: plot_<CELL>)
+make sim-view-xschem SCRIPT=<scriptname>  # run another plotting script
 ```
 
 The target runs `SHOW_PLOTS=1 python3 testbenches/xschem/plot_simulations/<SCRIPT>.py`. Every script writes its figures to `testbenches/xschem/plot_simulations/figures/`. The interactive plot windows only open when `SHOW_PLOTS` is set (the target sets it). Running a script directly without it is fully headless and just writes the figures.
