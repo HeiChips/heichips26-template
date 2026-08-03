@@ -3,8 +3,8 @@
 This is the analog example **sub-macro** of the HeiChips 2026 template: the unit `inverter` cell with its complete flow (schematic → simulation → layout → DRC/LVS/PEX → characterization). The hand-drawn top level that embeds it, including the HeiChips power ring, lives one directory up in [`heichips26_analog_project`](../../README.md).
 
 <p align="center">
-  <a href="render/img/inverter_white.png">
-    <img src="render/img/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
+  <a href="final/render/inverter_white.png">
+    <img src="final/render/inverter_white.png" alt="Render of the ihp-sg13cmos5l inverter layout" width=70%>
   </a>
   <br>
   <em>Render of the ihp-sg13cmos5l inverter layout.</em>
@@ -26,6 +26,9 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │  │  └─ inverter.lef
 │  ├─ 📁 lib/
 │  │  └─ inverter.lib
+│  ├─ 📁 render/
+│  │  ├─ inverter_black.png
+│  │  └─ inverter_white.png
 │  └─ 📁 vh/
 │     └─ inverter.vh
 ├─ 📁 layout/
@@ -47,10 +50,6 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │     ├─ *.spice
 │     ├─ inverter_klayout.cdl
 │     └─ inverter_magic.spice
-├─ 📁 render/
-│  └─ 📁 img/
-│     ├─ inverter_black.png
-│     └─ inverter_white.png
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
 │     ├─ *.sch
@@ -130,7 +129,7 @@ make
 make help
 ```
 
-For the `sim-xschem` target, `TB=<testbenchname>` is required.
+The `sim-xschem` target accepts an optional `TB=<testbenchname>` parameter (default: `<CELL>_tb_tran`), and `sim-view-xschem` an optional `SCRIPT=<scriptname>` parameter (default: `plot_<CELL>`).
 
 All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter`).
 
@@ -165,10 +164,11 @@ The target netlists the testbench with `xschem netlist` and then invokes `ngspic
 
 Because the run is headless, the `plot` commands in a testbench's `.control` block are a no-op and no plot windows appear. Every testbench instead exports its results with `wrdata` to `testbenches/xschem/plot_simulations/data/`, from where they are plotted with `sim-view-xschem`.
 
-The testbench name **must** be specified via the `TB` variable:
+The testbench is selected with the `TB` variable, given without the `.sch` extension (default: `<CELL>_tb_tran`):
 
 ```sh
-make sim-xschem TB=<testbenchname>
+make sim-xschem                     # run the default testbench (default: <CELL>_tb_tran)
+make sim-xschem TB=<testbenchname>  # run another testbench
 ```
 
 For example:
@@ -184,10 +184,11 @@ All available testbench schematics are located in `testbenches/xschem/`. Generat
 
 ### Plot Xschem Simulation Results
 
-Plots simulation results using the Python script selected by `SCRIPT` (given without the `.py` extension):
+Plots simulation results using the Python script selected by `SCRIPT`, given without the `.py` extension (default: `plot_<CELL>`):
 
 ```sh
-make sim-view-xschem SCRIPT=<scriptname>
+make sim-view-xschem                      # run the default plotting script (default: plot_<CELL>)
+make sim-view-xschem SCRIPT=<scriptname>  # run another plotting script
 ```
 
 The target runs `SHOW_PLOTS=1 python3 testbenches/xschem/plot_simulations/<SCRIPT>.py`. Every script writes its figures to `testbenches/xschem/plot_simulations/figures/`. The interactive plot windows only open when `SHOW_PLOTS` is set (the target sets it). Running a script directly without it is fully headless and just writes the figures.
@@ -308,7 +309,7 @@ make copy-gds
 
 ### Render Layout Image
 
-Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `render/img/`:
+Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `final/render/`:
 
 ```sh
 make render-gds
@@ -518,9 +519,8 @@ Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX
 
 `make clean` deletes all generated files and folders. The sources (schematics, symbols, testbenches, the layout, the scripts, and the CACE configuration) stay untouched. Deleted are:
 
-- `final/` (GDS, LEF, LIB, and Verilog stub deliverables)
+- `final/` (GDS, LEF, LIB, Verilog stub, and layout render deliverables)
 - `netlist/` (schematic, layout, and PEX netlists)
-- `render/` (layout render images)
 - `verification/drc/` and `verification/lvs/` (DRC and LVS reports)
 - `testbenches/xschem/simulations/` and the `plot_simulations/` outputs (`data/`, `figures/`, `__pycache__/`)
 - the CACE outputs under `verification/cace/` (`_runs/`, `_docs/`, `netlist/`, `results/`)

@@ -55,7 +55,7 @@ GDS_DIR         := final/gds
 LEF_DIR         := final/lef
 LIB_DIR         := final/lib
 VH_DIR          := final/vh
-RENDER_IMG_DIR  := render/img
+RENDER_DIR      := final/render
 NET_SCH_DIR     := netlist/schematic
 NET_LAY_DIR     := netlist/layout
 NET_PEX_DIR     := netlist/pex
@@ -76,18 +76,21 @@ help: ## Show this help message
 	@echo 'THRESHOLD/MINRES/MINDELAY are full-RC (EXT_MODE=3) extresist settings for magic-pex (defaults 10000 mOhm / 1000 mOhm / 1 ps).'
 	@echo 'DRC_LEVEL defaults to macro. Sets the KLayout DRC level for klayout-drc (precheck|macro|regular).'
 	@echo 'EV_PRECISION defaults to 5 significant digits for xschem ev function.'
-	@echo 'TB selects the Xschem testbench for sim-xschem (e.g. inverter_tb_tran).'
-	@echo 'SCRIPT selects the plotting script for sim-view-xschem (e.g. plot_inverter).'
+	@echo 'TB selects the Xschem testbench for sim-xschem (default: <CELL>_tb_tran).'
+	@echo 'SCRIPT selects the plotting script for sim-view-xschem (default: plot_<CELL>).'
 .PHONY: help
 # ================================================================================================
 
 
 # Simulation Targets
-# Testbench name for sim-xschem target (required: make sim-xschem TB=<testbenchname>)
-TB ?= $(error TB is not set. Usage: make sim-xschem TB=<testbenchname>)
-SCRIPT ?= $(error SCRIPT is not set. Usage: make sim-view-xschem SCRIPT=<scriptname>)
+# Testbench for the Xschem simulation targets (default: <CELL>_tb_tran)
+# Override with: make <target> TB=<testbenchname>
+TB ?= $(CELL)_tb_tran
+# Plotting script for sim-view-xschem (default: plot_<CELL>)
+# Override with: make <target> SCRIPT=<scriptname>
+SCRIPT ?= plot_$(CELL)
 
-sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xschem TB=<testbenchname>)
+sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xschem [TB=<testbenchname>])
 	mkdir -p $(XSCHEM_TB_DIR)/simulations $(SIM_PLOT_DIR)/data
 	cd $(XSCHEM_TB_DIR) && xschem -r -x -q --rcfile xschemrc --command ' \
 		xschem set netlist_type spice; \
@@ -98,7 +101,7 @@ sim-xschem: ## Run TB simulation with Xschem in batch mode (usage: make sim-xsch
 	cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TB).spice
 .PHONY: sim-xschem
 
-sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem SCRIPT=<scriptname>)
+sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem [SCRIPT=<scriptname>])
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
@@ -230,9 +233,9 @@ copy-gds: ## Copy the TOP cell GDS from layout/ to final/gds/
 
 # Render Target
 render-gds: ## Render an image from the final GDS using lay2img.py
-	rm -rf $(RENDER_IMG_DIR)/
-	mkdir -p $(RENDER_IMG_DIR)/
-	python3 $(SCRIPTS_DIR)/lay2img.py $(LAY_DIR)/$(TOP).gds $(RENDER_IMG_DIR)/$(TOP).png --width 2048 --oversampling 4
+	rm -rf $(RENDER_DIR)/
+	mkdir -p $(RENDER_DIR)/
+	python3 $(SCRIPTS_DIR)/lay2img.py $(LAY_DIR)/$(TOP).gds $(RENDER_DIR)/$(TOP).png --width 2048 --oversampling 4
 .PHONY: render-gds
 # ================================================================================================
 
@@ -381,8 +384,8 @@ all: ## Verify, build and simulate the TOP cell
 
 
 # Clean Target
-clean: ## Delete all generated files and folders (final, netlist, render, DRC/LVS reports, simulation and CACE outputs)
-	rm -rf final netlist render
+clean: ## Delete all generated files and folders (final, netlist, DRC/LVS reports, simulation and CACE outputs)
+	rm -rf final netlist
 	rm -rf $(DRC_RPT_DIR) $(LVS_RPT_DIR)
 	rm -rf $(XSCHEM_TB_DIR)/simulations
 	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__

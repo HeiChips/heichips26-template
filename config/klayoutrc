@@ -127,7 +127,7 @@
  <image-cache-size>1</image-cache-size>
  <images-visible>true</images-visible>
  <initial-hier-depth>1</initial-hier-depth>
- <initial-technology>sg13g2</initial-technology>
+ <initial-technology>sg13cmos5l</initial-technology>
  <inst-color>#ff8000</inst-color>
  <inst-label-font>0</inst-label-font>
  <inst-label-transform>true</inst-label-transform>
@@ -191,10 +191,10 @@ zoom_menu.max_hier_0:none;
 zoom_menu.max_hier_1:'Ctrl+F';
 zoom_menu.dec_max_hier:'-';
 zoom_menu.inc_max_hier:'+';
-sg13g2_menu.macro_in_menu_sg13g2_drc:F9;
-sg13g2_menu.macro_in_menu_sg13g2_drc_options:F10;
-sg13g2_menu.macro_in_menu_sg13g2_lvs:F11;
-sg13g2_menu.macro_in_menu_sg13g2_lvs_options:F12;
+sg13cmos5l_menu.macro_in_menu_sg13cmos5l_drc:F9;
+sg13cmos5l_menu.macro_in_menu_sg13cmos5l_drc_options:F10;
+sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs:F11;
+sg13cmos5l_menu.macro_in_menu_sg13cmos5l_lvs_options:F12;
  </key-bindings>
  <klayout_auto_backups_enabled>true</klayout_auto_backups_enabled>
  <l2ndb-export-circuit-cell-prefix>CIRCUIT_</l2ndb-export-circuit-cell-prefix>
@@ -345,8 +345,8 @@ sg13g2_menu.macro_in_menu_sg13g2_lvs_options:F12;
  <transient-sel-line-style>-1</transient-sel-line-style>
  <transient-sel-line-width>1</transient-sel-line-width>
  <transient-sel-vertex-size>0</transient-sel-vertex-size>
- <window-geometry>AdnQywADAAD////+////+wAABa8AAAN5AAAAAQAAABkAAAWsAAADdgAAAAAAAAAAB4AAAAABAAAAGQAABawAAAN2</window-geometry>
- <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAADEAAAC8/wCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAkQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAAVAAAAFEAAAAUAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAAqwAAAEsAAAAUAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAD8AAACSwAAAJYA////AAAAAQAAAJQAAALz/AIAAAAD+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAUAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABUAAACWwAAABQA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAArUAAACSAAAAFAD///8AAARIAAAC8wAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAADgB0AG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=</window-state>
+ <window-geometry>AdnQywADAAAAAAn+////+wAAE/0AAAVqAAAKAQAAABkAABP6AAAFZwAAAAACAAAACgAAAAoBAAAAGQAAE/oAAAVn</window-geometry>
+ <window-state>AAAA/wAAAAD9AAAAAgAAAAAAAADEAAAE7fwCAAAABPsAAAAqAG4AYQB2AGkAZwBhAHQAbwByAF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAiQD////7AAAAHABoAHAAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAATAAAAIcAAAAQAP////sAAAAgAGwAaQBiAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQBAAAA2QAAAIAAAAAQAP////sAAAAcAGUAbwBfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAAFfAAAD2gAAAJYA////AAAAAQAAAJQAAATt/AIAAAAD+wAAACoAYgBvAG8AawBtAGEAcgBrAHMAXwBkAG8AYwBrAF8AdwBpAGQAZwBlAHQAAAAAAP////8AAAAQAP////sAAAAcAGwAcABfAGQAbwBjAGsAXwB3AGkAZABnAGUAdAEAAABMAAADdgAAABAA////+wAAABwAbAB0AF8AZABvAGMAawBfAHcAaQBkAGcAZQB0AQAAA8gAAAFxAAAAEAD///8AAAiWAAAE7QAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAABAAAADgB0AG8AbwBsAGIAYQByAQAAAAD/////AAAAAAAAAAA=</window-state>
  <xor-anotb>false</xor-anotb>
  <xor-axorb>true</xor-axorb>
  <xor-bnota>false</xor-bnota>
