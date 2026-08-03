@@ -237,6 +237,9 @@ The view target loads it automatically together with the current `.fst`, so sign
 
 #### Gate-Level Xschem Simulation
 
+> [!TIP]
+> This gate-level flow brings the hardened digital macro into Xschem as an XSPICE model, so it can be simulated together with analog circuitry in ngspice. This is what enables **analog mixed-signal designs** in Xschem. Instantiate the `counter` symbol next to your analog blocks in a testbench schematic and simulate the whole system in one run.
+
 Runs the mixed-signal gate-level transient simulation testbench in `testbenches/xschem/<CELL>_tb_tran.sch`:
 
 ```sh
