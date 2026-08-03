@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+// SPDX-FileCopyrightText: 2026 XXX
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Description: SystemVerilog testbench for the counter module.
 

@@ -22,7 +22,6 @@ hdl_toplevel = "counter"
 
 CTR_WIDTH        = 8
 CTR_MAX          = 2**CTR_WIDTH-1
-print(CTR_MAX)
 CLK_FREQ_HZ      = 50e6
 CLK_FREQ_MHZ     = int(CLK_FREQ_HZ / 1e6)
 
@@ -161,7 +160,7 @@ def counter_runner():
     build_args = []
 
     if sim == "icarus":
-        # -gno-specify: skip specify blocks; sg13g2_stdcell.v uses
+        # -gno-specify: skip specify blocks; sg13cmos5l_stdcell.v uses
         # `ifnone with edge-sensitive paths`, which iverilog can't parse.
         build_args = ["-DSIM", "-gno-specify"]
 
