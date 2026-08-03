@@ -1,8 +1,20 @@
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+meta:
+  version: 3
+  flow: Classic
+  substituting_steps:
+
+    # Magic reports some overlaps which can be ignored
+    Checker.IllegalOverlap: null
+
 DESIGN_NAME: counter
 VERILOG_FILES: dir::../../rtl/*.sv
 
 # Clock
-CLOCK_PORT: clock_i
+CLOCK_PORT: clk_i
+CLOCK_NET: clk_i
 CLOCK_PERIOD: 20 # in ns == 50 MHz
 
 # Layout / Floorplan Rules
@@ -29,6 +41,10 @@ RT_MAX_LAYER: Metal4
 
 # Pin placement
 FP_PIN_ORDER_CFG: dir::pin_order.cfg
+
+# SDC files
+PNR_SDC_FILE: dir::impl.sdc
+SIGNOFF_SDC_FILE: dir::signoff.sdc
 
 # Enable plugin for better SystemVerilog support
 # USE_SLANG: True
