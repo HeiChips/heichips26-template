@@ -512,3 +512,52 @@ make all
 ```
 
 Verification runs first because DRC/LVS/PEX produce the fresh, pin-reordered PEX netlists from the current layout. The build follows, since the Verilog stub reads its pins from a PEX netlist. The simulations run **last**, so the `inverter` testbench includes the PEX netlist produced by this run, not by a previous one.
+
+
+### Clean
+
+`make clean` deletes all generated files and folders. The sources (schematics, symbols, testbenches, the layout, the scripts, and the CACE configuration) stay untouched. Deleted are:
+
+- `final/` (GDS, LEF, LIB, and Verilog stub deliverables)
+- `netlist/` (schematic, layout, and PEX netlists)
+- `render/` (layout render images)
+- `verification/drc/` and `verification/lvs/` (DRC and LVS reports)
+- `testbenches/xschem/simulations/` and the `plot_simulations/` outputs (`data/`, `figures/`, `__pycache__/`)
+- the CACE outputs under `verification/cace/` (`_runs/`, `_docs/`, `netlist/`, `results/`)
+
+Every Makefile target recreates its output folders, so a clean rebuild is simply:
+
+```sh
+make clean
+make all
+```
+
+> [!NOTE]
+> The Xschem testbenches `.include` the PEX netlist `netlist/pex/inverter_magic_pex_3.spice`. Directly after `make clean`, run `make magic-pex` (or the full `make all`) once before `make sim-xschem` / `make sim-all`, otherwise the include fails.
+
+
+## Start a New Macro from This Template
+
+The inverter is a good starting point for a new analog sub-macro of `heichips26_analog_project`:
+
+1. Copy the `inverter` folder inside `macros/`.
+2. Execute `make clean` in the new folder.
+3. Rename `TOP` in the `Makefile`. All targets derive their file paths from `TOP` (and `CELL`, which defaults to `TOP`), so the design files must carry the same name.
+4. Rename the Xschem schematic, symbol, and testbench files.
+5. Rename the KLayout layout file **and the top cell inside the GDS** (open it in KLayout, rename the cell, save). The verification targets require matching file and top-cell names.
+6. Register the new macro in the parent [`heichips26_analog_project` Makefile](../../Makefile): add a `build-<name>` target and call it from `build-macros`, and add a `clean-<name>` target called from `clean-macros`. To use the new symbols from the top level, also append the macro's schematic folder to the top-level `xschemrc` files.
+
+For a new macro named `amp`, this looks as follows (starting from `macros/`):
+
+```sh
+cp -r inverter amp
+cd amp
+make clean
+# set TOP = amp in the Makefile, then:
+for f in schematic/xschem/inverter* testbenches/xschem/inverter*; do
+    mv "$f" "$(echo "$f" | sed 's/inverter/amp/')"
+done
+mv layout/inverter.gds layout/amp.gds
+```
+
+Finally, update the remaining `inverter` references inside the renamed files with search-and-replace in a text editor, for example the `inverter.sym` instances and the `.include` of the PEX netlist in the testbenches (Xschem files are plain text).
