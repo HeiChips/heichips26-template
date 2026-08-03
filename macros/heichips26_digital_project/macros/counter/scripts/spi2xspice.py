@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-FileCopyrightText: 2024 Tim Edwards, 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2024 Tim Edwards, 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 #
 # spi2xspice.py
