@@ -82,7 +82,7 @@
               ps:
               with ps;
               [
-                # Plotting of simulation results (scripts/plot_simulations)
+                # Plotting of Xschem simulation results
                 numpy
                 matplotlib
               ]
