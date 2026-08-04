@@ -134,7 +134,7 @@ This is the digital-on-top example project for the HeiChips 2026 Hackathon. The 
 
 ## Sub-Macros
 
-The `counter` is hardened as an own macro in [`macros/counter/`](macros/counter/) and integrated as a black box via the `MACROS` section in [`flow/librelane/config.yaml`](flow/librelane/config.yaml) (GDS, LEF, LIB, SPEF views from `macros/counter/final/`).
+The `counter` is hardened as an own macro in [`macros/counter/`](macros/counter/) and integrated as a black box via the `MACROS` section in [`flow/librelane/config.yaml`](flow/librelane/config.yaml) (GDS, LEF, VH, LIB, SPEF views from `macros/counter/final/`).
 
 **Build order matters**: if you modify the counter, run its own flow first (`make build-counter` from here, or equivalently `make -C macros/counter all`) so its `final/` views are up to date, then build this top level. The top-level `make all` does this automatically by running `build-macros` before `build-top`.
 
