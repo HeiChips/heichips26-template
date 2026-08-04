@@ -14,10 +14,6 @@ TOP = heichips26_digital_project
 # Override with: make <target> CELL=<cellname>
 CELL ?= $(TOP)
 
-# PEX mode (1 = C-decoupled, 2 = C-coupled, 3 = full-RC)
-# Override with: make <target> EXT_MODE=<1|2|3>
-EXT_MODE ?= 3
-
 # Set the waveform viewer GTKWave or Surfer (default: gtkwave)
 # Override with: make <target> WAVEFORM_VIEWER=<gtkwave|surfer>
 WAVEFORM_VIEWER ?= gtkwave
