@@ -54,6 +54,9 @@
         {
           default = pkgs.librelane-shell.override ({
             extra-packages = with pkgs; [
+              # Tools
+              gnumake
+
               # Simulation
               iverilog
               verilator
