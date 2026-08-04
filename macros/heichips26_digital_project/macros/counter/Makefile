@@ -14,14 +14,6 @@ TOP = counter
 # Override with: make <target> CELL=<cellname>
 CELL ?= $(TOP)
 
-# PEX mode (1 = C-decoupled, 2 = C-coupled, 3 = full-RC)
-# Override with: make <target> EXT_MODE=<1|2|3>
-EXT_MODE ?= 3
-
-# Floating-point precision (significant digits) for xschem's ev function
-# Override with: make <target> EV_PRECISION=<digits>
-EV_PRECISION ?= 5
-
 # Set the waveform viewer GTKWave or Surfer (default: gtkwave)
 # Override with: make <target> WAVEFORM_VIEWER=<gtkwave|surfer>
 WAVEFORM_VIEWER ?= gtkwave
