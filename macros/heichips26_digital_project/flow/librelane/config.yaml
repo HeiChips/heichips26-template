@@ -1,9 +1,25 @@
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+#
 # LibreLane configuration file
+
+meta:
+  version: 3
+  flow: Classic
+  substituting_steps:
+
+    # Magic reports some overlaps which can be ignored
+    Checker.IllegalOverlap: null
 
 DESIGN_NAME: heichips26_digital_project
 VERILOG_FILES: dir::../../rtl/*.sv
 CLOCK_PORT: clk
+CLOCK_NET: clk
 CLOCK_PERIOD: 10 # 10ns = 100MHz
+
+# SDC files
+PNR_SDC_FILE: dir::impl.sdc
+SIGNOFF_SDC_FILE: dir::signoff.sdc
 
 # Reduce wasted space
 TOP_MARGIN_MULT: 1

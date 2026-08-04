@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
+# SPDX-FileCopyrightText: 2026 The HeiChips Contributors
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
@@ -14,51 +14,52 @@ TOP = heichips26_digital_project
 # Override with: make <target> CELL=<cellname>
 CELL ?= $(TOP)
 
-# PEX mode (1 = C-decoupled, 2 = C-coupled, 3 = full-RC)
-# Override with: make <target> EXT_MODE=<1|2|3>
-EXT_MODE ?= 3
-
-# Floating-point precision (significant digits) for xschem's ev function
-# Override with: make <target> EV_PRECISION=<digits>
-EV_PRECISION ?= 5
-
 # Set the waveform viewer GTKWave or Surfer (default: gtkwave)
 # Override with: make <target> WAVEFORM_VIEWER=<gtkwave|surfer>
 WAVEFORM_VIEWER ?= gtkwave
 
 # Folder structure
+MACROS_DIR      := macros
 COCOTB_DIR      := testbenches/cocotb
 VERILOG_TB_DIR 	:= testbenches/verilog
-XSCHEM_TB_DIR  	:= testbenches/xschem
-XSCHEM_SCH_DIR  := schematic/xschem
-SCRIPTS_DIR   	:= scripts
-SIM_PLOT_DIR  	:= scripts/plot_simulations
 REPORT_DIR     	:= verification
 SRC_DIR 		:= rtl
 NET_NL_DIR    	:= netlist/nl
 NET_PNL_DIR  	:= netlist/pnl
 NET_SPICE_DIR 	:= netlist/spice
-XSPICE_DIR  	:= netlist/xspice
 LIBRELANE_DIR 	:= flow/librelane
 FLOW_FINAL_DIR 	:= flow/final
 FINAL_DIR      	:= final
 
-SRCS := \
+# Variables for simulation and linting targets
+# The counter sub-macro is hardened separately (see macros/counter/), but its RTL
+# is needed for linting and RTL simulation of the whole design.
+MODULES_SYNTH := \
 	$(SRC_DIR)/heichips26_digital_project.sv \
-	macros/counter/rtl/counter.sv
+	$(MACROS_DIR)/counter/rtl/counter.sv
 
-# Source files for sim-rtl-verilog
-_SIM_SRCS = $(SRCS)
+MODULES_SIM := \
+	$(MODULES_SYNTH)
 
-# Source files for lint-verilog
-_LINT_SRCS = $(SRCS)
+# Source files for sim-rtl-verilog: auto-selects MODULES_SIM when CELL == TOP, single-file otherwise (prefers .sv, falls back to .v)
+_SIM_SRCS = $(if $(filter $(CELL),$(TOP)),$(MODULES_SIM),$(or $(wildcard $(SRC_DIR)/$(CELL).sv),$(SRC_DIR)/$(CELL).v))
+
+# Source files for lint-verilog: all synthesis sources for TOP, single-file otherwise (prefers .sv, falls back to .v)
+_LINT_SRCS = $(if $(filter $(CELL),$(TOP)),$(MODULES_SYNTH),$(or $(wildcard $(SRC_DIR)/$(CELL).sv),$(SRC_DIR)/$(CELL).v))
+
+# Testbench extension: prefers <CELL>_tb.sv, falls back to <CELL>_tb.v (dot is added at use site)
+_TB_EXT = $(if $(wildcard $(VERILOG_TB_DIR)/$(CELL)_tb.sv),sv,v)
+
 
 # Help Target
 help: ## Show this help message
-	@echo 'Usage: make [target]'
+	@echo 'Usage: make <target> [CELL=<cellname>] [WAVEFORM_VIEWER=<gtkwave|surfer>]'
 	@echo ''
 	@echo 'Available targets:'
 	@grep -E '^[a-zA-Z0-9_.-]+:.*## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "  %-20s %s\n", $$1, $$2}'
+	@echo ''
+	@echo 'CELL defaults to $(TOP). Override to lint or simulate subcells.'
+	@echo 'WAVEFORM_VIEWER defaults to gtkwave. Use surfer to launch Surfer instead.'
 .PHONY: help
 # ================================================================================================
 
@@ -68,8 +69,8 @@ lint-verilog: ## Lint Verilog source files with Verilator (usage: make lint-veri
 	verilator --lint-only -I"$(SRC_DIR)" $(_LINT_SRCS)
 .PHONY: lint-verilog
 
-lint-verilog-all: ## Lint all Verilog source files (heichips26_digital_project)
-	$(MAKE) lint-verilog CELL=heichips26_digital_project
+lint-verilog-all: ## Lint all Verilog source files (counter sub-macro + heichips26_digital_project)
+	$(MAKE) -C $(MACROS_DIR)/counter lint-verilog-all
 	$(MAKE) lint-verilog
 .PHONY: lint-verilog-all
 # ================================================================================================
@@ -77,7 +78,7 @@ lint-verilog-all: ## Lint all Verilog source files (heichips26_digital_project)
 
 # Simulation Targets
 sim-rtl-verilog: ## Run RTL simulation of CELL cell with Icarus Verilog (usage: make sim-rtl-verilog [CELL=<cellname>])
-	iverilog -g2012 -DSIM -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.sv
+	iverilog -g2012 -DSIM -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.$(_TB_EXT)
 	cd $(VERILOG_TB_DIR) && vvp test_$(CELL) -fst
 	rm -f $(VERILOG_TB_DIR)/test_$(CELL)
 .PHONY: sim-rtl-verilog
@@ -110,28 +111,10 @@ sim-view-cocotb: ## View CELL cell cocotb simulation waveforms (usage: make sim-
 	fi
 .PHONY: sim-view-cocotb
 
-sim-gl-xschem: ## Run gate-level simulation of CELL cell with Xschem (usage: make sim-gl-xschem [CELL=<cellname>])
-	cd $(XSCHEM_TB_DIR) && xschem -x -q --rcfile xschemrc --command ' \
-		set netlist_dir $(abspath $(XSCHEM_TB_DIR)/simulations); \
-		xschem save; \
-		xschem netlist; \
-		xschem simulate \
-	' $(CELL)_tb_tran.sch
-.PHONY: sim-gl-xschem
-
-sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem CELL=<cellname>)
-	python3 $(SIM_PLOT_DIR)/plot_$(CELL).py
-.PHONY: sim-view-xschem
-
-sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb + GL Xschem for heichips26_digital_project)
+sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb for heichips26_digital_project)
 	$(MAKE) sim-rtl-verilog
-#	$(MAKE) sim-view-verilog
 	$(MAKE) sim-rtl-cocotb
-#	$(MAKE) sim-view-cocotb
 	$(MAKE) sim-gl-cocotb
-#	$(MAKE) sim-view-cocotb
-	$(MAKE) sim-gl-xschem
-#	$(MAKE) sim-view-xschem
 .PHONY: sim-all
 # ================================================================================================
 
@@ -164,10 +147,10 @@ librelane-klayout: ## Open the last LibreLane run in KLayout
 
 
 # Copy Targets
-copy-reports: ## Copy yosys, antenna violations, hold & setup timing and manufacturability reports
+# Using * wildcard to ignore step numbers
+copy-reports: ## Copy yosys, antenna, STA, power, IR-drop, DRC, LVS and manufacturability reports from the last LibreLane run to verification/
 	rm -rf $(REPORT_DIR)/
 	mkdir -p $(REPORT_DIR)/
-	# Using * wildcard to ignore step numbers
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-yosys-synthesis/reports/pre_synth_chk.rpt $(REPORT_DIR)/yosys_synth_check.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-yosys-synthesis/reports/pre_techmap.rpt $(REPORT_DIR)/yosys_pre_techmap.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-yosys-synthesis/reports/post_dff.rpt $(REPORT_DIR)/yosys_post_dff.rpt
@@ -175,7 +158,9 @@ copy-reports: ## Copy yosys, antenna violations, hold & setup timing and manufac
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-checkantennas-1/reports/antenna.rpt $(REPORT_DIR)/antenna_violations.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-checkantennas-1/reports/antenna_summary.rpt $(REPORT_DIR)/antenna_summary.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-stapostpnr/summary.rpt $(REPORT_DIR)/stapostpnr_summary.rpt
-	cp -r $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-stapostpnr/**/ $(REPORT_DIR)/
+	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-stapostpnr/nom_fast_1p32V_m40C/power.rpt $(REPORT_DIR)/stapostpnr_nom_fast_1p32V_m40C_power.rpt
+	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-stapostpnr/nom_slow_1p08V_125C/power.rpt $(REPORT_DIR)/stapostpnr_nom_slow_1p08V_125C_power.rpt
+	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-stapostpnr/nom_typ_1p20V_25C/power.rpt $(REPORT_DIR)/stapostpnr_nom_typ_1p20V_25C_power.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-openroad-irdropreport/irdrop.rpt $(REPORT_DIR)/irdrop.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-magic-drc/reports/drc.magic.rpt $(REPORT_DIR)/drc.magic.rpt
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-klayout-drc/reports/drc.klayout.json $(REPORT_DIR)/drc.klayout.json
@@ -183,17 +168,17 @@ copy-reports: ## Copy yosys, antenna violations, hold & setup timing and manufac
 	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-misc-reportmanufacturability/manufacturability.rpt $(REPORT_DIR)/manufacturability.rpt
 .PHONY: copy-reports
 
-copy-final: ## Copy final output gds, lef, lib, nl, pnl, spef, and vh folders from the last LibreLane run to final/
-	mkdir -p $(FINAL_DIR)
-	rm -rf $(FINAL_DIR)/gds $(FINAL_DIR)/lef $(FINAL_DIR)/lib $(FINAL_DIR)/nl $(FINAL_DIR)/pnl $(FINAL_DIR)/spef $(FINAL_DIR)/vh $(FINAL_DIR)/render
-	cp -r $(FLOW_FINAL_DIR)/gds  $(FINAL_DIR)/gds
-	cp -r $(FLOW_FINAL_DIR)/lef  $(FINAL_DIR)/lef
-	cp -r $(FLOW_FINAL_DIR)/lib  $(FINAL_DIR)/lib
-	cp -r $(FLOW_FINAL_DIR)/nl   $(FINAL_DIR)/nl
-	cp -r $(FLOW_FINAL_DIR)/pnl  $(FINAL_DIR)/pnl
-	cp -r $(FLOW_FINAL_DIR)/spef $(FINAL_DIR)/spef
-	cp -r $(FLOW_FINAL_DIR)/vh   $(FINAL_DIR)/vh
-	cp -r $(FLOW_FINAL_DIR)/render   $(FINAL_DIR)/render
+copy-final: ## Copy final output gds, lef, lib, nl, pnl, spef, vh and render folders from the last LibreLane run to final/
+	rm -rf $(FINAL_DIR)/
+	mkdir -p $(FINAL_DIR)/
+	cp -r $(FLOW_FINAL_DIR)/gds    $(FINAL_DIR)/gds
+	cp -r $(FLOW_FINAL_DIR)/lef    $(FINAL_DIR)/lef
+	cp -r $(FLOW_FINAL_DIR)/lib    $(FINAL_DIR)/lib
+	cp -r $(FLOW_FINAL_DIR)/nl     $(FINAL_DIR)/nl
+	cp -r $(FLOW_FINAL_DIR)/pnl    $(FINAL_DIR)/pnl
+	cp -r $(FLOW_FINAL_DIR)/spef   $(FINAL_DIR)/spef
+	cp -r $(FLOW_FINAL_DIR)/vh     $(FINAL_DIR)/vh
+	cp -r $(FLOW_FINAL_DIR)/render $(FINAL_DIR)/render
 .PHONY: copy-final
 
 copy-netlist: ## Copy final output spice, pnl and nl netlists from the last LibreLane run to netlist/
@@ -209,8 +194,19 @@ copy-netlist: ## Copy final output spice, pnl and nl netlists from the last Libr
 	mkdir -p $(NET_NL_DIR)/
 	cp -r $(FLOW_FINAL_DIR)/nl/${TOP}.nl.v $(NET_NL_DIR)/${TOP}.nl.v
 .PHONY: copy-netlist
+# ================================================================================================
+
 
 # Build Targets
+build-counter: ## Lint, build, verify and simulate the counter macro
+	@$(MAKE) -C $(MACROS_DIR)/counter all
+.PHONY: build-counter
+
+build-macros: ## Lint, build, verify and simulate all macros
+	$(MAKE) build-counter
+#	ToDo: further macros
+.PHONY: build-macros
+
 build-fpga: ## Build FPGA bitstream (usage: make build-fpga [BOARD=ulx3s])
 	@$(MAKE) -C fpga all
 .PHONY: build-fpga
@@ -223,7 +219,7 @@ flash-fpga: ## Write FPGA bitstream to flash (usage: make flash-fpga [BOARD=ulx3
 	@$(MAKE) -C fpga flash_bitstream
 .PHONY: flash-fpga
 
-build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, copy netlists)
+build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy reports, copy final files, and copy netlists)
 	$(MAKE) librelane
 	$(MAKE) copy-reports
 	$(MAKE) copy-final
@@ -233,32 +229,42 @@ build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy r
 # ================================================================================================
 
 
-# LVS & DRC Verification Targets
-# The LibreLane flow already includes LVS and DRC checks with Magic and KLayout, and they are saved in the verification/ folder.
+# DRC & LVS Verification Targets
+# The LibreLane flow already includes DRC and LVS checks with Magic and KLayout, and they are saved in the verification/ folder.
 # ================================================================================================
 
 
-# Simulate, Build and Verify All Target
-all: ## Simulate, build and verify the macro
+# Lint, Build, Verify and Simulate All Target
+all: ## Lint, build, verify and simulate the macros and the TOP cell
 	$(MAKE) lint-verilog-all
-	$(MAKE) sim-all
+	$(MAKE) build-macros
 	$(MAKE) build-fpga
 	$(MAKE) build-top
+	$(MAKE) sim-all
 .PHONY: all
 # ================================================================================================
 
 
-# The following commands are for generating an XSPICE file for mixed-signal simulation in Xschem.
-# Note that these commands should not be run in `all`, since this XSPICE file is generated once with specific CPU settings for a more convenient simulation.
-# Note that this method does not work with the .pnl.v file in the flow/final/ folder. The .nl.v file from the LibreLane step yosys-synthesis has to be used.
-# Conversion pipeline: Copy gate-level Verilog (.nl.v) -> Verilog with power pins (.vp) -> SPICE (.spice) -> XSPICE (.xspice) -> Reorder pins in XSPICE file according to the Xschem symbol
-generate-xspice: ## Generate XSPICE model from gate-level Verilog netlist
-	mkdir -p $(XSPICE_DIR)
-	cp $(LIBRELANE_DIR)/runs/${RUN_TAG}/*-yosys-synthesis/${TOP}.nl.v $(XSPICE_DIR)/${TOP}_xspice.nl.v
-	vlog2Verilog $(XSPICE_DIR)/${TOP}_xspice.nl.v -o $(XSPICE_DIR)/${TOP}.vp -l $(PDK_ROOT)/$(PDK)/libs.ref/sg13g2_stdcell/lef/sg13g2_stdcell.lef -v "VPWR,VPB" -g "VGND,VNB"
-	vlog2Spice $(XSPICE_DIR)/${TOP}.vp -l $(PDK_ROOT)/$(PDK)/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice -o $(XSPICE_DIR)/${TOP}.spice
-	python3 $(SCRIPTS_DIR)/spi2xspice.py $(PDK_ROOT)/$(PDK)/libs.ref/sg13g2_stdcell/lib/sg13g2_stdcell_typ_1p50V_25C.lib -io_time=500p -time=50p -idelay=5p -odelay=50p -cload=250f $(XSPICE_DIR)/${TOP}.spice $(XSPICE_DIR)/${TOP}.xspice
-	python3 $(SCRIPTS_DIR)/reorder_xspice_pins.py $(XSCHEM_SCH_DIR)/${TOP}.sym $(XSPICE_DIR)/${TOP}.xspice
-	rm -f $(XSPICE_DIR)/${TOP}_xspice.nl.v $(XSPICE_DIR)/${TOP}.vp $(XSPICE_DIR)/${TOP}.spice
-.PHONY: generate-xspice
+# Clean Targets
+clean: ## Delete all generated files and folders of the TOP cell (LibreLane outputs, final, netlist, reports, simulation and FPGA outputs)
+	rm -rf $(LIBRELANE_DIR)/runs $(FLOW_FINAL_DIR)
+	rm -rf final netlist
+	rm -rf $(REPORT_DIR)
+	rm -rf $(COCOTB_DIR)/sim_build $(VERILOG_TB_DIR)/*.fst
+	@$(MAKE) -C fpga clean
+.PHONY: clean
+
+clean-counter: ## Delete all generated files and folders of the counter macro
+	@$(MAKE) -C $(MACROS_DIR)/counter clean
+.PHONY: clean-counter
+
+clean-macros: ## Delete all generated files and folders of all macros
+	$(MAKE) clean-counter
+#	ToDo: further macros
+.PHONY: clean-macros
+
+clean-all: ## Delete all generated files and folders of the macros and the TOP cell
+	$(MAKE) clean-macros
+	$(MAKE) clean
+.PHONY: clean-all
 # ================================================================================================

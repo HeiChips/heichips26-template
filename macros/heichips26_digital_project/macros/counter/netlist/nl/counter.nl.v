@@ -37,14 +37,15 @@ module counter (clk_i,
  wire _27_;
  wire _28_;
  wire _29_;
+ wire net11;
  wire net12;
  wire net13;
  wire net14;
  wire net15;
  wire net16;
  wire net17;
- wire net18;
- wire net1;
+ wire clknet_0_clk_i;
+ wire net3;
  wire net4;
  wire net5;
  wire net6;
@@ -52,10 +53,27 @@ module counter (clk_i,
  wire net8;
  wire net9;
  wire net10;
- wire net11;
+ wire net1;
  wire net2;
- wire net3;
  wire net;
+ wire clknet_1_0__leaf_clk_i;
+ wire clknet_1_1__leaf_clk_i;
+ wire net18;
+ wire net19;
+ wire net20;
+ wire net21;
+ wire net22;
+ wire net23;
+ wire net24;
+ wire net25;
+ wire net26;
+ wire net27;
+ wire net28;
+ wire net29;
+ wire net30;
+ wire net31;
+ wire net32;
+ wire net33;
 
  sg13cmos5l_decap_8 FILLER_0_0 ();
  sg13cmos5l_decap_8 FILLER_0_105 ();
@@ -103,7 +121,6 @@ module counter (clk_i,
  sg13cmos5l_decap_8 FILLER_10_88 ();
  sg13cmos5l_decap_8 FILLER_10_95 ();
  sg13cmos5l_decap_8 FILLER_11_0 ();
- sg13cmos5l_decap_4 FILLER_11_102 ();
  sg13cmos5l_fill_2 FILLER_11_106 ();
  sg13cmos5l_decap_8 FILLER_11_118 ();
  sg13cmos5l_decap_8 FILLER_11_125 ();
@@ -117,18 +134,17 @@ module counter (clk_i,
  sg13cmos5l_decap_8 FILLER_11_42 ();
  sg13cmos5l_decap_8 FILLER_11_49 ();
  sg13cmos5l_decap_8 FILLER_11_56 ();
- sg13cmos5l_decap_8 FILLER_11_63 ();
+ sg13cmos5l_decap_4 FILLER_11_63 ();
  sg13cmos5l_decap_8 FILLER_11_7 ();
- sg13cmos5l_fill_2 FILLER_11_70 ();
- sg13cmos5l_decap_8 FILLER_11_81 ();
- sg13cmos5l_decap_8 FILLER_11_88 ();
- sg13cmos5l_decap_8 FILLER_11_95 ();
+ sg13cmos5l_decap_8 FILLER_11_85 ();
+ sg13cmos5l_decap_8 FILLER_11_92 ();
+ sg13cmos5l_decap_8 FILLER_11_99 ();
  sg13cmos5l_decap_8 FILLER_12_0 ();
  sg13cmos5l_decap_8 FILLER_12_123 ();
- sg13cmos5l_decap_8 FILLER_12_130 ();
- sg13cmos5l_decap_8 FILLER_12_137 ();
- sg13cmos5l_decap_4 FILLER_12_144 ();
- sg13cmos5l_fill_2 FILLER_12_148 ();
+ sg13cmos5l_fill_2 FILLER_12_130 ();
+ sg13cmos5l_fill_1 FILLER_12_132 ();
+ sg13cmos5l_decap_8 FILLER_12_142 ();
+ sg13cmos5l_fill_1 FILLER_12_149 ();
  sg13cmos5l_decap_8 FILLER_12_17 ();
  sg13cmos5l_decap_8 FILLER_12_24 ();
  sg13cmos5l_decap_4 FILLER_12_31 ();
@@ -137,11 +153,9 @@ module counter (clk_i,
  sg13cmos5l_fill_2 FILLER_12_7 ();
  sg13cmos5l_fill_1 FILLER_12_9 ();
  sg13cmos5l_decap_4 FILLER_13_0 ();
- sg13cmos5l_decap_8 FILLER_13_101 ();
- sg13cmos5l_fill_2 FILLER_13_108 ();
- sg13cmos5l_fill_1 FILLER_13_110 ();
- sg13cmos5l_decap_8 FILLER_13_121 ();
- sg13cmos5l_decap_4 FILLER_13_128 ();
+ sg13cmos5l_fill_1 FILLER_13_103 ();
+ sg13cmos5l_decap_8 FILLER_13_123 ();
+ sg13cmos5l_fill_2 FILLER_13_130 ();
  sg13cmos5l_fill_1 FILLER_13_132 ();
  sg13cmos5l_decap_8 FILLER_13_137 ();
  sg13cmos5l_decap_4 FILLER_13_144 ();
@@ -150,87 +164,73 @@ module counter (clk_i,
  sg13cmos5l_decap_4 FILLER_13_24 ();
  sg13cmos5l_fill_1 FILLER_13_28 ();
  sg13cmos5l_fill_1 FILLER_13_4 ();
- sg13cmos5l_decap_8 FILLER_13_56 ();
- sg13cmos5l_decap_4 FILLER_13_63 ();
- sg13cmos5l_fill_1 FILLER_13_67 ();
- sg13cmos5l_decap_8 FILLER_13_80 ();
- sg13cmos5l_decap_8 FILLER_13_87 ();
- sg13cmos5l_decap_8 FILLER_13_94 ();
+ sg13cmos5l_fill_1 FILLER_13_65 ();
+ sg13cmos5l_fill_1 FILLER_13_82 ();
+ sg13cmos5l_decap_8 FILLER_13_92 ();
+ sg13cmos5l_decap_4 FILLER_13_99 ();
  sg13cmos5l_decap_8 FILLER_14_0 ();
- sg13cmos5l_fill_2 FILLER_14_102 ();
- sg13cmos5l_fill_1 FILLER_14_104 ();
- sg13cmos5l_decap_8 FILLER_14_117 ();
- sg13cmos5l_decap_8 FILLER_14_124 ();
- sg13cmos5l_decap_8 FILLER_14_131 ();
- sg13cmos5l_decap_8 FILLER_14_138 ();
+ sg13cmos5l_decap_8 FILLER_14_123 ();
+ sg13cmos5l_decap_8 FILLER_14_130 ();
+ sg13cmos5l_decap_8 FILLER_14_137 ();
  sg13cmos5l_decap_8 FILLER_14_14 ();
- sg13cmos5l_decap_4 FILLER_14_145 ();
- sg13cmos5l_fill_1 FILLER_14_149 ();
+ sg13cmos5l_decap_4 FILLER_14_144 ();
+ sg13cmos5l_fill_2 FILLER_14_148 ();
  sg13cmos5l_decap_8 FILLER_14_21 ();
- sg13cmos5l_decap_8 FILLER_14_28 ();
- sg13cmos5l_decap_4 FILLER_14_35 ();
- sg13cmos5l_decap_8 FILLER_14_51 ();
- sg13cmos5l_decap_8 FILLER_14_58 ();
- sg13cmos5l_decap_4 FILLER_14_65 ();
- sg13cmos5l_fill_1 FILLER_14_69 ();
+ sg13cmos5l_fill_1 FILLER_14_28 ();
+ sg13cmos5l_decap_8 FILLER_14_54 ();
+ sg13cmos5l_fill_2 FILLER_14_61 ();
+ sg13cmos5l_fill_1 FILLER_14_63 ();
  sg13cmos5l_decap_8 FILLER_14_7 ();
- sg13cmos5l_decap_8 FILLER_14_74 ();
- sg13cmos5l_decap_8 FILLER_14_81 ();
- sg13cmos5l_decap_8 FILLER_14_88 ();
- sg13cmos5l_decap_8 FILLER_14_95 ();
+ sg13cmos5l_fill_2 FILLER_14_73 ();
+ sg13cmos5l_fill_1 FILLER_14_75 ();
+ sg13cmos5l_decap_8 FILLER_14_89 ();
+ sg13cmos5l_fill_2 FILLER_14_96 ();
  sg13cmos5l_decap_8 FILLER_15_0 ();
- sg13cmos5l_fill_1 FILLER_15_11 ();
  sg13cmos5l_decap_8 FILLER_15_123 ();
  sg13cmos5l_decap_8 FILLER_15_130 ();
  sg13cmos5l_decap_8 FILLER_15_137 ();
  sg13cmos5l_decap_4 FILLER_15_144 ();
  sg13cmos5l_fill_2 FILLER_15_148 ();
- sg13cmos5l_decap_8 FILLER_15_16 ();
- sg13cmos5l_decap_4 FILLER_15_23 ();
- sg13cmos5l_fill_2 FILLER_15_27 ();
- sg13cmos5l_decap_8 FILLER_15_56 ();
- sg13cmos5l_decap_8 FILLER_15_63 ();
- sg13cmos5l_decap_4 FILLER_15_7 ();
- sg13cmos5l_decap_4 FILLER_15_70 ();
+ sg13cmos5l_decap_8 FILLER_15_19 ();
+ sg13cmos5l_fill_2 FILLER_15_26 ();
+ sg13cmos5l_fill_1 FILLER_15_28 ();
+ sg13cmos5l_fill_1 FILLER_15_56 ();
+ sg13cmos5l_decap_8 FILLER_15_66 ();
+ sg13cmos5l_fill_2 FILLER_15_7 ();
+ sg13cmos5l_fill_1 FILLER_15_73 ();
  sg13cmos5l_decap_8 FILLER_15_85 ();
  sg13cmos5l_decap_4 FILLER_15_92 ();
- sg13cmos5l_fill_2 FILLER_16_107 ();
- sg13cmos5l_decap_8 FILLER_16_121 ();
- sg13cmos5l_decap_8 FILLER_16_128 ();
- sg13cmos5l_decap_8 FILLER_16_135 ();
- sg13cmos5l_decap_8 FILLER_16_142 ();
- sg13cmos5l_fill_1 FILLER_16_149 ();
+ sg13cmos5l_decap_8 FILLER_16_0 ();
+ sg13cmos5l_fill_1 FILLER_16_107 ();
+ sg13cmos5l_decap_8 FILLER_16_122 ();
+ sg13cmos5l_decap_8 FILLER_16_129 ();
+ sg13cmos5l_decap_8 FILLER_16_136 ();
+ sg13cmos5l_decap_8 FILLER_16_143 ();
  sg13cmos5l_decap_8 FILLER_16_19 ();
- sg13cmos5l_decap_4 FILLER_16_26 ();
- sg13cmos5l_fill_2 FILLER_16_4 ();
- sg13cmos5l_fill_1 FILLER_16_6 ();
+ sg13cmos5l_fill_2 FILLER_16_26 ();
+ sg13cmos5l_fill_1 FILLER_16_28 ();
+ sg13cmos5l_fill_1 FILLER_16_43 ();
  sg13cmos5l_fill_2 FILLER_16_71 ();
  sg13cmos5l_decap_8 FILLER_17_0 ();
- sg13cmos5l_decap_8 FILLER_17_103 ();
+ sg13cmos5l_fill_1 FILLER_17_101 ();
  sg13cmos5l_fill_1 FILLER_17_11 ();
- sg13cmos5l_decap_4 FILLER_17_115 ();
  sg13cmos5l_decap_8 FILLER_17_123 ();
- sg13cmos5l_decap_8 FILLER_17_130 ();
+ sg13cmos5l_fill_2 FILLER_17_130 ();
+ sg13cmos5l_fill_1 FILLER_17_132 ();
  sg13cmos5l_decap_8 FILLER_17_137 ();
  sg13cmos5l_decap_4 FILLER_17_144 ();
  sg13cmos5l_fill_2 FILLER_17_148 ();
  sg13cmos5l_decap_8 FILLER_17_16 ();
  sg13cmos5l_decap_4 FILLER_17_23 ();
  sg13cmos5l_fill_2 FILLER_17_27 ();
- sg13cmos5l_fill_2 FILLER_17_42 ();
- sg13cmos5l_fill_1 FILLER_17_48 ();
- sg13cmos5l_decap_8 FILLER_17_53 ();
- sg13cmos5l_decap_8 FILLER_17_60 ();
- sg13cmos5l_decap_8 FILLER_17_67 ();
+ sg13cmos5l_decap_8 FILLER_17_59 ();
+ sg13cmos5l_decap_4 FILLER_17_66 ();
  sg13cmos5l_decap_4 FILLER_17_7 ();
- sg13cmos5l_fill_1 FILLER_17_74 ();
- sg13cmos5l_decap_8 FILLER_17_89 ();
- sg13cmos5l_decap_8 FILLER_17_96 ();
+ sg13cmos5l_fill_2 FILLER_17_70 ();
+ sg13cmos5l_fill_1 FILLER_17_91 ();
  sg13cmos5l_decap_4 FILLER_18_0 ();
- sg13cmos5l_fill_2 FILLER_18_103 ();
- sg13cmos5l_decap_8 FILLER_18_109 ();
- sg13cmos5l_fill_2 FILLER_18_116 ();
- sg13cmos5l_fill_1 FILLER_18_118 ();
+ sg13cmos5l_fill_1 FILLER_18_104 ();
+ sg13cmos5l_fill_1 FILLER_18_109 ();
  sg13cmos5l_decap_8 FILLER_18_123 ();
  sg13cmos5l_decap_8 FILLER_18_130 ();
  sg13cmos5l_decap_8 FILLER_18_137 ();
@@ -239,19 +239,16 @@ module counter (clk_i,
  sg13cmos5l_decap_4 FILLER_18_16 ();
  sg13cmos5l_fill_2 FILLER_18_20 ();
  sg13cmos5l_decap_8 FILLER_18_26 ();
- sg13cmos5l_decap_8 FILLER_18_33 ();
+ sg13cmos5l_fill_1 FILLER_18_33 ();
  sg13cmos5l_fill_1 FILLER_18_4 ();
- sg13cmos5l_decap_4 FILLER_18_40 ();
- sg13cmos5l_fill_1 FILLER_18_44 ();
- sg13cmos5l_decap_8 FILLER_18_49 ();
- sg13cmos5l_decap_8 FILLER_18_56 ();
+ sg13cmos5l_fill_2 FILLER_18_42 ();
+ sg13cmos5l_decap_8 FILLER_18_52 ();
+ sg13cmos5l_decap_4 FILLER_18_59 ();
  sg13cmos5l_fill_2 FILLER_18_63 ();
  sg13cmos5l_decap_8 FILLER_18_69 ();
- sg13cmos5l_decap_8 FILLER_18_76 ();
- sg13cmos5l_fill_2 FILLER_18_83 ();
- sg13cmos5l_decap_8 FILLER_18_89 ();
+ sg13cmos5l_decap_4 FILLER_18_76 ();
  sg13cmos5l_decap_8 FILLER_18_9 ();
- sg13cmos5l_decap_8 FILLER_18_96 ();
+ sg13cmos5l_decap_8 FILLER_18_97 ();
  sg13cmos5l_decap_8 FILLER_1_0 ();
  sg13cmos5l_decap_8 FILLER_1_105 ();
  sg13cmos5l_decap_8 FILLER_1_112 ();
@@ -459,101 +456,101 @@ module counter (clk_i,
  sg13cmos5l_decap_8 FILLER_9_91 ();
  sg13cmos5l_decap_8 FILLER_9_98 ();
  sg13cmos5l_inv_1 _38_ (.Y(_08_),
-    .A(net3));
+    .A(net2));
  sg13cmos5l_xnor2_1 _39_ (.Y(_09_),
-    .A(net2),
-    .B(net4));
+    .A(net1),
+    .B(net27));
  sg13cmos5l_nor2_1 _40_ (.A(_08_),
     .B(_09_),
     .Y(_00_));
  sg13cmos5l_nand2_1 _41_ (.Y(_10_),
-    .A(net2),
-    .B(net4));
+    .A(net1),
+    .B(net27));
  sg13cmos5l_xor2_1 _42_ (.B(_10_),
-    .A(net5),
+    .A(net28),
     .X(_11_));
  sg13cmos5l_nor2_1 _43_ (.A(_08_),
     .B(_11_),
     .Y(_01_));
- sg13cmos5l_nand3_1 _44_ (.B(net5),
-    .C(net4),
-    .A(net2),
+ sg13cmos5l_nand3_1 _44_ (.B(net28),
+    .C(net27),
+    .A(net1),
     .Y(_12_));
  sg13cmos5l_buf_4 _45_ (.X(_13_),
     .A(_12_));
  sg13cmos5l_xor2_1 _46_ (.B(_13_),
-    .A(net6),
+    .A(net33),
     .X(_14_));
  sg13cmos5l_nor2_1 _47_ (.A(_08_),
     .B(_14_),
     .Y(_02_));
- sg13cmos5l_nand4_1 _48_ (.B(net6),
-    .C(net5),
-    .A(net2),
+ sg13cmos5l_nand4_1 _48_ (.B(net5),
+    .C(net28),
+    .A(net1),
     .Y(_15_),
-    .D(net4));
+    .D(net27));
  sg13cmos5l_xor2_1 _49_ (.B(_15_),
-    .A(net7),
+    .A(net29),
     .X(_16_));
  sg13cmos5l_nor2_1 _50_ (.A(_08_),
-    .B(_16_),
+    .B(net30),
     .Y(_03_));
  sg13cmos5l_nand2_1 _51_ (.Y(_17_),
-    .A(net7),
-    .B(net6));
- sg13cmos5l_o21ai_1 _52_ (.B1(net8),
+    .A(net6),
+    .B(net5));
+ sg13cmos5l_o21ai_1 _52_ (.B1(net24),
     .Y(_18_),
     .A1(_13_),
     .A2(_17_));
- sg13cmos5l_or3_1 _53_ (.A(net8),
+ sg13cmos5l_or3_1 _53_ (.A(net24),
     .B(_13_),
     .C(_17_),
     .X(_19_));
- sg13cmos5l_a21oi_1 _54_ (.A1(_18_),
+ sg13cmos5l_a21oi_1 _54_ (.A1(net25),
     .A2(_19_),
     .Y(_04_),
     .B1(_08_));
- sg13cmos5l_nand3_1 _55_ (.B(net7),
-    .C(net6),
-    .A(net8),
+ sg13cmos5l_nand3_1 _55_ (.B(net6),
+    .C(net5),
+    .A(net7),
     .Y(_20_));
- sg13cmos5l_o21ai_1 _56_ (.B1(net9),
+ sg13cmos5l_o21ai_1 _56_ (.B1(net18),
     .Y(_21_),
     .A1(_13_),
     .A2(_20_));
- sg13cmos5l_or3_1 _57_ (.A(net9),
+ sg13cmos5l_or3_1 _57_ (.A(net18),
     .B(_13_),
     .C(_20_),
     .X(_22_));
- sg13cmos5l_a21oi_1 _58_ (.A1(_21_),
+ sg13cmos5l_a21oi_1 _58_ (.A1(net19),
     .A2(_22_),
     .Y(_05_),
     .B1(_08_));
- sg13cmos5l_nand4_1 _59_ (.B(net8),
-    .C(net7),
-    .A(net9),
+ sg13cmos5l_nand4_1 _59_ (.B(net24),
+    .C(net29),
+    .A(net18),
     .Y(_23_),
-    .D(net6));
- sg13cmos5l_o21ai_1 _60_ (.B1(net10),
+    .D(net5));
+ sg13cmos5l_o21ai_1 _60_ (.B1(net21),
     .Y(_24_),
     .A1(_13_),
     .A2(_23_));
- sg13cmos5l_or3_1 _61_ (.A(net10),
+ sg13cmos5l_or3_1 _61_ (.A(net21),
     .B(_13_),
     .C(_23_),
     .X(_25_));
- sg13cmos5l_a21oi_1 _62_ (.A1(_24_),
+ sg13cmos5l_a21oi_1 _62_ (.A1(net22),
     .A2(_25_),
     .Y(_06_),
     .B1(_08_));
- sg13cmos5l_and2_1 _63_ (.A(net11),
-    .B(net3),
+ sg13cmos5l_and2_1 _63_ (.A(net31),
+    .B(net2),
     .X(_26_));
- sg13cmos5l_nor2b_1 _64_ (.A(net11),
-    .B_N(net3),
+ sg13cmos5l_nor2b_1 _64_ (.A(net31),
+    .B_N(net2),
     .Y(_27_));
  sg13cmos5l_inv_1 _65_ (.Y(_28_),
-    .A(net10));
+    .A(net21));
  sg13cmos5l_nor3_2 _66_ (.A(_28_),
     .B(_13_),
     .C(_23_),
@@ -562,66 +559,102 @@ module counter (clk_i,
     .A1(_27_),
     .S(_29_),
     .X(_07_));
- sg13cmos5l_dfrbpq_1 _68_ (.RESET_B(net18),
+ sg13cmos5l_dfrbpq_1 _68_ (.RESET_B(net17),
     .D(_00_),
-    .Q(net4),
-    .CLK(net1));
- sg13cmos5l_tiehi _68__19 (.L_HI(net18));
- sg13cmos5l_dfrbpq_1 _69_ (.RESET_B(net17),
+    .Q(net3),
+    .CLK(clknet_1_0__leaf_clk_i));
+ sg13cmos5l_tiehi _68__18 (.L_HI(net17));
+ sg13cmos5l_dfrbpq_1 _69_ (.RESET_B(net16),
     .D(_01_),
-    .Q(net5),
-    .CLK(net1));
- sg13cmos5l_tiehi _69__18 (.L_HI(net17));
- sg13cmos5l_dfrbpq_1 _70_ (.RESET_B(net15),
+    .Q(net4),
+    .CLK(clknet_1_0__leaf_clk_i));
+ sg13cmos5l_tiehi _69__17 (.L_HI(net16));
+ sg13cmos5l_dfrbpq_1 _70_ (.RESET_B(net14),
     .D(_02_),
-    .Q(net6),
-    .CLK(net1));
- sg13cmos5l_tiehi _70__16 (.L_HI(net15));
- sg13cmos5l_dfrbpq_1 _71_ (.RESET_B(net13),
+    .Q(net5),
+    .CLK(clknet_1_0__leaf_clk_i));
+ sg13cmos5l_tiehi _70__15 (.L_HI(net14));
+ sg13cmos5l_dfrbpq_1 _71_ (.RESET_B(net12),
     .D(_03_),
-    .Q(net7),
-    .CLK(net1));
- sg13cmos5l_tiehi _71__14 (.L_HI(net13));
+    .Q(net6),
+    .CLK(clknet_1_0__leaf_clk_i));
+ sg13cmos5l_tiehi _71__13 (.L_HI(net12));
  sg13cmos5l_dfrbpq_1 _72_ (.RESET_B(net),
-    .D(_04_),
+    .D(net26),
+    .Q(net7),
+    .CLK(clknet_1_1__leaf_clk_i));
+ sg13cmos5l_tiehi _72__11 (.L_HI(net));
+ sg13cmos5l_dfrbpq_1 _73_ (.RESET_B(net15),
+    .D(net20),
     .Q(net8),
-    .CLK(net1));
- sg13cmos5l_tiehi _72__12 (.L_HI(net));
- sg13cmos5l_dfrbpq_1 _73_ (.RESET_B(net16),
-    .D(_05_),
+    .CLK(clknet_1_1__leaf_clk_i));
+ sg13cmos5l_tiehi _73__16 (.L_HI(net15));
+ sg13cmos5l_dfrbpq_1 _74_ (.RESET_B(net11),
+    .D(net23),
     .Q(net9),
-    .CLK(net1));
- sg13cmos5l_tiehi _73__17 (.L_HI(net16));
- sg13cmos5l_dfrbpq_1 _74_ (.RESET_B(net12),
-    .D(_06_),
+    .CLK(clknet_1_1__leaf_clk_i));
+ sg13cmos5l_tiehi _74__12 (.L_HI(net11));
+ sg13cmos5l_dfrbpq_1 _75_ (.RESET_B(net13),
+    .D(net32),
     .Q(net10),
-    .CLK(net1));
- sg13cmos5l_tiehi _74__13 (.L_HI(net12));
- sg13cmos5l_dfrbpq_1 _75_ (.RESET_B(net14),
-    .D(_07_),
-    .Q(net11),
-    .CLK(net1));
- sg13cmos5l_tiehi _75__15 (.L_HI(net14));
- sg13cmos5l_buf_1 input1 (.A(clk_i),
+    .CLK(clknet_1_1__leaf_clk_i));
+ sg13cmos5l_tiehi _75__14 (.L_HI(net13));
+ sg13cmos5l_buf_8 clkbuf_0_clk_i (.A(clk_i),
+    .X(clknet_0_clk_i));
+ sg13cmos5l_buf_8 clkbuf_1_0__f_clk_i (.A(clknet_0_clk_i),
+    .X(clknet_1_0__leaf_clk_i));
+ sg13cmos5l_buf_8 clkbuf_1_1__f_clk_i (.A(clknet_0_clk_i),
+    .X(clknet_1_1__leaf_clk_i));
+ sg13cmos5l_dlygate4sd3_1 hold19 (.A(net8),
+    .X(net18));
+ sg13cmos5l_dlygate4sd3_1 hold20 (.A(_21_),
+    .X(net19));
+ sg13cmos5l_dlygate4sd3_1 hold21 (.A(_05_),
+    .X(net20));
+ sg13cmos5l_dlygate4sd3_1 hold22 (.A(net9),
+    .X(net21));
+ sg13cmos5l_dlygate4sd3_1 hold23 (.A(_24_),
+    .X(net22));
+ sg13cmos5l_dlygate4sd3_1 hold24 (.A(_06_),
+    .X(net23));
+ sg13cmos5l_dlygate4sd3_1 hold25 (.A(net7),
+    .X(net24));
+ sg13cmos5l_dlygate4sd3_1 hold26 (.A(_18_),
+    .X(net25));
+ sg13cmos5l_dlygate4sd3_1 hold27 (.A(_04_),
+    .X(net26));
+ sg13cmos5l_dlygate4sd3_1 hold28 (.A(net3),
+    .X(net27));
+ sg13cmos5l_dlygate4sd3_1 hold29 (.A(net4),
+    .X(net28));
+ sg13cmos5l_dlygate4sd3_1 hold30 (.A(net6),
+    .X(net29));
+ sg13cmos5l_dlygate4sd3_1 hold31 (.A(_16_),
+    .X(net30));
+ sg13cmos5l_dlygate4sd3_1 hold32 (.A(net10),
+    .X(net31));
+ sg13cmos5l_dlygate4sd3_1 hold33 (.A(_07_),
+    .X(net32));
+ sg13cmos5l_dlygate4sd3_1 hold34 (.A(net5),
+    .X(net33));
+ sg13cmos5l_buf_1 input1 (.A(enable_i),
     .X(net1));
- sg13cmos5l_buf_1 input2 (.A(enable_i),
+ sg13cmos5l_buf_1 input2 (.A(rst_ni),
     .X(net2));
- sg13cmos5l_buf_1 input3 (.A(rst_ni),
-    .X(net3));
  sg13cmos5l_buf_1 output10 (.A(net10),
-    .X(count_o[6]));
- sg13cmos5l_buf_1 output11 (.A(net11),
     .X(count_o[7]));
- sg13cmos5l_buf_1 output4 (.A(net4),
+ sg13cmos5l_buf_1 output3 (.A(net3),
     .X(count_o[0]));
- sg13cmos5l_buf_1 output5 (.A(net5),
+ sg13cmos5l_buf_1 output4 (.A(net4),
     .X(count_o[1]));
- sg13cmos5l_buf_1 output6 (.A(net6),
+ sg13cmos5l_buf_1 output5 (.A(net5),
     .X(count_o[2]));
- sg13cmos5l_buf_1 output7 (.A(net7),
+ sg13cmos5l_buf_1 output6 (.A(net6),
     .X(count_o[3]));
- sg13cmos5l_buf_1 output8 (.A(net8),
+ sg13cmos5l_buf_1 output7 (.A(net7),
     .X(count_o[4]));
- sg13cmos5l_buf_1 output9 (.A(net9),
+ sg13cmos5l_buf_1 output8 (.A(net8),
     .X(count_o[5]));
+ sg13cmos5l_buf_1 output9 (.A(net9),
+    .X(count_o[6]));
 endmodule
