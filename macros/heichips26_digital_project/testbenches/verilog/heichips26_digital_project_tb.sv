@@ -46,14 +46,14 @@ module heichips26_digital_project_tb;
     #(CLK_PERIOD_NS);
 
     if (count !== '0)
-      $fatal(1, "FAIL: heichips26_digital_project not zero after reset (got %0d)", count);
+      $fatal(1, "FAIL: uo_out not zero after reset (got %0d)", count);
 
     // Hold disabled for a few cycles; value must not change
     #(5 * CLK_PERIOD_NS);
     if (count !== '0)
-      $fatal(1, "FAIL: heichips26_digital_project changed while disabled (got %0d)", count);
+      $fatal(1, "FAIL: uo_out changed while disabled (got %0d)", count);
 
-    // Enable heichips26_digital_project, run for one full wrap and a few extra cycles
+    // Enable the counter via ui_in[0], run for one full wrap and a few extra cycles
     enable = 1'b1;
     #((CTR_MAX + 5) * CLK_PERIOD_NS);
     enable = 1'b0;
