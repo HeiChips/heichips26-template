@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 XXX
+# SPDX-FileCopyrightText: 2026 Simon Dorrer and Harald Pretl
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 import os
@@ -22,6 +22,7 @@ hdl_toplevel = "heichips26_digital_project"
 
 CTR_WIDTH        = 8
 CTR_MAX          = 2**CTR_WIDTH-1
+print(CTR_MAX)
 CLK_FREQ_HZ      = 50e6
 CLK_FREQ_MHZ     = int(CLK_FREQ_HZ / 1e6)
 
@@ -46,7 +47,7 @@ async def reset(reset, clock, cycles=2):
 
 
 async def start_up(dut):
-    """Startup sequence: clock + reset, counter disabled (ui_in = 0), value cleared."""
+    """Startup sequence: clock + reset, heichips26_digital_project disabled, value cleared."""
     await start_clock(dut.clk, CLK_FREQ_MHZ)
     dut.ui_in.value = 0
     await reset(dut.rst_n, dut.clk)
@@ -61,14 +62,14 @@ async def test_reset_clears_heichips26_digital_project(dut):
     await start_up(dut)
 
     assert int(dut.uo_out.value) == 0, \
-        f"uo_out not zero after reset (got {int(dut.uo_out.value)})"
+        f"heichips26_digital_project not zero after reset (got {int(dut.uo_out.value)})"
 
     logger.info("Done!")
 
 
 @cocotb.test()
 async def test_holds_when_disabled(dut):
-    """With ui_in[0] = 0, uo_out must not change."""
+    """With enable_i = 0, uo_out must not change."""
     logger = logging.getLogger("heichips26_digital_project_tb")
 
     logger.info("Startup sequence...")
@@ -78,14 +79,14 @@ async def test_holds_when_disabled(dut):
     await ClockCycles(dut.clk, 20)
 
     assert int(dut.uo_out.value) == 0, \
-        f"uo_out changed while disabled (got {int(dut.uo_out.value)})"
+        f"heichips26_digital_project changed while disabled (got {int(dut.uo_out.value)})"
 
     logger.info("Done!")
 
 
 @cocotb.test()
 async def test_increments_when_enabled(dut):
-    """With ui_in[0] = 1, uo_out must increment by 1 every clock."""
+    """With enable_i = 1, uo_out must increment by 1 every clock."""
     logger = logging.getLogger("heichips26_digital_project_tb")
 
     logger.info("Startup sequence...")
@@ -107,7 +108,7 @@ async def test_increments_when_enabled(dut):
 
 @cocotb.test()
 async def test_wraps_at_max(dut):
-    """The counter value on uo_out must wrap from CTR_MAX back to 0."""
+    """heichips26_digital_project must wrap from CTR_MAX back to 0."""
     logger = logging.getLogger("heichips26_digital_project_tb")
 
     logger.info("Startup sequence...")
@@ -130,8 +131,8 @@ async def test_wraps_at_max(dut):
             break
         prev = cur
 
-    assert saw_max,  "uo_out never reached CTR_MAX"
-    assert saw_wrap, "uo_out did not wrap from CTR_MAX to 0"
+    assert saw_max,  "heichips26_digital_project never reached CTR_MAX"
+    assert saw_wrap, "heichips26_digital_project did not wrap from CTR_MAX to 0"
 
     logger.info("Done!")
 
@@ -162,7 +163,7 @@ def heichips26_digital_project_runner():
     build_args = []
 
     if sim == "icarus":
-        # -gno-specify: skip specify blocks; sg13cmos5l_stdcell.v uses
+        # -gno-specify: skip specify blocks; sg13g2_stdcell.v uses
         # `ifnone with edge-sensitive paths`, which iverilog can't parse.
         build_args = ["-DSIM", "-gno-specify"]
 

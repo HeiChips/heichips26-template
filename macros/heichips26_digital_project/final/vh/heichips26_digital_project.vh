@@ -4,11 +4,11 @@ module heichips26_digital_project(
   inout VPWR,
   inout VGND,
 `endif
-  input[7:0] ui_in,
-  output[7:0] uo_out,
-  input[7:0] uio_in,
-  output[7:0] uio_out,
-  output[7:0] uio_oe,
+  input[15:0] ui_in,
+  output[15:0] uo_out,
+  input[15:0] uio_in,
+  output[15:0] uio_out,
+  output[15:0] uio_oe,
   input ena,
   input clk,
   input rst_n

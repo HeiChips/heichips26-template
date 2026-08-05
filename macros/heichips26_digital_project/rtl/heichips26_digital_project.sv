@@ -21,9 +21,29 @@ module heichips26_digital_project (
 );
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, ui_in[7:1], uio_in[7:1]};
+    wire _unused = &{ena, uio_in};
+
+    logic signed [`REG_WIDTH-1:0] max_out_reg;
+    logic s_in_ready_reg, t_in_ready_reg, max_valid_reg;
+
+    systolic_array systolic_array_inst (
+        .clk(clk), 
+        .rstn(rst_n),
+        .s_in(ui_in[2:0]), 
+        .t_in(ui_in[5:3]),
+        .s_in_valid(ui_in[6]), 
+        .t_in_valid(ui_in[7]),
+        .s_in_ready(s_in_ready_reg), 
+        .t_in_ready(t_in_ready_reg),
+        .max_valid(max_valid_reg),
+        .max_out(max_out_reg)
+    );
     
-    logic [7:0] count;
+    assign uo_out  = {{(8-`REG_WIDTH){1'b0}}, max_out_reg};
+    assign uio_out = {5'b0, max_valid_reg, t_in_ready_reg, s_in_ready_reg};
+    assign uio_oe  = '1;
+    
+    /*logic [7:0] count;
     
     counter counter_0 (
     `ifdef USE_POWER_PINS
@@ -39,6 +59,6 @@ module heichips26_digital_project (
     
     assign uo_out  = count;
     assign uio_out = count;
-    assign uio_oe  = '1;
+    assign uio_oe  = '1;*/
 
 endmodule
