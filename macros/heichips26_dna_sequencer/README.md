@@ -1,11 +1,11 @@
 ﻿# Heichips26 Digital Project (ihp-sg13cmos5l)
 
 <p align="center">
-  <a href="final/render/heichips26_digital_project.png">
-    <img src="final/render/heichips26_digital_project.png" alt="Render of the ihp-sg13cmos5l heichips26_digital_project layout" width=50%>
+  <a href="final/render/heichips26_dna_sequencer.png">
+    <img src="final/render/heichips26_dna_sequencer.png" alt="Render of the ihp-sg13cmos5l heichips26_dna_sequencer layout" width=50%>
   </a>
   <br>
-  <em>Render of the ihp-sg13cmos5l heichips26_digital_project layout.</em>
+  <em>Render of the ihp-sg13cmos5l heichips26_dna_sequencer layout.</em>
 </p>
 
 
