@@ -282,7 +282,9 @@ clean: ## Delete all generated files and folders (LibreLane outputs, final, netl
 	rm -rf $(REPORT_DIR)
 	rm -rf $(COCOTB_DIR)/sim_build $(VERILOG_TB_DIR)/*.fst
 	rm -rf $(XSCHEM_TB_DIR)/simulations
-	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
+	rm -rf $(SIM_PLOT_DIR)/__pycache__
+	mkdir -p $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures
+	rm -rf $(SIM_PLOT_DIR)/data/* $(SIM_PLOT_DIR)/figures/*
 	@$(MAKE) -C fpga clean
 .PHONY: clean
 # ================================================================================================

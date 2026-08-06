@@ -384,11 +384,13 @@ all: ## Verify, build and simulate the TOP cell
 
 
 # Clean Target
-clean: ## Delete all generated files and folders (final, netlist, DRC/LVS reports, simulation and CACE outputs)
+clean: ## Delete all generated files and folders (final, netlist, DRC/LVS reports, simulation outputs)
 	rm -rf final netlist
 	rm -rf $(DRC_RPT_DIR) $(LVS_RPT_DIR)
 	rm -rf $(XSCHEM_TB_DIR)/simulations
-	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
+	rm -rf $(SIM_PLOT_DIR)/__pycache__
+	mkdir -p $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures
+	rm -rf $(SIM_PLOT_DIR)/data/* $(SIM_PLOT_DIR)/figures/*
 	rm -rf $(CACE_DIR)/_runs $(CACE_DIR)/_docs $(CACE_DIR)/netlist $(CACE_DIR)/results
 .PHONY: clean
 # ================================================================================================
