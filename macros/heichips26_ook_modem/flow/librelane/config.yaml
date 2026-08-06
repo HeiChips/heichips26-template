@@ -11,7 +11,7 @@ meta:
     # Magic reports some overlaps which can be ignored
     Checker.IllegalOverlap: null
 
-DESIGN_NAME: heichips26_digital_project
+DESIGN_NAME: heichips26_ook_modem
 VERILOG_FILES: dir::../../rtl/*.sv
 CLOCK_PORT: clk
 CLOCK_NET: clk
