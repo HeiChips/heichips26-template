@@ -164,10 +164,6 @@ C {devices/lab_pin.sym} 940 -840 0 0 {name=l22 sig_type=std_logic lab=vin}
 C {devices/gnd.sym} 1000 -740 0 0 {name=l26 lab=GND}
 C {devices/gnd.sym} 1120 -740 0 0 {name=l1 lab=GND}
 C {vdd.sym} 1120 -940 0 0 {name=l4 lab=VDD}
-C {devices/code_shown.sym} 1640 -1370 0 0 {name=SAVE only_toplevel=true
-format="tcleval( @value )"
-value=".include [file rootname [xschem get schname]].save
-"}
 C {capa.sym} 1260 -790 0 0 {name=C1
 m=1
 value=\{Cload\}
