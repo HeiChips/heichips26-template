@@ -262,10 +262,6 @@ m=1
 spice_ignore=true}
 C {devices/gnd.sym} 1420 -740 0 0 {name=l13 lab=GND}
 C {devices/gnd.sym} 1520 -740 0 0 {name=l14 lab=GND}
-C {devices/code_shown.sym} 20 -1550 0 0 {name=SAVE only_toplevel=true
-format="tcleval( @value )"
-value=".include [file rootname [xschem get schname]].save
-"}
 C {devices/gnd.sym} 1420 -1020 0 0 {name=l19 lab=GND}
 C {noconn.sym} 1280 -1020 2 0 {name=l20}
 C {noconn.sym} 1280 -1000 2 0 {name=l21}
