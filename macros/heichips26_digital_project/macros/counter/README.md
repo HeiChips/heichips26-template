@@ -156,9 +156,9 @@ make help
 To lint the Verilog/SystemVerilog source files with [Verilator](https://www.veripool.org/verilator/), run:
 
 ```sh
-make lint-verilog                # lint the full counter design
-make lint-verilog CELL=counter   # lint the standalone counter cell
-make lint-verilog-all            # lint counter and counter in sequence
+make lint-verilog                # lint the counter design
+make lint-verilog CELL=counter   # equivalent: CELL defaults to counter
+make lint-verilog-all            # lint all source files
 ```
 
 When `CELL=counter` (the default), all synthesis sources are passed to Verilator.

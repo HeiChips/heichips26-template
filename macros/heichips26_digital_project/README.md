@@ -158,9 +158,9 @@ make help
 To lint the Verilog/SystemVerilog source files with [Verilator](https://www.veripool.org/verilator/), run:
 
 ```sh
-make lint-verilog                # lint the full heichips26_digital_project design
-make lint-verilog CELL=heichips26_digital_project   # lint the standalone heichips26_digital_project cell
-make lint-verilog-all            # lint heichips26_digital_project and heichips26_digital_project in sequence
+make lint-verilog                # lint the full heichips26_digital_project design (top + counter RTL)
+make lint-verilog CELL=heichips26_digital_project   # equivalent: CELL defaults to heichips26_digital_project
+make lint-verilog-all            # lint the counter sub-macro, then heichips26_digital_project
 ```
 
 When `CELL=heichips26_digital_project` (the default), all synthesis sources (top level and the counter RTL) are passed to Verilator.

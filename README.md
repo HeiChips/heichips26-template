@@ -2,7 +2,7 @@
 
 This repository is the submission template for the HeiChips 2026 Hackathon.
 
-Please implement your group project based on this template and notify us once you are done, so we can integrate your macro into the chip for tapeout. See [Submission](#Submission).
+Please implement your group project based on this template and notify us once you are done, so we can integrate your macro into the chip for tapeout. See [Submission](#submission).
 
 Your project will be connected to a small eFPGA along with all other user projects. This allows you to configure the eFPGA to route the I/Os of your project to the chip I/Os, implement additional logic in the eFPGA, connect several user projects together (ask what other teams are working on!), and make use of the SRAM.
 For more information, see the HeiChips 2026 Tapeout repository: https://github.com/HeiChips/heichips26-tapeout
