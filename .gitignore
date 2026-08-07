@@ -49,3 +49,10 @@ IHP-Open-PDK/
 
 # KLayout
 klayoutrc.*
+
+# Vivado local generated files
+.Xil/
+clockInfo.txt
+vivado*.jou
+vivado*.log
+vivado_pid*.str
