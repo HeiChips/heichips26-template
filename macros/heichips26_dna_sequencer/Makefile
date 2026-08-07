@@ -80,7 +80,7 @@ lint-verilog-all: ## Lint all Verilog source files (heichips26_digital_project)
 
 # Simulation Targets
 sim-rtl-verilog: ## Run RTL simulation of CELL cell with Icarus Verilog (usage: make sim-rtl-verilog [CELL=<cellname>])
-	iverilog -g2012 -DSIM -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.sv
+	iverilog -g2012 -DSIM -I$(SRC_DIR) -I$(SRC_DIR)/../ -I$(SRC_DIR)/../UART -o $(VERILOG_TB_DIR)/test_$(CELL) $(_SIM_SRCS) $(VERILOG_TB_DIR)/$(CELL)_tb.sv
 	cd $(VERILOG_TB_DIR) && vvp test_$(CELL) -fst
 	rm -f $(VERILOG_TB_DIR)/test_$(CELL)
 .PHONY: sim-rtl-verilog
