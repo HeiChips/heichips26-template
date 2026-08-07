@@ -1,0 +1,46 @@
+215. Printing statistics.
+
+=== heichips26_loopcache_rv ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     8693        - wires
+     8768        - wire bits
+     1530        - public wires
+     1605        - public wire bits
+        8        - ports
+       83        - port bits
+     8733 1.41E+05 cells
+       86 1.09E+03   sg13cmos5l_a21o_1
+      958 8.69E+03   sg13cmos5l_a21oi_1
+      163 2.37E+03   sg13cmos5l_a221oi_1
+      475 5.15E+03   sg13cmos5l_a22oi_1
+      162 1.47E+03   sg13cmos5l_and2_1
+       16  203.213   sg13cmos5l_and3_1
+       18  261.274   sg13cmos5l_and4_1
+       16  116.122   sg13cmos5l_buf_1
+     1459 7.15E+04   sg13cmos5l_dfrbpq_1
+      301 1.64E+03   sg13cmos5l_inv_1
+      460  8346.24   sg13cmos5l_mux2_1
+       38 1.45E+03   sg13cmos5l_mux4_1
+      861 6.25E+03   sg13cmos5l_nand2_1
+      101  916.272   sg13cmos5l_nand2b_1
+      198  1.8E+03   sg13cmos5l_nand3_1
+       12   152.41   sg13cmos5l_nand3b_1
+       51  555.206   sg13cmos5l_nand4_1
+      757 5.49E+03   sg13cmos5l_nor2_1
+       90   816.48   sg13cmos5l_nor2b_1
+       85   771.12   sg13cmos5l_nor3_1
+       50   544.32   sg13cmos5l_nor4_1
+      727  6.6E+03   sg13cmos5l_o21ai_1
+       73  662.256   sg13cmos5l_or2_1
+       23  292.118   sg13cmos5l_or3_1
+        7  101.606   sg13cmos5l_or4_1
+     1222 8.87E+03   sg13cmos5l_tiehi
+      189 2.74E+03   sg13cmos5l_xnor2_1
+      135 1.96E+03   sg13cmos5l_xor2_1
+
+   Chip area for module '\heichips26_loopcache_rv': 140777.670600
+     of which used for sequential elements: 71474.659200 (50.77%)
+

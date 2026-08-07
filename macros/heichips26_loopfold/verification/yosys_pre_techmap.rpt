@@ -1,0 +1,67 @@
+201. Printing statistics.
+
+=== heichips26_loopcache_rv ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     6347 wires
+     8511 wire bits
+      167 public wires
+     1959 public wire bits
+        8 ports
+       83 port bits
+     8128 cells
+     1364   $_ANDNOT_
+      334   $_AND_
+       16   $_DFFE_PN0N_
+      205   $_DFFE_PN0P_
+        4   $_DFFE_PN_
+      942   $_DFFE_PP_
+       31   $_DFF_PN0_
+        1   $_DFF_PN1_
+      121   $_DFF_P_
+     1652   $_MUX_
+      214   $_NAND_
+      320   $_NOR_
+      959   $_NOT_
+      195   $_ORNOT_
+     1073   $_OR_
+       31   $_SDFFCE_PN0P_
+        4   $_SDFFCE_PP0P_
+       93   $_SDFFE_PN0P_
+        2   $_SDFFE_PN1P_
+        1   $_SDFFE_PP0P_
+        3   $_SDFFE_PP1P_
+       27   $_SDFF_PN0_
+        8   $_SDFF_PN1_
+        2   $_SDFF_PP0_
+      128   $_XNOR_
+      398   $_XOR_
+
+   Area for cell type $_ANDNOT_ is unknown!
+   Area for cell type $_AND_ is unknown!
+   Area for cell type $_DFFE_PN0N_ is unknown!
+   Area for cell type $_DFFE_PN0P_ is unknown!
+   Area for cell type $_DFFE_PN_ is unknown!
+   Area for cell type $_DFFE_PP_ is unknown!
+   Area for cell type $_DFF_PN0_ is unknown!
+   Area for cell type $_DFF_PN1_ is unknown!
+   Area for cell type $_DFF_P_ is unknown!
+   Area for cell type $_MUX_ is unknown!
+   Area for cell type $_NAND_ is unknown!
+   Area for cell type $_NOR_ is unknown!
+   Area for cell type $_NOT_ is unknown!
+   Area for cell type $_ORNOT_ is unknown!
+   Area for cell type $_OR_ is unknown!
+   Area for cell type $_SDFFCE_PN0P_ is unknown!
+   Area for cell type $_SDFFCE_PP0P_ is unknown!
+   Area for cell type $_SDFFE_PN0P_ is unknown!
+   Area for cell type $_SDFFE_PN1P_ is unknown!
+   Area for cell type $_SDFFE_PP0P_ is unknown!
+   Area for cell type $_SDFFE_PP1P_ is unknown!
+   Area for cell type $_SDFF_PN0_ is unknown!
+   Area for cell type $_SDFF_PN1_ is unknown!
+   Area for cell type $_SDFF_PP0_ is unknown!
+   Area for cell type $_XNOR_ is unknown!
+   Area for cell type $_XOR_ is unknown!
+

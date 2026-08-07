@@ -1,0 +1,40 @@
+207. Printing statistics.
+
+=== heichips26_loopcache_rv ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     7821        - wires
+     9985        - wire bits
+      167        - public wires
+     1959        - public wire bits
+        8        - ports
+       83        - port bits
+     9602  7.3E+04 cells
+     1364        -   $_ANDNOT_
+      334        -   $_AND_
+     3124        -   $_MUX_
+      214        -   $_NAND_
+      320        -   $_NOR_
+      961        -   $_NOT_
+      195        -   $_ORNOT_
+     1073        -   $_OR_
+      128        -   $_XNOR_
+      398        -   $_XOR_
+     1491  7.3E+04   sg13cmos5l_dfrbpq_1
+
+   Area for cell type $_ANDNOT_ is unknown!
+   Area for cell type $_AND_ is unknown!
+   Area for cell type $_MUX_ is unknown!
+   Area for cell type $_NAND_ is unknown!
+   Area for cell type $_NOR_ is unknown!
+   Area for cell type $_NOT_ is unknown!
+   Area for cell type $_ORNOT_ is unknown!
+   Area for cell type $_OR_ is unknown!
+   Area for cell type $_XNOR_ is unknown!
+   Area for cell type $_XOR_ is unknown!
+
+   Chip area for module '\heichips26_loopcache_rv': 73042.300800
+     of which used for sequential elements: 73042.300800 (100.00%)
+
