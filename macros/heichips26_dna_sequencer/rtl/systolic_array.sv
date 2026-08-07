@@ -6,7 +6,7 @@ module systolic_array(
     input logic s_in_valid, t_in_valid,
     output logic s_in_ready, t_in_ready,
     output logic max_valid,
-    output logic [`REG_WIDTH-1:0] max_out
+    output logic signed [`REG_WIDTH-1:0] max_out
 );
 
 logic [$clog2(`N)-1:0] s_counter, s_counter_next;
@@ -52,8 +52,8 @@ always_comb begin
 
         IDLE_STATE: begin
             if (s_in_valid && t_in_valid) begin
-                state_next = RESET_STATE;
                 // $error("Error: Both s_in and t_in are valid at the same time. Only one should be valid.");
+                state_next = RESET_STATE;
             end
             else if(s_in_valid == 1'b1) begin
                 state_next = SEND_S_STATE;
@@ -95,8 +95,8 @@ always_comb begin
 
         CLEAR_STATE: begin // need this state to reset the systolic array after processing all inputs
             if (s_in_valid == 1'b1 && t_in_valid == 1'b1) begin
-                state_next = RESET_STATE;
                 // $error("Error: Both s_in and t_in are valid at the same time. Only one should be valid.");
+                state_next = RESET_STATE;
             end
             else if(s_in_valid == 1'b1) begin
                 state_next = SEND_S_STATE;
@@ -123,27 +123,38 @@ end
 
 genvar i;
 logic [`N-1:0][2:0] s_in_bus, t_in_bus, s_out_bus, t_out_bus;
-logic [`N-1:0][`REG_WIDTH-1:0] max_in_bus, f_in_bus, v_in_bus, max_out_bus, f_out_bus, v_out_bus;
+logic signed [`N-1:0][`REG_WIDTH-1:0] max_in_bus, f_in_bus, v_in_bus, max_out_bus, f_out_bus, v_out_bus;
 logic shift_s;
 logic [2:0] s_in_bus_0, t_in_bus_0;
 logic [`N-1:0]result_valid_in_bus, result_valid_out_bus;
 logic result_valid_in_bus_0;
 
 generate
-    for(i=0; i<`N; i++) begin : PE_CHAIN
 
-        assign s_in_bus[i]   = (i == 0) ? s_in_bus_0 : s_out_bus[i-1];
-        assign t_in_bus[i]   = (i == 0) ? t_in_bus_0 : t_out_bus[i-1];
-        assign max_in_bus[i] = (i == 0) ? '0         : max_out_bus[i-1];
-        assign f_in_bus[i]   = (i == 0) ? '0         : f_out_bus[i-1];
-        assign v_in_bus[i]   = (i == 0) ? '0         : v_out_bus[i-1];
-        assign result_valid_in_bus[i] = (i == 0)? result_valid_in_bus_0 : result_valid_out_bus[i-1];
+    assign s_in_bus[0] = s_in_bus_0;
+    assign t_in_bus[0] = t_in_bus_0;
+    assign max_in_bus[0] = '0;
+    assign f_in_bus[0] = '0;
+    assign v_in_bus[0] = '0;
+    assign result_valid_in_bus[0] = result_valid_in_bus_0;
+
+    for(i=1; i<`N; i++) begin : PE_CHAIN
+
+        assign s_in_bus[i] = s_out_bus[i-1];
+        assign t_in_bus[i] = t_out_bus[i-1];
+        assign max_in_bus[i] = max_out_bus[i-1];
+        assign f_in_bus[i] = f_out_bus[i-1];
+        assign v_in_bus[i] = v_out_bus[i-1];
+        assign result_valid_in_bus[i] = result_valid_out_bus[i-1];
     end
 endgenerate
 
 generate
     for(i=0; i<`N; i++) begin : PE_ARRAY
-        PE pe_inst(
+        localparam local_max_score = (i+1) * `MATCH;
+        localparam local_reg_width = $clog2(local_max_score + 1) + 1;
+        
+        PE #(.REG_WIDTH(local_reg_width)) pe_inst(
             .clk(clk),
             .rstn(rstn),
             .s_in(s_in_bus[i]),

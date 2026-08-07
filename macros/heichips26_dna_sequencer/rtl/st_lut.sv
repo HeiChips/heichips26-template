@@ -1,9 +1,9 @@
 `include "macros.svh"
 
-module st_lut (
+module st_lut #(parameter REG_WIDTH = `REG_WIDTH) (
     input logic [2:0] s,
     input logic [2:0] t,
-    output logic signed [`REG_WIDTH:0] score
+    output logic signed [REG_WIDTH-1:0] score
 );
 
 always_comb begin

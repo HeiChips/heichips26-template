@@ -2,20 +2,19 @@
 `define MACROS_SVH
 
 `define N 16 // Length of S (= # of PEs)
-`define M 8 // Length of T
+`define M 16 // Length of T
 
 `define MATCH 2
-
 `define MISMATCH -1
 
 `define MAX_SCORE (`N * `MATCH)
-`define REG_WIDTH ($clog2(`MAX_SCORE + 1))
+`define REG_WIDTH ($clog2(`MAX_SCORE + 1) + 1)
 `define SYMBOL_BITS 3
 `define S_LEN (`N * `SYMBOL_BITS)
 `define T_LEN (`M * `SYMBOL_BITS)
 
-parameter signed [`REG_WIDTH:0] ALPHA = 2; // Gap open penalty
-parameter signed [`REG_WIDTH:0] BETA  = 1; // Gap extension penalty
+parameter signed [`REG_WIDTH-1:0] ALPHA = 2; // Gap open penalty
+parameter signed [`REG_WIDTH-1:0] BETA  = 1; // Gap extension penalty
 
 `define BASE_IDLE  3'b000
 `define BASE_CLEAR 3'b001

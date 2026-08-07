@@ -5,10 +5,10 @@ Clock Skew (Hold)
 ======================= nom_typ_1p20V_25C Corner ===================================
 
 Clock clk
-0.382449 source latency _09197_/CLK ^
--0.403503 target latency _09197_/CLK ^
+0.375656 source latency _7476_/CLK ^
+-0.414070 target latency _7505_/CLK ^
 -0.250000 clock uncertainty
--0.021055 CRPR
+-0.004929 CRPR
 --------------
--0.292109 hold skew
+-0.293343 hold skew
 

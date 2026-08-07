@@ -1,46 +1,46 @@
-165. Printing statistics.
+160. Printing statistics.
 
 === heichips26_dna_sequencer ===
 
         +----------Local Count, excluding submodules.
         |        +-Local Area, excluding submodules.
         |        | 
-     5417        - wires
-     5452        - wire bits
-      604        - public wires
-      639        - public wire bits
+     4399        - wires
+     4434        - wire bits
+      539        - public wires
+      574        - public wire bits
         8        - ports
        43        - port bits
-     5433 7.43E+04 cells
-      147 1.87E+03   sg13cmos5l_a21o_1
-      485  4399.92   sg13cmos5l_a21oi_1
-      129 1.87E+03   sg13cmos5l_a221oi_1
-      165 1.79E+03   sg13cmos5l_a22oi_1
-      234 2.12E+03   sg13cmos5l_and2_1
-       49  622.339   sg13cmos5l_and3_1
+     4415 6.19E+04 cells
+       84 1.07E+03   sg13cmos5l_a21o_1
+      336 3.05E+03   sg13cmos5l_a21oi_1
+       86 1.25E+03   sg13cmos5l_a221oi_1
+      176 1.91E+03   sg13cmos5l_a22oi_1
+      190  1723.68   sg13cmos5l_and2_1
+       41  520.733   sg13cmos5l_and3_1
         1   14.515   sg13cmos5l_and4_1
         3   21.773   sg13cmos5l_buf_1
-      603 2.95E+04   sg13cmos5l_dfrbpq_1
-      296 1.61E+03   sg13cmos5l_inv_1
-      109 1.98E+03   sg13cmos5l_mux2_1
-      342 2.48E+03   sg13cmos5l_nand2_1
-      119 1.08E+03   sg13cmos5l_nand2b_1
-      102  925.344   sg13cmos5l_nand3_1
-       29  368.323   sg13cmos5l_nand3b_1
-       35  381.024   sg13cmos5l_nand4_1
-      631 4.58E+03   sg13cmos5l_nor2_1
-      146 1.32E+03   sg13cmos5l_nor2b_1
-      112 1.02E+03   sg13cmos5l_nor3_1
-       42  457.229   sg13cmos5l_nor4_1
-      564 5.12E+03   sg13cmos5l_o21ai_1
-       62  562.464   sg13cmos5l_or2_1
-       59  749.347   sg13cmos5l_or3_1
-       16  232.243   sg13cmos5l_or4_1
-      611 4.43E+03   sg13cmos5l_tiehi
-       23  166.925   sg13cmos5l_tielo
-      244 3.54E+03   sg13cmos5l_xnor2_1
-       75  1088.64   sg13cmos5l_xor2_1
+      539 2.64E+04   sg13cmos5l_dfrbpq_1
+      274 1.49E+03   sg13cmos5l_inv_1
+       93 1.69E+03   sg13cmos5l_mux2_1
+      237 1.72E+03   sg13cmos5l_nand2_1
+      128 1.16E+03   sg13cmos5l_nand2b_1
+       60   544.32   sg13cmos5l_nand3_1
+       24  304.819   sg13cmos5l_nand3b_1
+        3   32.659   sg13cmos5l_nand4_1
+      525  3810.24   sg13cmos5l_nor2_1
+      103  934.416   sg13cmos5l_nor2b_1
+      115  1043.28   sg13cmos5l_nor3_1
+       34  370.138   sg13cmos5l_nor4_1
+      401 3.64E+03   sg13cmos5l_o21ai_1
+       46  417.312   sg13cmos5l_or2_1
+       31  393.725   sg13cmos5l_or3_1
+        2    29.03   sg13cmos5l_or4_1
+      547 3.97E+03   sg13cmos5l_tiehi
+       72  522.547   sg13cmos5l_tielo
+      211 3.06E+03   sg13cmos5l_xnor2_1
+       53  769.306   sg13cmos5l_xor2_1
 
-   Chip area for module '\heichips26_dna_sequencer': 74346.060600
-     of which used for sequential elements: 29540.246400 (39.73%)
+   Chip area for module '\heichips26_dna_sequencer': 61860.758400
+     of which used for sequential elements: 26404.963200 (42.68%)
 

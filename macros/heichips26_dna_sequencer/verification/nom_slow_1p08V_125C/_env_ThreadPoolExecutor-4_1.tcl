@@ -1,11 +1,11 @@
 set ::env(STEP_ID) OpenROAD.STAPostPNR
-set ::env(TECH_LEF) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef
+set ::env(TECH_LEF) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef
 set ::env(MACRO_LEFS) ""
 set ::env(STD_CELL_LIBRARY) sg13cmos5l_stdcell
 set ::env(PAD_CELL_LIBRARY) sg13cmos5l_io
 set ::env(VDD_PIN) VPWR
 set ::env(GND_PIN) VGND
-set ::env(TECH_LEFS) "\"nom_*\" /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef \"min_*\" /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef \"max_*\" /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef"
+set ::env(TECH_LEFS) "\"nom_*\" /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef \"min_*\" /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef \"max_*\" /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_tech.lef"
 set ::env(PRIMARY_GDSII_STREAMOUT_TOOL) klayout
 set ::env(DEFAULT_CORNER) nom_typ_1p20V_25C
 set ::env(STA_CORNERS) "nom_fast_1p32V_m40C nom_slow_1p08V_125C nom_typ_1p20V_25C"
@@ -16,14 +16,14 @@ set ::env(SCL_POWER_PINS) VDD
 set ::env(TRISTATE_CELLS) "\"sg13cmos5l_ebufn_*\" \"sg13cmos5l_einvn_*\""
 set ::env(FILL_CELLS) "sg13cmos5l_fill_1 sg13cmos5l_fill_2"
 set ::env(DECAP_CELLS) "\"sg13cmos5l_decap_*\""
-set ::env(CELL_LIBS) "nom_typ_1p20V_25C \"/home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_typ_1p2V_3p3V_25C.lib\" nom_fast_1p32V_m40C \"/home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_fast_1p32V_m40C.lib /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_fast_1p32V_3p6V_m40C.lib\" nom_slow_1p08V_125C \"/home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_slow_1p08V_125C.lib /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_slow_1p08V_3p0V_125C.lib\""
-set ::env(CELL_LEFS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_stdcell.lef
-set ::env(CELL_GDS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/gds/sg13cmos5l_stdcell.gds
-set ::env(CELL_VERILOG_MODELS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_stdcell.v
-set ::env(CELL_SPICE_MODELS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
-set ::env(CELL_CDLS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/cdl/sg13cmos5l_stdcell.cdl
-set ::env(SYNTH_EXCLUDED_CELL_FILE) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/synth_exclude.cells
-set ::env(PNR_EXCLUDED_CELL_FILE) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/pnr_exclude.cells
+set ::env(CELL_LIBS) "nom_typ_1p20V_25C \"/home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_typ_1p20V_25C.lib /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_typ_1p2V_3p3V_25C.lib\" nom_fast_1p32V_m40C \"/home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_fast_1p32V_m40C.lib /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_fast_1p32V_3p6V_m40C.lib\" nom_slow_1p08V_125C \"/home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lib/sg13cmos5l_stdcell_slow_1p08V_125C.lib /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lib/sg13cmos5l_io_slow_1p08V_3p0V_125C.lib\""
+set ::env(CELL_LEFS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/lef/sg13cmos5l_stdcell.lef
+set ::env(CELL_GDS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/gds/sg13cmos5l_stdcell.gds
+set ::env(CELL_VERILOG_MODELS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_stdcell.v
+set ::env(CELL_SPICE_MODELS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+set ::env(CELL_CDLS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/cdl/sg13cmos5l_stdcell.cdl
+set ::env(SYNTH_EXCLUDED_CELL_FILE) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/synth_exclude.cells
+set ::env(PNR_EXCLUDED_CELL_FILE) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.tech/librelane/sg13cmos5l_stdcell/pnr_exclude.cells
 set ::env(OUTPUT_CAP_LOAD) 6.0
 set ::env(MAX_FANOUT_CONSTRAINT) 10
 set ::env(CLOCK_UNCERTAINTY_CONSTRAINT) 0.25
@@ -38,16 +38,16 @@ set ::env(PLACE_SITE) CoreSite
 set ::env(CELL_PAD_EXCLUDE) "\"sg13cmos5l_fill_*\" \"sg13cmos5l_decap_*\""
 set ::env(DIODE_CELL) sg13cmos5l_antennanp
 set ::env(DESIGN_NAME) heichips26_dna_sequencer
-set ::env(CLOCK_PERIOD) 10
+set ::env(CLOCK_PERIOD) 7.6923076923
 set ::env(CLOCK_PORT) clk
 set ::env(DIE_AREA) "0 0 500 200"
-set ::env(FALLBACK_SDC) /nix/store/7jwwhaq3laglarkhh5jhwachm2ha8gyc-python3-3.13.13-env/lib/python3.13/site-packages/librelane/scripts/base.sdc
+set ::env(FALLBACK_SDC) /nix/store/b5z8wgw72z8rfbh5g2klvr57zk38sskd-python3-3.13.13-env/lib/python3.13/site-packages/librelane/scripts/base.sdc
 set ::env(PAD_LIBS) ""
-set ::env(PAD_LEFS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lef/sg13cmos5l_io.lef
-set ::env(PAD_GDS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/gds/sg13cmos5l_io.gds
-set ::env(PAD_VERILOG_MODELS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/verilog/sg13cmos5l_io.v
-set ::env(PAD_SPICE_MODELS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/spice/sg13cmos5l_io.spi
-set ::env(PAD_CDLS) /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/cdl/sg13cmos5l_io.cdl
+set ::env(PAD_LEFS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/lef/sg13cmos5l_io.lef
+set ::env(PAD_GDS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/gds/sg13cmos5l_io.gds
+set ::env(PAD_VERILOG_MODELS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/verilog/sg13cmos5l_io.v
+set ::env(PAD_SPICE_MODELS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/spice/sg13cmos5l_io.spi
+set ::env(PAD_CDLS) /home/udamendis/HeiChips/heichips26-DNA_sequencer/IHP-Open-PDK/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/cdl/sg13cmos5l_io.cdl
 set ::env(PAD_CORNER) sg13cmos5l_Corner
 set ::env(PAD_FILLERS) "sg13cmos5l_Filler10000 sg13cmos5l_Filler4000 sg13cmos5l_Filler2000 sg13cmos5l_Filler1000 sg13cmos5l_Filler400 sg13cmos5l_Filler200"
 set ::env(PAD_SITE_NAME) sg13cmos5l_ioSite
@@ -66,8 +66,8 @@ set ::env(PDN_CONNECT_MACROS_TO_GRID) 1
 set ::env(PDN_ENABLE_GLOBAL_CONNECTIONS) 1
 set ::env(DEDUPLICATE_CORNERS) 0
 set ::env(STA_MACRO_PRIORITIZE_NL) 1
-set ::env(CURRENT_NL) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-06_15-06-04/52-openroad-fillinsertion/heichips26_dna_sequencer.nl.v
-set ::env(CURRENT_SPEF) "\"nom_*\" /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-06_15-06-04/54-openroad-rcx/nom/heichips26_dna_sequencer.nom.spef"
-set ::env(CURRENT_ODB) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-06_15-06-04/53-odb-cellfrequencytables/heichips26_dna_sequencer.odb
-set ::env(SAVE_SDC) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-06_15-06-04/55-openroad-stapostpnr/heichips26_dna_sequencer.sdc
+set ::env(CURRENT_NL) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-07_10-20-03/52-openroad-fillinsertion/heichips26_dna_sequencer.nl.v
+set ::env(CURRENT_SPEF) "\"nom_*\" /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-07_10-20-03/54-openroad-rcx/nom/heichips26_dna_sequencer.nom.spef"
+set ::env(CURRENT_ODB) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-07_10-20-03/53-odb-cellfrequencytables/heichips26_dna_sequencer.odb
+set ::env(SAVE_SDC) /home/udamendis/HeiChips/heichips26-DNA_sequencer/macros/heichips26_dna_sequencer/flow/librelane/runs/RUN_2026-08-07_10-20-03/55-openroad-stapostpnr/heichips26_dna_sequencer.sdc
 set ::env(OPENLANE_SDC_IDEAL_CLOCKS) 0

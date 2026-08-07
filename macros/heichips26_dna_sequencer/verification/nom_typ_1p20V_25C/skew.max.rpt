@@ -5,10 +5,10 @@ Clock Skew (Setup)
 ======================= nom_typ_1p20V_25C Corner ===================================
 
 Clock clk
-0.417530 source latency _09590_/CLK ^
--0.387274 target latency _09568_/CLK ^
+0.414971 source latency _7544_/CLK ^
+-0.379953 target latency _7555_/CLK ^
 0.250000 clock uncertainty
--0.004917 CRPR
+-0.004929 CRPR
 --------------
-0.275339 setup skew
+0.280088 setup skew
 

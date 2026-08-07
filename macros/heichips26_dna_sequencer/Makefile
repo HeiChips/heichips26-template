@@ -141,27 +141,27 @@ sim-all: ## Simulate the macro (RTL Verilog + RTL/GL cocotb + GL Xschem for heic
 
 # LibreLane Targets
 librelane: ## Run LibreLane with Magic and KLayout DRC checks.
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/
 .PHONY: librelane
 
 librelane-nodrc: ## Run LibreLane without DRC checks
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC --skip Magic.DRC
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC --skip Magic.DRC
 .PHONY: librelane-nodrc
 
 librelane-magicdrc: ## Run LibreLane with only Magic DRC checks
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip KLayout.DRC
 .PHONY: librelane-magicdrc
 
 librelane-klayoutdrc: ## Run LibreLane with only KLayout DRC checks
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip Magic.DRC
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --save-views-to $(FLOW_FINAL_DIR)/ --skip Magic.DRC
 .PHONY: librelane-klayoutdrc
 
 librelane-openroad: ## Open the last LibreLane run in OpenROAD GUI
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --last-run --flow OpenInOpenROAD
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInOpenROAD
 .PHONY: librelane-openroad
 
 librelane-klayout: ## Open the last LibreLane run in KLayout
-	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root /home/udamendis/HeiChips/heichips26-analog-workshop/IHP-Open-PDK --manual-pdk --last-run --flow OpenInKLayout
+	librelane $(LIBRELANE_DIR)/config.yaml --pdk ${PDK} --pdk-root ${PDK_ROOT} --manual-pdk --last-run --flow OpenInKLayout
 .PHONY: librelane-klayout
 # ================================================================================================
 

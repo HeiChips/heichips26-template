@@ -1,31 +1,31 @@
-151. Printing statistics.
+146. Printing statistics.
 
 === heichips26_dna_sequencer ===
 
         +----------Local Count, excluding submodules.
         | 
-     7573 wires
-     8508 wire bits
+     6184 wires
+     6913 wire bits
       205 public wires
-     1140 public wire bits
+      934 public wire bits
         8 ports
        43 port bits
-     8373 cells
-     3024   $_ANDNOT_
-      254   $_AND_
+     6867 cells
+     2342   $_ANDNOT_
+      222   $_AND_
         9   $_DFF_P_
-      601   $_MUX_
-      288   $_NAND_
-      582   $_NOR_
-      395   $_NOT_
-      404   $_ORNOT_
-      911   $_OR_
-       55   $_SDFFE_PN0P_
-        6   $_SDFFE_PP0P_
+      490   $_MUX_
+      285   $_NAND_
+      612   $_NOR_
+      305   $_NOT_
+      418   $_ORNOT_
+      586   $_OR_
+       56   $_SDFFE_PN0P_
+       25   $_SDFFE_PP0P_
        61   $_SDFF_PN0_
-      472   $_SDFF_PP0_
-      370   $_XNOR_
-      941   $_XOR_
+      388   $_SDFF_PP0_
+      259   $_XNOR_
+      809   $_XOR_
 
    Area for cell type $_ANDNOT_ is unknown!
    Area for cell type $_AND_ is unknown!
