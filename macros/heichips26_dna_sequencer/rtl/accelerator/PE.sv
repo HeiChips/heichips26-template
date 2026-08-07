@@ -1,4 +1,4 @@
-`include "macros.svh"
+`include "../macros.svh"
 
 module PE #(parameter REG_WIDTH = `REG_WIDTH)(
     input logic clk, rstn,

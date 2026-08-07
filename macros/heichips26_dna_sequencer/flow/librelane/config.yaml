@@ -1,7 +1,7 @@
 # LibreLane configuration file
 
 DESIGN_NAME: heichips26_dna_sequencer
-VERILOG_FILES: dir::../../rtl/*.sv
+VERILOG_FILES: dir::../../rtl/accelerator/*.sv
 VERILOG_INCLUDE_DIRS:
   - dir::../../rtl/
 CLOCK_PORT: clk

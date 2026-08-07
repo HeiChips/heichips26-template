@@ -1,4 +1,4 @@
-`include "macros.svh"
+`include "../macros.svh"
 
 module systolic_array(
     input logic clk, rstn,

@@ -1,4 +1,4 @@
-`include "macros.svh"
+`include "../macros.svh"
 
 module st_lut #(parameter REG_WIDTH = `REG_WIDTH) (
     input logic [2:0] s,

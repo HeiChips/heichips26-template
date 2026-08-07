@@ -1,4 +1,4 @@
-`include "macros.svh"
+`include "../macros.svh"
 /* verilator lint_off DECLFILENAME */
 module max_pos2 #(parameter REG_WIDTH = `REG_WIDTH) (
     input logic signed [REG_WIDTH-1:0] a,

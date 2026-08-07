@@ -4,7 +4,7 @@
 // Adapted from the Tiny Tapeout template
 
 `default_nettype none
-`include "macros.svh"
+`include "../macros.svh"
 
 module heichips26_dna_sequencer (
 `ifdef USE_POWER_PINS
