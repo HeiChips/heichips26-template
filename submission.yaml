@@ -1,34 +1,61 @@
-# This the configuration file for your submission.
-# Please edit the fields below to match your project.
+project-name: LoopFold
+top-cell: "heichips26_loopcache_rv"
 
-project-name: Cool Project
-top-cell: "heichips26_digital_project" # Must be a unique name
 team-members:
-- Firstname Lastname
-- Firstname Lastname
-- Firstname Lastname
-slot-size: small # small, large, tiny
-analog-pins: 0 # 0-3, only for small or tiny projects
-short-description: This is a super cool project!
-# Please add the documentation about your project here.
-# Why did you choose to create it? How does it work? How can it be tested, etc.?
-# If your project requires additional external hardware, e.g. a USB port,
-# please mention this so we can consider it when designing the HeiChips PCB.
+- Ruijue Luo
+
+slot-size: large
+analog-pins: 0
+
+short-description: >
+  A compact RISC-V instruction buffer with adaptive sequential prefetching,
+  designed to reduce repeated external instruction fetches and provide
+  measurable execution and memory-traffic improvements.
+
 long-description: |
-  Is this thing on?
-  
-  This is a super cool project 👏
-  
-  * with
-  * bullet
-  * points
-  
-  **nice** *formatting* and [links](https://heichips.github.io/).
+  LoopFold is a small RISC-V instruction-fetch optimization designed for the
+  HeiChips 2026 Hackathon. The project explores how a very small amount of
+  local instruction storage can reduce repeated accesses to external SRAM in
+  embedded workloads with loops and sequential instruction streams.
+
+  The ASIC macro integrates a PicoRV32 processor, a two-line instruction buffer,
+  an adaptive sequential prefetcher, and a narrow memory bridge. The instruction
+  buffer contains two independently tagged ways with four 32-bit words per way,
+  giving a total storage capacity of eight instruction words.
+
+  On an instruction miss, the request is forwarded to external memory and the
+  returned instruction is inserted into the local buffer. Repeated accesses to
+  resident instructions are then served locally, avoiding additional external
+  instruction-fetch transactions.
+
+  LoopFold also includes an optional sequential prefetcher. The frontend observes
+  recent instruction-fetch addresses and increases its confidence when sustained
+  sequential execution is detected. Once sufficient confidence is reached, the
+  next instruction word may be fetched while the external memory link would
+  otherwise be idle. Control-flow instructions suppress this behavior to avoid
+  unnecessary fall-through prefetches.
+
+  Several hardware counters make the behavior directly measurable, including
+  execution cycles, external instruction fetches, instruction-buffer hits,
+  processor stall cycles, issued prefetches, and useful prefetches. The loop
+  buffer and prefetcher can be enabled independently, allowing different
+  configurations to be compared using the same benchmark.
+
+  The design is verified with self-checking SystemVerilog and Cocotb tests
+  covering same-line loops, loops spanning both resident lines, sequential
+  prefetch behavior, and operation with a slower SRAM model. The repository
+  also includes an eFPGA SRAM gateway for connection to the HeiChips SRAM and
+  a separate DaVinci XC7A35T FPGA demonstration for hardware testing.
+
+  The ASIC macro uses the official HeiChips Large-slot 500 µm × 415 µm
+  floorplan and is implemented with LibreLane for the IHP SG13CMOS5L process.
+
+  No additional external PCB hardware is required for the ASIC submission.
 
 # These paths are used to verify your
 # submission during the precheck.
 # Wildcards are allowed, but there
 # should only be a single match.
-gds-path: macros/heichips26_digital_project/final/gds/*.gds
-lef-path: macros/heichips26_digital_project/final/lef/*.lef
-header-path: macros/heichips26_digital_project/final/vh/*.vh
+gds-path: macros/heichips26_loopfold/final/gds/*.gds
+lef-path: macros/heichips26_loopfold/final/lef/*.lef
+header-path: macros/heichips26_loopfold/final/vh/*.vh

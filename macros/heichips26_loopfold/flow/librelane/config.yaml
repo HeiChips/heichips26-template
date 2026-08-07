@@ -1,0 +1,65 @@
+# SPDX-FileCopyrightText: 2026 Ruijue Luo and contributors
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+meta:
+  version: 3
+  flow: Classic
+  substituting_steps:
+    Checker.IllegalOverlap: null
+    "+OpenROAD.DetailedRouting": "Odb.InsertECODiodes"
+    "+Odb.InsertECODiodes": "OpenROAD.DetailedRouting"
+
+DESIGN_NAME: heichips26_loopcache_rv
+VERILOG_FILES:
+  - dir::../../../../third_party/picorv32/picorv32.v
+  - dir::../../rtl/loopcache_frontend.sv
+  - dir::../../rtl/narrow_mem_bridge.sv
+  - dir::../../rtl/loopcache_soc.sv
+  - dir::../../rtl/heichips26_loopcache_rv.sv
+
+CLOCK_PORT: clk
+CLOCK_NET: clk
+CLOCK_PERIOD: 20
+PNR_SDC_FILE: dir::impl.sdc
+SIGNOFF_SDC_FILE: dir::signoff.sdc
+
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 500, 415]
+FP_DEF_TEMPLATE: dir::heichips26_template_large.def
+
+TOP_MARGIN_MULT: 1
+BOTTOM_MARGIN_MULT: 1
+LEFT_MARGIN_MULT: 6
+RIGHT_MARGIN_MULT: 6
+
+PDN_MULTILAYER: false
+RT_MAX_LAYER: Metal4
+PDN_VERTICAL_LAYER: Metal4
+PDN_HORIZONTAL_LAYER: Metal3
+
+# Slang gives consistent SystemVerilog elaboration for the parameterized line
+# storage and typed bridge FSM.
+USE_SLANG: true
+
+# Avoid excessive pre-routing hold-buffer insertion
+RUN_POST_CTS_RESIZER_TIMING: false
+RUN_POST_GRT_RESIZER_TIMING: true
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.0
+GRT_RESIZER_HOLD_MAX_BUFFER_PCT: 20
+
+# Router-recommended capacity adjustment
+GRT_ADJUSTMENT: 0.08
+PL_MAX_DISPLACEMENT_Y: 100
+PL_TARGET_DENSITY: 0.78
+DRT_OPT_ITERS: 8
+GRT_ANTENNA_REPAIR_MARGIN: 15
+DIODE_CELL: sg13cmos5l_antennanp/A
+INSERT_ECO_DIODES:
+  - target: input14/A
+DRT_THREADS: 8
+
+# Repair the remaining slow-corner slew violations
+RUN_POST_GRT_DESIGN_REPAIR: true
+DESIGN_REPAIR_MAX_SLEW_PCT: 30
+
+OPENROAD_THREADS: 8
