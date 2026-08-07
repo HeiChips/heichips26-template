@@ -6,5 +6,7 @@
 SRC_DIR := ../../../rtl
 
 DUT_SRCS := \
-	../../../macros/counter/rtl/counter.sv \
-	$(SRC_DIR)/heichips26_digital_project.sv
+	$(SRC_DIR)/fpga_top_module.sv \
+	$(SRC_DIR)/accelerator/*.sv \
+	$(SRC_DIR)/UART/*.sv \
+	$(SRC_DIR)/UART/*.v

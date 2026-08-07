@@ -4,48 +4,18 @@
 `default_nettype none
 
 module basys3_top (
-    input logic clk,  // 100 MHz
-
-    input  logic [15:0] sw,
-    output logic [15:0] led,
-    input  logic        btnC,
-    input  logic        btnU,
-    input  logic        btnL,
-    input  logic        btnR,
-    input  logic        btnD,
-
-    // Pmod JA
-    input logic [7:0] JA
+    input  logic clk,
+    input  logic rst,
+    input  logic uart_rxd,
+    output logic uart_txd
 );
 
-    logic rst_n;
-    logic ena;
-    logic [7:0] ui_in;
-    logic [7:0] uio_in;
-    logic [7:0] uo_out;
-    logic [7:0] uio_out;
-    logic [7:0] uio_oe;
+fpga_top_module fpga_top_module_inst (
+    .clk(clk),
+    .rst(rst),
+    .uart_rxd(uart_rxd),
+    .uart_txd(uart_txd)
+);
 
-    heichips26_digital_project heichips26_digital_project (
-        .ui_in,    // Dedicated inputs
-        .uo_out,   // Dedicated outputs
-        .uio_in,   // IOs: Input path
-        .uio_out,  // IOs: Output path
-        .uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-        .ena,      // enable - goes high when design is selected
-        .clk,      // clock
-        .rst_n     // not reset
-    );
-
-    // Assignments
-
-    assign ui_in = sw[7:0];
-    assign uio_in = sw[15:8];
-
-    assign led[7:0] = uo_out;
-    assign led[15:8] = uio_out;
-
-    assign ena = 1'b1;
-    assign rst_n = !btnC;
 
 endmodule

@@ -19,7 +19,7 @@ $(CHIPDB):
 # PnR emits FASM, not a bitstream config; two more steps turn it into one.
 PNR_DEPS ?= $(CHIPDB)
 PNR_OUT  ?= $(BUILD_DIR)/$(TOP).frames
-PNR_CMD  ?= nextpnr-xilinx --chipdb $(CHIPDB) --xdc $(PCF_FILE) --json $(BUILD_DIR)/$(TOP).json --fasm $(BUILD_DIR)/$(TOP).fasm; \
+PNR_CMD  ?= nextpnr-xilinx --freq 100 --chipdb $(CHIPDB) --xdc $(PCF_FILE) --json $(BUILD_DIR)/$(TOP).json --fasm $(BUILD_DIR)/$(TOP).fasm 2>&1 | tee $(BUILD_DIR)/nextpnr.log ; \
 	fasm2frames --part $(PART) --db-root $${PRJXRAY_DB_DIR}/$(XRAY_FAMILY) $(BUILD_DIR)/$(TOP).fasm > $(PNR_OUT)
 
 BITSTREAM ?= $(BUILD_DIR)/$(TOP).bit
