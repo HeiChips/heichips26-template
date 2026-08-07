@@ -1,72 +1,184 @@
-# heichips26_loopcache_rv
+# LoopFold
 
-This directory is the synthesizable HeiChips26 Large-slot macro. Its top cell
-is `heichips26_loopcache_rv`; there are no separately hardened sub-macros.
+LoopFold is a lightweight RISC-V instruction-buffer and prefetching experiment
+for the HeiChips 2026 Hackathon.
 
-## Hardware blocks
+The project integrates a small PicoRV32 processor with a compact two-line
+instruction buffer. Repeated instruction fetches can be served locally instead
+of repeatedly accessing the external SRAM. An optional sequential prefetcher
+can additionally fetch the next instruction word when sustained sequential
+execution is detected.
 
-| Block | Responsibility |
-|---|---|
-| PicoRV32 | minimal RV32E-class processor |
-| `loopcache_frontend` | 8 × 32-bit instruction line, MMIO and counters |
-| `narrow_mem_bridge` | converts 32-bit CPU requests into 16-bit packets |
-| top wrapper | maps the link, control and debug signals to HeiChips pins |
+The design is intended to provide a small and measurable example of reducing
+instruction-fetch traffic in resource-constrained RISC-V systems.
 
-The first implementation is intentionally measurable: it accelerates an
-aligned loop that fits in a 32-byte line. It does not claim to be a general
-set-associative instruction cache.
+* **Project name:** LoopFold
+* **ASIC top cell:** `heichips26_loopcache_rv`
+* **Macro directory:** `macros/heichips26_loopfold/`
+* **Slot size:** Large (`500 µm × 415 µm`)
 
-## Pin assignment
+## Architecture
 
-| Pin | Direction | Meaning |
-|---|---|---|
-| `uo_out[15:0]` | out | request header/write-data beat |
-| `ui_in[15:0]` | in | read-response beat |
-| `uio_out[0]` / `uio_in[0]` | out/in | request valid/ready |
-| `uio_in[1]` / `uio_out[1]` | in/out | response valid/ready |
-| `uio_in[2]` | in | loop buffer enable |
-| `uio_in[3]` | in | synchronous flush |
-| `uio_out[2]` | out | processor trap |
-| `uio_out[3]` | out | enable status |
-| `uio_out[15:4]` | out | low 12 bits of hit counter |
+The ASIC macro contains the following main blocks:
 
-See [`../../docs/memory_link.md`](../../docs/memory_link.md) for the packet
-format and [`../../docs/architecture.md`](../../docs/architecture.md) for the
-microarchitecture.
+| Block                     | Responsibility                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| PicoRV32                  | Minimal RISC-V processor executing the benchmark                                           |
+| `loopcache_frontend`      | Two-line instruction buffer, adaptive sequential prefetcher, MMIO and performance counters |
+| `narrow_mem_bridge`       | Converts 32-bit processor memory accesses into the 16-bit external memory-link protocol    |
+| `loopcache_soc`           | Connects the processor, instruction buffer and memory bridge                               |
+| `heichips26_loopcache_rv` | HeiChips Large-slot top-level wrapper                                                      |
 
-## Useful commands
+The instruction buffer has two independently tagged ways with four 32-bit words
+per way, giving a total storage capacity of eight instruction words.
 
-Run these commands in this directory after entering the repository Nix shell:
+On an instruction miss, the request is forwarded to external memory and the
+returned instruction is inserted into the local buffer. Later accesses to the
+same resident word can be served directly by the buffer.
+
+A small sequential-history detector tracks instruction-fetch behavior. After
+sustained sequential execution is observed, the frontend may prefetch the next
+instruction word when the external memory interface would otherwise be idle.
+Control-flow instructions reset this confidence so that obvious branch
+fall-through paths are not unnecessarily prefetched.
+
+The loop buffer and prefetcher can be enabled independently, allowing the same
+program to be measured under different configurations.
+
+See [`../../docs/architecture.md`](../../docs/architecture.md) for additional
+architectural details and [`../../docs/memory_link.md`](../../docs/memory_link.md)
+for the external memory-link protocol.
+
+## HeiChips interface
+
+| Pin                        | Direction | Meaning                                 |
+| -------------------------- | --------- | --------------------------------------- |
+| `uo_out[15:0]`             | out       | memory request header / write-data beat |
+| `ui_in[15:0]`              | in        | memory read-response beat               |
+| `uio_out[0]` / `uio_in[0]` | out / in  | request valid / ready                   |
+| `uio_in[1]` / `uio_out[1]` | in / out  | response valid / ready                  |
+| `uio_in[2]`                | in        | instruction buffer enable               |
+| `uio_in[3]`                | in        | synchronous buffer flush                |
+| `uio_in[4]`                | in        | sequential prefetch enable              |
+| `uio_out[2]`               | out       | PicoRV32 trap                           |
+| `uio_out[3]`               | out       | instruction-buffer enable status        |
+| `uio_out[15:4]`            | out       | low 12 bits of the buffer-hit counter   |
+
+The memory interface is 16 bits wide. `narrow_mem_bridge` converts the
+processor's 32-bit memory operations into the packetized interface used between
+the ASIC macro and the HeiChips eFPGA.
+
+## Performance monitoring
+
+The design includes hardware counters for:
+
+* execution cycles,
+* external instruction fetches,
+* instruction-buffer hits,
+* processor memory-stall cycles,
+* issued prefetches,
+* useful prefetches.
+
+These counters allow normal execution, buffered execution and buffered
+execution with prefetching to be compared directly.
+
+The benchmark firmware and generated memory images are stored in
+`../../firmware/`.
+
+## RTL verification
+
+Enter the repository Nix environment and change to this directory:
 
 ```sh
-make firmware          # regenerate firmware/loopcache_test.hex
-make lint-verilog      # structural and style checks
-make synth-check       # technology-independent synthesis
-make sim-rtl-verilog   # fast self-checking RTL test
-make sim-rtl-cocotb    # compare cache OFF against cache ON
-make build-top         # full LibreLane implementation and result collection
-make sim-gl-cocotb     # generated-netlist regression
+cd macros/heichips26_loopfold
 ```
 
-`make all` runs firmware generation, lint, both RTL simulations, and the full
-physical-design flow. During development it is faster to run the smaller
-targets individually.
+Useful targets are:
 
-## Benchmark result locations
+```sh
+make firmware
+make lint-verilog
+make synth-check
+make sim-rtl-verilog
+make sim-rtl-cocotb
+```
 
-The firmware stores the following words in the shared SRAM:
+`make sim-rtl-verilog` runs the self-checking SystemVerilog testbench.
 
-| Byte address | Value |
-|---|---|
-| `0x300` | computed result, expected `20` |
-| `0x304` | elapsed cycles |
-| `0x308` | external instruction fetches |
-| `0x30c` | loop-buffer hits |
-| `0x310` | CPU memory-stall cycles |
+`make sim-rtl-cocotb` runs multiple benchmark scenarios, including same-line
+loops, loops spanning both resident lines, sequential-prefetch behavior and a
+slower external SRAM model.
 
-## Physical design
+## HeiChips eFPGA SRAM gateway
 
-`flow/librelane/config.yaml` selects the official `500 µm × 415 µm` Large DEF
-template, a 10 ns target clock, Metal4 as the top routing layer, and no power
-ring/TopMetal1 use. Generated final views belong in `final/`, reports in
-`verification/`, and copied netlists in `netlist/`.
+The repository also contains:
+
+```text
+../../efpga/loopcache_sram_gateway/
+```
+
+This is the FABulous user design used to connect the hardened LoopFold macro to
+the HeiChips `IHP_SRAM_1024x32_1RW` SRAM primitive.
+
+The standalone packet-engine test can be run from the repository root with:
+
+```sh
+make -C efpga/loopcache_sram_gateway test-core
+```
+
+The final eFPGA bitstream is generated in the official HeiChips tapeout
+repository after the Large-slot placement has been assigned.
+
+## ASIC physical design
+
+The LibreLane configuration is located at:
+
+```text
+flow/librelane/config.yaml
+```
+
+The macro uses the official HeiChips Large-slot floorplan:
+
+```text
+500 µm × 415 µm
+```
+
+The current physical-design configuration targets a 10 ns clock period and
+uses Metal4 as the highest routing layer.
+
+Run the complete hardening flow with:
+
+```sh
+make build-top
+```
+
+The collected outputs are organized as:
+
+```text
+final/         final GDS, LEF, timing libraries and other views
+verification/  synthesis, STA, DRC, LVS, antenna and sign-off reports
+netlist/       logical, physical and SPICE netlists
+```
+
+A gate-level regression can subsequently be run with:
+
+```sh
+make sim-gl-cocotb
+```
+
+## FPGA demonstration
+
+An independent FPGA demonstration is available under:
+
+```text
+../../fpga/davinci_a35t/
+```
+
+The DaVinci XC7A35T project reuses `loopcache_soc` and adds a local BRAM
+backend, UART reporting and board-level controls.
+
+This provides a way to exercise the same architecture on real FPGA hardware
+before ASIC fabrication.
+
+See `../../fpga/davinci_a35t/README.md` for the board-specific build and test
+instructions.
