@@ -50,12 +50,12 @@ initial begin
         $dumpvars ();
     end
 
-    fd_s = $fopen({pwd,"/output/seq1.txt"}, "r");
-    fd_t = $fopen({pwd,"/output/seq2.txt"}, "r");
-    fd_max = $fopen({pwd,"/output/final_op.txt"}, "r");
-    // fd_s = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/seq1.txt", "r");
-    // fd_t = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/seq2.txt", "r");
-    // fd_max = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/final_op.txt", "r");
+    // fd_s = $fopen({pwd,"/output/seq1.txt"}, "r");
+    // fd_t = $fopen({pwd,"/output/seq2.txt"}, "r");
+    // fd_max = $fopen({pwd,"/output/final_op.txt"}, "r");
+    fd_s = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/seq1.txt", "r");
+    fd_t = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/seq2.txt", "r");
+    fd_max = $fopen("/home/samare/Documents/heiChip/SW_DNA_allignment/scripts/output/final_op.txt", "r");
 
     if((fd_s == 0) || (fd_t == 0) || (fd_max == 0)) begin
         $error("some data files are missing");
@@ -149,7 +149,9 @@ function automatic logic [`N-1:0][2:0] read_s_array_from_file(input int fd);
     logic [`N-1:0][2:0] s_array;
     byte ch;
 
-    ret = $fscanf(fd, "%c", ch);   // reads '['
+    do begin
+        ret = $fscanf(fd, "%c", ch);
+    end while (ret == 1 && ch != "[");
 
     for(int i=0; i< `N; i++) begin
         logic [2:0] tmp;
@@ -161,7 +163,9 @@ function automatic logic [`N-1:0][2:0] read_s_array_from_file(input int fd);
         end
     end
 
-    ret = $fscanf(fd, "%c", ch);   // reads ']'
+    do begin
+        ret = $fscanf(fd, "%c", ch);
+    end while (ret == 1 && ch != "]");
 
     return s_array;
 
@@ -173,7 +177,9 @@ function automatic logic [`M-1:0][2:0] read_t_array_from_file(input int fd);
     logic [`M-1:0][2:0] t_array;
     byte ch;
 
-    ret = $fscanf(fd, "%c", ch);   // reads '['
+    do begin
+        ret = $fscanf(fd, "%c", ch);
+    end while (ret == 1 && ch != "[");
 
     for(int i=0; i< `M; i++) begin
         logic [2:0] tmp;
@@ -185,7 +191,9 @@ function automatic logic [`M-1:0][2:0] read_t_array_from_file(input int fd);
         end
     end
 
-    ret = $fscanf(fd, "%c", ch);   // reads ']'
+    do begin
+        ret = $fscanf(fd, "%c", ch);   // reads ']'
+    end while (ret == 1 && ch != "]");
 
     return t_array;
 
