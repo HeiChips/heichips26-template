@@ -158,7 +158,7 @@ value="
 .param VAPWR=1.5
 .csparam VAPWR=VAPWR
 .param Vcm=VAPWR/2
-.param temp=27
+.temp 27
 .param Cload=10p
 .param Rload=1k
 .options savecurrents klu method=gear reltol=1e-3 abstol=1e-12 gmin=1e-12
