@@ -218,10 +218,10 @@ copy-gds: ## Copy the TOP cell GDS from layout/ to final/gds/
 
 
 # Render Target
-render-gds: ## Render an image from the final GDS using lay2img.py
+render-gds: ## Render images from the final GDS using sak-render.py
 	rm -rf $(RENDER_DIR)/
 	mkdir -p $(RENDER_DIR)/
-	python3 $(SCRIPTS_DIR)/lay2img.py $(LAY_DIR)/$(TOP).gds $(RENDER_DIR)/$(TOP).png --width 2048 --oversampling 4
+	python3 $(SCRIPTS_DIR)/sak-render.py -t ihp-sg13cmos5l -w 2048 -s 4 -o $(RENDER_DIR)/$(TOP) $(LAY_DIR)/$(TOP).gds
 .PHONY: render-gds
 # ================================================================================================
 

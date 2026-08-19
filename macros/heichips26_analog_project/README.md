@@ -72,11 +72,11 @@ header-path: macros/heichips26_yourname/final/vh/*.vh
 │     └─ xschemrc
 ├─ 📁 scripts/
 │  ├─ check_pex_ports.py
-│  ├─ lay2img.py
 │  ├─ sak-drc.sh
 │  ├─ sak-lvs.sh
 │  ├─ sak-pex.sh
 │  ├─ sak-pin-reorder.py
+│  ├─ sak-render.py
 │  └─ .sak-scripts-version
 ├─ 📁 testbenches/
 │  └─ 📁 xschem/

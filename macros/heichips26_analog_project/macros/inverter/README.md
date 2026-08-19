@@ -65,11 +65,11 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │  │  ├─ lookup_commands.ipynb
 │  │  └─ sizing_inverter.ipynb
 │  ├─ check_pex_ports.py
-│  ├─ lay2img.py
 │  ├─ sak-drc.sh
 │  ├─ sak-lvs.sh
 │  ├─ sak-pex.sh
 │  ├─ sak-pin-reorder.py
+│  ├─ sak-render.py
 │  └─ .sak-scripts-version
 ├─ 📁 testbenches/
 │  └─ 📁 xschem/
@@ -311,7 +311,7 @@ make copy-gds
 
 ### Render Layout Image
 
-Renders the top-level layout GDS with `scripts/lay2img.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `final/render/`:
+Renders the top-level layout GDS with `scripts/sak-render.py` and saves the two images `inverter_black.png` and `inverter_white.png` in `final/render/`:
 
 ```sh
 make render-gds
