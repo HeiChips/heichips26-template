@@ -86,7 +86,6 @@ header-path: macros/heichips26_yourname/final/vh/*.vh
 │     │  ├─ ngspice2python.py
 │     │  └─ plot_heichips26_analog_project.py
 │     ├─ heichips26_analog_project_tb_tran.sch
-│     ├─ heichips26_analog_project_tb_tran.save
 │     └─ xschemrc
 ├─ 📁 verification/
 │  ├─ 📁 drc/

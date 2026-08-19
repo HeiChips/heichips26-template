@@ -205,10 +205,6 @@ wrdata ../plot_simulations/data/@schname\\\\.txt
 *quit
 .endc
 "}
-C {devices/launcher.sym} 1740 -1590 0 0 {name=h2
-descr="Simulate" 
-tclcommand="xschem save; xschem netlist; xschem simulate"
-}
 C {title-3.sym} 0 0 0 0 {name=l2 author="Simon Dorrer" rev=1.0 lock=true}
 C {devices/launcher.sym} 1740 -1470 0 0 {name=h1
 descr="Load waves" 
@@ -321,3 +317,12 @@ C {heichips26_analog_project_pex.sym} 2720 -360 0 0 {name=x3
 spice_ignore=true}
 C {heichips26_analog_project.sym} 1080 -800 0 0 {name=x1
 }
+C {devices/launcher.sym} 1740 -1590 0 0 {name=h2
+descr="Simulate" 
+tclcommand="xschem save; xschem netlist; file mkdir $netlist_dir; write_data [save_params] $netlist_dir/[file rootname [file tail [xschem get current_name]]].save; xschem simulate"
+}
+C {devices/code_shown.sym} 20 -1570 0 0 {name=SAVE only_toplevel=true
+format="tcleval( @value )"
+value="
+.include [file rootname [file tail [xschem get schname]]].save
+"}

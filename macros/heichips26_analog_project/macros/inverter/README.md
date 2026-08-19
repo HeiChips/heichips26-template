@@ -181,6 +181,8 @@ make sim-xschem TB=inverter_tb_dc_vout
 
 All available testbench schematics are located in `testbenches/xschem/`. Generated netlists are written to `testbenches/xschem/simulations/`.
 
+Every testbench pulls in a FET `.save` file through its `SAVE` code block (e.g. `.include inverter_tb_ac_ol.save`). That file lists the operating-point parameters of every transistor (`ids`, `gm`, `gds`, `vth`, …), which the `annotate_fet_params` symbols and the `Annotate OP` launcher read back from the raw file. It is produced by Xschem's **IHP → Create FET .save file** menu entry, which writes into the netlist directory, so the include resolves relative to `testbenches/xschem/simulations/`, where ngspice runs. Because that folder is generated and git-ignored, both `sim-xschem` and the schematic's `Simulate` launcher regenerate the `.save` file on every run, so a fresh clone needs no manual export.
+
 
 ### Plot Xschem Simulation Results
 
