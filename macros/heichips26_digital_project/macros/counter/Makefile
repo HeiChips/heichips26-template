@@ -18,6 +18,27 @@ CELL ?= $(TOP)
 # Override with: make <target> WAVEFORM_VIEWER=<gtkwave|surfer>
 WAVEFORM_VIEWER ?= gtkwave
 
+# The sak-* verification scripts (vendored from IIC-OSIC-TOOLS, see scripts/) expect PDKPATH and STD_CELL_LIBRARY
+export PDKPATH ?= $(PDK_ROOT)/$(PDK)
+export STD_CELL_LIBRARY ?= sg13cmos5l_stdcell
+
+# PEX mode (1 = C-decoupled, 2 = C-coupled, 3 = full-RC)
+# Override with: make <target> EXT_MODE=<1|2|3>
+EXT_MODE ?= 3
+
+# full-RC extresist threshold in mOhm (sak-pex.sh -t, only used in EXT_MODE=3; default: 10000 = 10 Ohm)
+# Override with: make <target> THRESHOLD=<mOhm>
+THRESHOLD ?= 10000
+
+# full-RC extresist minres in mOhm (sak-pex.sh -r, only used in EXT_MODE=3; default: 1000 = 1 Ohm)
+# Override with: make <target> MINRES=<mOhm>
+MINRES ?= 1000
+
+# full-RC extresist mindelay in ps (sak-pex.sh -y, only used in EXT_MODE=3; default: 1; 0 = gate by resistance)
+# Override with: make <target> MINDELAY=<ps>
+MINDELAY ?= 1
+
+
 # Folder structure
 COCOTB_DIR      := testbenches/cocotb
 VERILOG_TB_DIR 	:= testbenches/verilog
@@ -31,9 +52,11 @@ NET_NL_DIR    	:= netlist/nl
 NET_PNL_DIR  	:= netlist/pnl
 NET_SPICE_DIR 	:= netlist/spice
 XSPICE_DIR  	:= netlist/xspice
+NET_PEX_DIR   	:= netlist/pex
 LIBRELANE_DIR 	:= flow/librelane
 FLOW_FINAL_DIR 	:= flow/final
 FINAL_DIR      	:= final
+LAY_DIR        	:= final/gds
 
 # Variables for simulation and linting targets
 MODULES_SYNTH := \
@@ -63,6 +86,8 @@ help: ## Show this help message
 	@echo 'WAVEFORM_VIEWER defaults to gtkwave. Use surfer to launch Surfer instead.'
 	@echo 'TB selects the Xschem testbench for sim-gl-xschem (default: <CELL>_tb_tran).'
 	@echo 'SCRIPT selects the plotting script for sim-view-xschem (default: plot_<CELL>).'
+	@echo 'EXT_MODE selects the PEX extraction mode for magic-pex (1 = C-decoupled, 2 = C-coupled, 3 = full-RC; default: 3).'
+	@echo 'THRESHOLD/MINRES/MINDELAY are full-RC (EXT_MODE=3) extresist settings for magic-pex (defaults 10000 mOhm / 1000 mOhm / 1 ps).'
 .PHONY: help
 # ================================================================================================
 
@@ -264,13 +289,85 @@ build-top: ## Build macro (run LibreLane with KLayout & Magic DRC checks, copy r
 # ================================================================================================
 
 
+# PEX Targets
+symbol-pex: ## Build the Xschem PEX symbol <CELL>_pex.sym from <CELL>.sym (usage: make symbol-pex [CELL=<cellname>])
+	@if [ ! -f $(XSCHEM_SCH_DIR)/$(CELL).sym ]; then \
+		echo "No symbol $(XSCHEM_SCH_DIR)/$(CELL).sym found, skipping PEX symbol generation."; \
+	else \
+		sed 's/type=subcircuit/type=primitive/' $(XSCHEM_SCH_DIR)/$(CELL).sym > $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym; \
+		if ! grep -q 'type=primitive' $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym; then \
+			rm -f $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym; \
+			echo "ERROR: $(XSCHEM_SCH_DIR)/$(CELL).sym declares neither type=subcircuit nor type=primitive!"; \
+			exit 1; \
+		fi; \
+		echo "Wrote $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym (copy of $(CELL).sym with type=primitive)."; \
+	fi
+.PHONY: symbol-pex
+
+klayout-pex: ## Run Parasitic Extraction with KPEX of the CELL cell (usage: make klayout-pex [CELL=<cellname>] [EXT_MODE=<1|2|3>])
+	@if [ ! -f $(LAY_DIR)/$(CELL).gds ]; then \
+		echo "No layout $(LAY_DIR)/$(CELL).gds found. Run 'make build-top' (or 'make copy-final') first."; \
+		exit 1; \
+	fi
+	mkdir -p $(NET_PEX_DIR)
+	$(MAKE) symbol-pex CELL=$(CELL)
+	PDK_UNDERSCORED=$$(echo $$PDK | sed -e 's/-/_/g'); \
+	case $(EXT_MODE) in \
+		1) echo "WARNING: KPEX does not support C-decoupled (C) mode yet, using C-coupled (CC) mode instead."; KPEX_MODE=CC ;; \
+		2) KPEX_MODE=CC ;; \
+		3) KPEX_MODE=RC ;; \
+		*) echo "Invalid EXT_MODE: $(EXT_MODE). Use 1, 2, or 3."; exit 1;; \
+	esac; \
+	kpex \
+	--pdk $$PDK_UNDERSCORED \
+	--cell $(CELL) \
+	--schematic $(NET_SPICE_DIR)/$(CELL).spice \
+	--gds $(LAY_DIR)/$(CELL).gds \
+	--magic \
+	--magic_mode $$KPEX_MODE \
+	--out_dir $(NET_PEX_DIR) \
+	--out_spice $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice
+#	--2.5D
+#	--mode $$KPEX_MODE
+	sed -i 's/$(CELL)/$(CELL)_pex/g' $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice
+	rm -rf $(NET_PEX_DIR)/$(CELL)__$(CELL)
+	rm -f $(CELL).nodes $(CELL).sim
+	@if [ -f $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym ]; then \
+		echo "Reordering pins in $(CELL)_klayout_pex_$(EXT_MODE).spice to match $(CELL)_pex.sym..."; \
+		python3 $(SCRIPTS_DIR)/sak-pin-reorder.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice --format spice; \
+	else \
+		echo "No symbol $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym found, skipping pin reorder."; \
+	fi
+	python3 $(SCRIPTS_DIR)/check_pex_ports.py $(NET_PEX_DIR)/$(CELL)_klayout_pex_$(EXT_MODE).spice
+.PHONY: klayout-pex
+
+magic-pex: ## Run Parasitic Extraction with Magic on the final GDS (usage: make magic-pex [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>])
+	@if [ ! -f $(LAY_DIR)/$(CELL).gds ]; then \
+		echo "No layout $(LAY_DIR)/$(CELL).gds found. Run 'make build-top' (or 'make copy-final') first."; \
+		exit 1; \
+	fi
+	mkdir -p $(NET_PEX_DIR)
+	$(MAKE) symbol-pex CELL=$(CELL)
+	sh $(SCRIPTS_DIR)/sak-pex.sh -d -m $(EXT_MODE) -n $(CELL)_pex -t $(THRESHOLD) -r $(MINRES) -y $(MINDELAY) -w $(NET_PEX_DIR) $(LAY_DIR)/$(CELL).gds
+	mv $(NET_PEX_DIR)/$(CELL).pex.spice $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice
+	rm -f $(NET_PEX_DIR)/pex_$(CELL).tcl
+	@if [ -f $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym ]; then \
+		echo "Reordering pins in $(CELL)_magic_pex_$(EXT_MODE).spice to match $(CELL)_pex.sym..."; \
+		python3 $(SCRIPTS_DIR)/sak-pin-reorder.py $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice --format spice; \
+	else \
+		echo "No symbol $(XSCHEM_SCH_DIR)/$(CELL)_pex.sym found, skipping pin reorder."; \
+	fi
+	python3 $(SCRIPTS_DIR)/check_pex_ports.py $(NET_PEX_DIR)/$(CELL)_magic_pex_$(EXT_MODE).spice
+.PHONY: magic-pex
+# ================================================================================================
+
 # Lint, Build, Verify and Simulate All Target
-# Linting runs first to fail fast; the simulations run after the build, so the gate-level
-# simulations use the netlists and the XSPICE model produced by this build.
 all: ## Lint, build, verify and simulate the macro
 	$(MAKE) lint-verilog-all
 	$(MAKE) build-fpga
 	$(MAKE) build-top
+	$(MAKE) magic-pex
+#	$(MAKE) klayout-pex
 	$(MAKE) sim-all
 .PHONY: all
 # ================================================================================================

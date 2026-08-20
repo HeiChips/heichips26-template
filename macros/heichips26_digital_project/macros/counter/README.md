@@ -89,6 +89,9 @@
 │  │  └─ counter.pnl.v
 │  ├─ 📁 spice/
 │  │  └─ counter.spice
+│  ├─ 📁 pex/
+│  │  ├─ counter_klayout_pex_*.spice
+│  │  └─ counter_magic_pex_*.spice
 │  └─ 📁 xspice/
 │     └─ counter.xspice
 ├─ 📁 rtl/
@@ -96,8 +99,11 @@
 ├─ 📁 schematic/
 │  └─ 📁 xschem/
 │     ├─ counter.sym
+│     ├─ counter_pex.sym
 │     └─ xschemrc
 ├─ 📁 scripts/
+│  ├─ check_pex_ports.py
+│  ├─ sak-pex.sh
 │  ├─ sak-pin-reorder.py
 │  ├─ spi2xspice.py
 │  └─ .sak-scripts-version
@@ -417,9 +423,10 @@ Lints, builds, verifies and simulates the whole macro:
 - `lint-verilog-all`
 - `build-fpga`
 - `build-top`
+- `magic-pex`
 - `sim-all`
 
-Linting runs first to fail fast on structural RTL issues. The simulations run **after** the build, so the gate-level simulations (`sim-gl-cocotb`, `sim-gl-xschem`) run on the netlists and the XSPICE model produced by this build, not on those of a previous one. The DRC and LVS verification is done within the LibreLane flow.
+Linting runs first to fail fast on structural RTL issues. The simulations run **after** the build, so the gate-level simulations (`sim-gl-cocotb`, `sim-gl-xschem`) run on the netlists and the XSPICE model produced by this build, not on those of a previous one. `magic-pex` sits between the two, so the post-layout netlist is extracted from the GDS of this build as well. `klayout-pex` is commented out in the recipe until `kpex` supports the `ihp-sg13cmos5l` PDK (see [Parasitic Extraction (PEX)](#parasitic-extraction-pex)). The DRC and LVS verification is done within the LibreLane flow.
 
 ```sh
 make all
@@ -471,6 +478,47 @@ Then run the gate-level simulation as usual (see [Gate-Level Xschem Simulation](
 make sim-gl-xschem
 ```
 
+
+### Parasitic Extraction (PEX)
+
+Extracts the parasitics of the hardened macro and writes a post-layout SPICE netlist to `netlist/pex/`. This is the transistor-level counterpart of the gate-level XSPICE model:
+
+| | `generate-xspice` | `magic-pex` / `klayout-pex` |
+|---|---|---|
+| input | LibreLane's extracted `netlist/spice/<TOP>.spice` | the final layout `final/gds/<CELL>.gds` |
+| standard cells | replaced by XSPICE primitives (`d_lut`, `d_dff`, …) | flattened to transistors |
+| parasitics | none (liberty delays only) | R and C from the layout |
+| speed | fast, digital event driven | slow, full analog solve |
+
+```sh
+make magic-pex                    # full-RC (default EXT_MODE=3)
+make magic-pex EXT_MODE=1         # C-decoupled, fastest
+make magic-pex EXT_MODE=2         # C-coupled
+make magic-pex CELL=<cellname>    # extract another cell of final/gds/
+make klayout-pex                  # the same with KPEX instead of Magic (not usable yet, see below)
+```
+
+The extraction runs `scripts/sak-pex.sh` (vendored from [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS), see `scripts/.sak-scripts-version`) on `final/gds/<CELL>.gds`, so **`make build-top` (or at least `make copy-final`) has to have run first**. The target aborts with a clear message if the GDS is missing. For the `counter` the result is roughly 1900 transistors with about 200 coupling capacitors in `EXT_MODE=1`, and about 2000 capacitors plus 1600 resistors in the full-RC default.
+
+The extracted subcircuit is named `<CELL>_pex` and lands in `netlist/pex/<CELL>_magic_pex_<EXT_MODE>.spice` (`<CELL>_klayout_pex_<EXT_MODE>.spice` for `klayout-pex`), so the extraction modes and both extractors can coexist. `EXT_MODE=3` additionally accepts the `extresist` tuning parameters `THRESHOLD`, `MINRES` and `MINDELAY` (identical to the analog macro, see [`macros/inverter/README.md`](../../../heichips26_analog_project/macros/inverter/README.md) for what they do).
+
+Like in the analog macro, both PEX targets first run `symbol-pex`, which derives `schematic/xschem/<CELL>_pex.sym` from `schematic/xschem/<CELL>.sym` so the PEX symbol can never go stale. `counter.sym` is already `type=primitive` (its subcircuit comes from the included XSPICE model, so Xschem must not descend into it), so the copy differs only in its name. `scripts/sak-pin-reorder.py` then reorders the extracted `.subckt` ports to the symbol's pin order, again matching by `sim_pinname`, and `scripts/check_pex_ports.py` verifies that every port really reaches the circuit.
+
+To run a **post-layout simulation**, place the `<CELL>_pex` symbol as the DUT in an Xschem testbench and include the extracted netlist instead of the XSPICE model:
+
+```spice
+.include ../../../netlist/pex/counter_magic_pex_3.spice
+```
+
+The existing `testbenches/xschem/counter_tb_tran.sch` includes `netlist/xspice/counter.xspice` and instantiates `counter.sym`. Keeping both DUTs in the schematic and disabling one with `spice_ignore=true` is the simplest way to switch between the gate-level and the post-layout run, which is what the analog testbenches do.
+
+> [!WARNING]
+> `klayout-pex` is present for symmetry with the analog macro but **does not work yet**: `kpex` supports neither the `ihp-sg13cmos5l` PDK nor the nix shell, so the target fails exactly like the analog macro's. It is kept in place so the flow is ready as soon as kpex gains CMOS5L support. Use `magic-pex` until then.
+>
+> One detail will need revisiting at that point: the analog macro hands kpex its Xschem schematic (`--schematic <CELL>.sch`), and this macro has none, so the LibreLane-extracted netlist `netlist/spice/<CELL>.spice` is passed as the reference instead. That choice is untested.
+
+> [!WARNING]
+> A post-layout run simulates every transistor of the macro in ngspice. That is far slower than the gate-level XSPICE simulation and does not replace it: use the XSPICE model for functional runs and the PEX netlist to check timing and signal integrity on short, targeted stimuli.
 
 ### Clean
 
