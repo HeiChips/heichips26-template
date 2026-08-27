@@ -67,6 +67,7 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 │  ├─ check_pex_ports.py
 │  ├─ sak-drc.sh
 │  ├─ sak-lvs.sh
+│  ├─ sak-open.py
 │  ├─ sak-pex.sh
 │  ├─ sak-pin-reorder.py
 │  ├─ sak-render.py
@@ -108,14 +109,16 @@ This is the analog example **sub-macro** of the HeiChips 2026 template: the unit
 
 ## Vendored Verification Scripts (`sak-*`)
 
-The DRC/LVS/PEX targets use the `sak-*` Swiss-Army-Knife scripts from [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS). Because this template runs in the **nix-shell** (not the IIC-OSIC-TOOLS container, where they are pre-installed), the scripts are vendored in `scripts/`:
+The verification, render and browse targets use the `sak-*` Swiss-Army-Knife scripts from [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS). Because this template runs in the **nix-shell** (not the IIC-OSIC-TOOLS container, where they are pre-installed), the scripts are vendored in `scripts/`:
 
 - `sak-drc.sh` — DRC with Magic or KLayout
 - `sak-lvs.sh` — LVS with Magic + Netgen or KLayout
 - `sak-pex.sh` — parasitic extraction with Magic
 - `sak-pin-reorder.py` — reorders extracted `.subckt` pins to match an Xschem symbol
+- `sak-render.py` — renders layout images from a GDS
+- `sak-open.py` — file browser that opens each design file in its tool (`make open`)
 
-`scripts/.sak-scripts-version` records the IIC-OSIC-TOOLS commit they were taken from. The scripts require the `PDKPATH` (`$PDK_ROOT/$PDK`) and `STD_CELL_LIBRARY` environment variables, which the Makefile exports automatically.
+`scripts/.sak-scripts-version` records the IIC-OSIC-TOOLS commit they were taken from. The DRC, LVS and PEX scripts require the `PDKPATH` (`$PDK_ROOT/$PDK`) and `STD_CELL_LIBRARY` environment variables, which the Makefile exports automatically; `sak-render.py` and `sak-open.py` need neither.
 
 
 ## Makefile Targets
@@ -134,8 +137,54 @@ The `sim-xschem` target accepts an optional `TB=<testbenchname>` parameter (defa
 All targets that operate on a specific cell accept an optional `CELL=<cellname>` parameter. The default is the top-level cell (`inverter`).
 
 ```sh
-make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>] [DRC_LEVEL=<precheck|macro|regular>] [EV_PRECISION=<digits>]
+make <target> [CELL=<cellname>] [EXT_MODE=<1|2|3>] [THRESHOLD=<mOhm>] [MINRES=<mOhm>] [MINDELAY=<ps>] [DRC_LEVEL=<precheck|macro|regular>] [EV_PRECISION=<digits>] [OPEN_ARGS=<options>]
 ```
+
+
+### Open the Design Files
+
+Opens a file browser for this folder with `sak-open.py`, vendored from the [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) in `scripts/` (see `scripts/.sak-scripts-version`), one button per design file, grouped by directory:
+
+```sh
+make open
+```
+
+Clicking a button launches the matching tool in the file's own directory, so Xschem finds its `simulations/` folder and KLayout its run outputs where they belong:
+
+| File type | Tool | In the Nix shell |
+| --- | --- | --- |
+| `.sch`, `.sym` | Xschem | yes |
+| `.gds`, `.gds.gz`, `.oas`, `.oas.gz` | KLayout in edit mode | yes |
+| `.mag` | Magic | yes |
+| `.vcd`, `.fst`, `.gtkw` | GTKWave | yes |
+| `.raw` | gaw (ngspice rawfile) | no |
+| `.png`, `.pdf` | the desktop's handler (`xdg-open`) | no |
+| `.sv`, `.svh`, `.v`, `.vh`, `.vhd`, `.vhdl`, `.spice`, `.cir`, `.sp`, `.cdl`, `.sdc`, `.lef`, `.lib`, `.tcl`, `.mk`, `.yaml`, `.json`, `.py`, `.qmd`, `.tex`, `.md` and `Makefile` | gvim | no |
+
+Only these types get a button. Files with any other extension (`.sh`, `.svg`, `.pcf`, `.save`, `.rpt`, `.txt`, `.csv` and so on) are not listed.
+
+`gvim`, `gaw` and `xdg-open` are not part of this template's Nix shell, so their buttons report `cannot run …` in the status line instead of opening. Point them at a tool you do have with the per-type environment overrides — the variable name is `SAK_OPEN_` plus the extension in upper case (`SAK_OPEN_GDS_GZ` for `.gds.gz`, `SAK_OPEN_MAKEFILE` for `Makefile`):
+
+```sh
+SAK_OPEN_SV='code -w' SAK_OPEN_V='code -w' SAK_OPEN_MD='code -w' make open
+```
+
+`SAK_OPEN_TERMINAL` sets the terminal that the right-click "Open shell" entry starts; the Nix shell's `xterm` works there.
+
+Schematics and symbols that belong to one design unit share a single tabbed Xschem instance instead of one process per click. The unit is the nearest ancestor holding a `Makefile`, so this macro gets its own instance and every tab writes its netlists to the folder this macro's `xschemrc` pins.
+
+The tree is rescanned every 15 s, so files a running flow produces appear on their own and are highlighted for a minute. Generated directories are skipped by default: `runs/`, `sim_build/`, `obj_dir/`, `simulations/`, `__pycache__/`, `_freeze/` and `.git/`. The Xschem `simulations/` folder is one of them, so the `.raw` files show up only with `--all`. Pass extra options with `OPEN_ARGS`:
+
+```sh
+make open OPEN_ARGS=--all              # include the build outputs
+make open OPEN_ARGS="--prune backups"  # skip one more directory name
+make open OPEN_ARGS=--list             # print the file list and exit, no display needed
+```
+
+At most 400 buttons are drawn at once, because each one is an X window. `--all` on a hardened macro goes well past that — the LibreLane `runs/` trees alone hold hundreds of files — and what was left out is stated at the end of the list and in the status line. Narrow the filter, untick a few types, or raise the cap with `--max` (`0` for no limit).
+
+> [!NOTE]
+> This target needs a graphical display. On the HeiChips VM it works out of the box; over SSH use X11 forwarding (`ssh -X`). Without a display it stops with `cannot open a window`.
 
 
 ### Layout File Extension Usage

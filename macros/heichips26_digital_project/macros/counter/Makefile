@@ -39,6 +39,10 @@ MINRES ?= 1000
 MINDELAY ?= 1
 
 
+# Extra options for the sak-open.py file browser (e.g. --all to include build outputs)
+# Override with: make open OPEN_ARGS=<options>
+OPEN_ARGS ?=
+
 # Folder structure
 COCOTB_DIR      := testbenches/cocotb
 VERILOG_TB_DIR 	:= testbenches/verilog
@@ -77,7 +81,7 @@ _TB_EXT = $(if $(wildcard $(VERILOG_TB_DIR)/$(CELL)_tb.sv),sv,v)
 
 # Help Target
 help: ## Show this help message
-	@echo 'Usage: make <target> [CELL=<cellname>] [WAVEFORM_VIEWER=<gtkwave|surfer>]'
+	@echo 'Usage: make <target> [CELL=<cellname>] [WAVEFORM_VIEWER=<gtkwave|surfer>] [OPEN_ARGS=<options>]'
 	@echo ''
 	@echo 'Available targets:'
 	@grep -E '^[a-zA-Z0-9_.-]+:.*## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "  %-20s %s\n", $$1, $$2}'
@@ -88,7 +92,16 @@ help: ## Show this help message
 	@echo 'SCRIPT selects the plotting script for sim-view-xschem (default: plot_<CELL>).'
 	@echo 'EXT_MODE selects the PEX extraction mode for magic-pex (1 = C-decoupled, 2 = C-coupled, 3 = full-RC; default: 3).'
 	@echo 'THRESHOLD/MINRES/MINDELAY are full-RC (EXT_MODE=3) extresist settings for magic-pex (defaults 10000 mOhm / 1000 mOhm / 1 ps).'
+	@echo 'OPEN_ARGS passes extra options to sak-open.py for the open target (e.g. --all).'
 .PHONY: help
+# ================================================================================================
+
+
+# Open Target
+# sak-open.py is vendored from IIC-OSIC-TOOLS (see scripts/.sak-scripts-version)
+open: ## Open the design files of this folder in the sak-open.py file browser (needs a graphical display)
+	python3 $(SCRIPTS_DIR)/sak-open.py $(OPEN_ARGS) .
+.PHONY: open
 # ================================================================================================
 
 
