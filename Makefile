@@ -7,10 +7,7 @@ PDK_ROOT ?= $(MAKEFILE_DIR)/IHP-Open-PDK
 PDK ?= ihp-sg13cmos5l
 
 PDK_REPO_IHP_OPEN_PDK ?= https://github.com/iic-jku/IHP-Open-PDK.git
-PDK_COMMIT_IHP_OPEN_PDK ?= 21a1582d95db3e43b2bc68b807e5edc63d7538f9
-
-PDK_REPO_IHP_CMOS5L ?= https://github.com/iic-jku/ihp-sg13cmos5l.git
-PDK_COMMIT_IHP_CMOS5L ?= 548d9c16b7244c14911f77d48c3ac31be57c8e23
+PDK_COMMIT_IHP_OPEN_PDK ?= 1ffc783ff62e739856ee1b25e835338388c66c9e
 
 KLAYOUT_PLUGINS = KLayoutPluginUtils \
                   AlignToolPlugin \
@@ -32,19 +29,12 @@ help: ## Show this help message
 
 $(PDK_ROOT)/$(PDK):
 	mkdir -p $(PDK_ROOT)
-	# Clone repositories
-	@echo "Cloning repositories…"
+	# Clone repository (contains ihp-sg13g2 and ihp-sg13cmos5l)
+	@echo "Cloning repository…"
 	git clone $(PDK_REPO_IHP_OPEN_PDK) --recurse-submodules --depth=1 --revision $(PDK_COMMIT_IHP_OPEN_PDK) $(PDK_ROOT)
-	git clone $(PDK_REPO_IHP_CMOS5L) --recurse-submodules --depth=1 --revision $(PDK_COMMIT_IHP_CMOS5L) $(PDK_ROOT)/$(PDK)
-	# Create missing symlinks
-	@echo "Creating missing symlinks…"
-	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/ihp/device_base_code.py $(PDK_ROOT)/$(PDK)/libs.tech/klayout/python/sg13cmos5l_pycell_lib/ihp/device_base_code.py
-	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/ihp/guard_ring_code.py $(PDK_ROOT)/$(PDK)/libs.tech/klayout/python/sg13cmos5l_pycell_lib/ihp/guard_ring_code.py
-	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ntap1_ring.sym
-	ln -s $(PDK_ROOT)/ihp-sg13g2/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym $(PDK_ROOT)/$(PDK)/libs.tech/xschem/sg13g2_pr/ptap1_ring.sym
 	# Compile Verilog-A using OpenVAF-reloaded
 	@echo "Compiling Verilog-A models using OpenVAF-reloaded…"
-	cd $(PDK_ROOT)/ihp-sg13g2/libs.tech/verilog-a/; ./openvaf-compile-va.sh
+	cd $(PDK_ROOT)/$(PDK)/libs.tech/verilog-a/; ./openvaf-compile-va.sh
 	@echo "Congratulations, the PDK has been set up!"
 
 clone-pdk: $(PDK_ROOT)/$(PDK) ## Clone the IHP-Open-PDK repository
