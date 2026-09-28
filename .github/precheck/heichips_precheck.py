@@ -383,7 +383,7 @@ def main(
         config = yaml.safe_load(ifile)
     
     info(config)
-    keys = ["project-name", "top-cell", "team-members", "slot-size", "analog-pins", "short-description", "long-description", "gds-path", "lef-path"]
+    keys = ["project-name", "top-cell", "team-members", "slot-size", "analog-pins", "uses-vapwr", "short-description", "long-description", "gds-path", "lef-path"]
 
     for key in keys:
         if not key in config:
@@ -428,9 +428,17 @@ def main(
         err("'analog-pins' must be one of 0, 1, 2 or 3.")
         sys.exit(1)
 
-    if config["analog-pins"] > 0 and config["slot-size"] != "small":
-        err("'analog-pins' can only be used with 'slot-size' small.")
+    if config["analog-pins"] > 0 and config["slot-size"] in ["large"]:
+        err("'analog-pins' can only be used with 'slot-size' small or tiny.")
         sys.exit(1)
+    
+    analog_pins = config["analog-pins"]
+
+    if not isinstance(config["uses-vapwr"], bool):
+        err("'uses-vapwr' must be either true or false.")
+        sys.exit(1)
+    
+    uses_vapwr = config["uses-vapwr"]
 
     gds = list(pathlib.Path(config_path).parent.glob(config["gds-path"]))
     if len(gds) > 1:
@@ -454,12 +462,14 @@ def main(
 
     info(f"top_cell: {top_cell}")
     info(f"slot: {slot}")
+    info(f"analog-pins: {analog_pins}")
+    info(f"uses-vapwr: {uses_vapwr}")
     info(f"input_layout: {input_layout}")
     info(f"input_lef: {input_lef}")
     info(f"input_header: {input_header}")
     
     try:
-        power_pin_check(input_header, input_lef, uses_vapwr=False)
+        power_pin_check(input_header, input_lef, uses_vapwr=uses_vapwr)
     except FlowError as e:
         err(f"Power pin check failed: \n{e}")
         sys.exit(1)
@@ -491,9 +501,10 @@ def main(
 
 {config['short-description']}
 
-Top cell: {config['top-cell']}
-Slot size: {config['slot-size']}
-Analog pins: {config['analog-pins']}
+Top cell: {top_cell}
+Slot size: {slot}
+Analog pins: {analog_pins}
+Uses VAPRW: {uses_vapwr}
 
 Team members:
 {team}
